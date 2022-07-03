@@ -1,0 +1,30 @@
+{
+    "name": "node-typescript-init",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon",
+        "build": "tsc && node dist"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/express": "^4.17.13",
+        "@types/jsonwebtoken": "^8.5.8",
+        "@types/mongoose": "^5.11.97",
+        "@types/node": "^17.0.25",
+        "nodemon": "^2.0.15",
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.3"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^16.0.0",
+        "express": "^4.17.3",
+        "express-validator": "^6.14.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.3.1"
+    }
+}

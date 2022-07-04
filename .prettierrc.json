@@ -4,7 +4,7 @@
   "endOfLine": "auto",
   "quoteProps": "as-needed",
   "singleQuote": true,
-  "tabWidth": 3,
+  "tabWidth": 2,
   "useTabs": false,
-  "trailingComma": "none" 
+  "trailingComma": "none"
 }

@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import config from './config';
-import connectDB from './loaders/Db';
+import connectDB from './loaders/db';
 import routes from './routes';
 const app = express();
 require('dotenv').config();

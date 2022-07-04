@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export interface JwtPayloadInfo {
-    user: {
-        id: mongoose.Schema.Types.ObjectId;
-    };
+  user: {
+    _id: mongoose.Schema.Types.ObjectId;
+  };
 }

@@ -3,6 +3,11 @@ import { CheckInfo } from '../interfaces/check/CheckInfo';
 
 const CheckSchema = new mongoose.Schema(
   {
+    roomId: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: 'Room'
+    },
     userId: {
       type: mongoose.Types.ObjectId,
       required: true,

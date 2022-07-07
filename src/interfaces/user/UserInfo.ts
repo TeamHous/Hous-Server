@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
 export interface UserInfo {
+  roomId: mongoose.Types.ObjectId;
+  typeId: mongoose.Types.ObjectId;
   email: string;
   password: string;
   userName: string;
@@ -11,7 +13,5 @@ export interface UserInfo {
   hashTag: string[];
   fcmToken: string;
   notificationState: boolean;
-  typeId: mongoose.Types.ObjectId;
   typeScore: number[];
-  roomId: mongoose.Types.ObjectId;
 }

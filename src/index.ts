@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import config from './config';
-import generalErrorHandler from './error/generalErrorHandler';
+import generalErrorHandler from './errors/generalErrorHandler';
 import connectDB from './loaders/db';
 import message from './modules/responseMessage';
 import util from './modules/util';

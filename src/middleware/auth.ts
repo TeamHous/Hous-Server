@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from '../config';
-import errorGenerator from '../error/errorGenerator';
+import errorGenerator from '../errors/errorGenerator';
 import message from '../modules/responseMessage';
 
 export default (req: Request, res: Response, next: NextFunction) => {

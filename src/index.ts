@@ -16,9 +16,9 @@ let morganFormat: string;
 if (process.env.NODE_ENV !== 'development') {
   morganFormat = 'combined'; // Apache 표준
 } else {
-  morganFormat = 'development';
+  morganFormat = 'dev';
 }
-app.use(morgan(morganFormat, { stream })); // logger 설정 추가
+app.use(morgan(morganFormat, { stream: stream })); // logger 설정 추가
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

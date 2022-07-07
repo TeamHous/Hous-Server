@@ -20,7 +20,11 @@ const message = {
   CONFLICT_EMAIL: '이메일 중복입니다.',
 
   SIGNUP_SUCCESS: '회원가입 성공입니다.',
-  LOGIN_SUCCESS: '로그인 성공입니다.'
+  LOGIN_SUCCESS: '로그인 성공입니다.',
+
+  CONFLICT_JOINED_ROOM: '참가중인 방이 있습니다.',
+
+  CREATE_ROOM_SUCCESS: '방 생성 성공입니다.'
 };
 
 export default message;

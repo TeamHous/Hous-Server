@@ -3,6 +3,7 @@ import errorGenerator from '../errors/errorGenerator';
 import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import User from '../models/User';
+import message from '../modules/responseMessage';
 
 const createUser = async (
   signupDto: SignupDto
@@ -12,7 +13,7 @@ const createUser = async (
       email: signupDto.email
     });
     if (existUser)
-      throw errorGenerator({ msg: '이메일 중복입니다.', statusCode: 409 });
+      throw errorGenerator({ msg: message.CONFLICT_EMAIL, statusCode: 409 });
 
     const user = new User({
       email: signupDto.email,

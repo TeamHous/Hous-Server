@@ -11,7 +11,7 @@ const getToken = (userId: mongoose.Schema.Types.ObjectId): string => {
   };
 
   const accessToken: string = jwt.sign(payload, config.jwtSecret, {
-    expiresIn: '2h'
+    expiresIn: '30d'
   });
 
   return accessToken;

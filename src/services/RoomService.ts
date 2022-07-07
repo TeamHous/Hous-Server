@@ -9,7 +9,7 @@ const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
     const user = await User.findById(userId);
     if (!user) throw errorGenerator({ statusCode: 401 });
 
-    if (user.roomId == undefined || user.roomId == null)
+    if (user.roomId != undefined && user.roomId != null)
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
         statusCode: 409

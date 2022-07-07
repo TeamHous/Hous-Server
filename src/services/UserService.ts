@@ -1,20 +1,17 @@
 import bcrypt from 'bcryptjs';
+import errorGenerator from '../error/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { UserCreateDto } from '../interfaces/user/UserCreateDto';
 import { UserSignInDto } from '../interfaces/user/UserSignInDto';
 import User from '../models/User';
 
-const createUser = async (userCreateDto: UserCreateDto): Promise<PostBaseResponseDto | null> => {
+const createUser = async (userCreateDto: UserCreateDto): Promise<PostBaseResponseDto> => {
   try {
     const existUser = await User.findOne({
       email: userCreateDto.email
     });
-    if (existUser) return null;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-  try {
+    if (existUser) errorGenerator({ statusCode: 409 });
+
     const user = new User({
       email: userCreateDto.email,
       password: userCreateDto.password
@@ -44,7 +41,7 @@ const signInUser = async (userSignInDto: UserSignInDto): Promise<PostBaseRespons
     if (!user) return null;
 
     const isMatch = await bcrypt.compare(userSignInDto.password, user.password);
-    if (!isMatch) return 401;
+    if (!isMatch) errorGenerator({ statusCode: 401 });
 
     const data = {
       _id: user._id

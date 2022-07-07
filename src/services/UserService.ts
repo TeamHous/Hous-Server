@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import errorGenerator from '../errors/errorGenerator';
 import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
+import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import User from '../models/User';
 import message from '../modules/responseMessage';
 
@@ -40,6 +41,21 @@ const createUser = async (
   }
 };
 
+const updateUser = async (
+  userId: string,
+  userUpdateDto: UserUpdateDto
+): Promise<void> => {
+  try {
+    const user = await User.findById(userId);
+    if (!user) throw errorGenerator({ statusCode: 401 });
+
+    await User.findByIdAndUpdate(userId, userUpdateDto);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
-  createUser
+  createUser,
+  updateUser
 };

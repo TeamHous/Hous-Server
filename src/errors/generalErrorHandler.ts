@@ -8,12 +8,12 @@ const generalErrorHandler: ErrorRequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void | Response => {
   const { message, statusCode } = err;
   // 인자로 statusCode를 넘기지 않는 경우, 500 에러를 보냄
   if (!statusCode || statusCode == 500)
-    res.status(500).send(util.fail(500, messages.INTERNAL_SERVER_ERROR));
-  else res.status(statusCode).send(util.fail(statusCode, message));
+    return res.status(500).send(util.fail(500, messages.INTERNAL_SERVER_ERROR));
+  else return res.status(statusCode).send(util.fail(statusCode, message));
 };
 
 export default generalErrorHandler;

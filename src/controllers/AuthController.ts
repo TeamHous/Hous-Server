@@ -16,7 +16,9 @@ import { AuthService, UserService } from '../services';
 const signup = async (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).send(util.fail(400, message.BAD_REQUEST, errors.array()));
+    return res
+      .status(400)
+      .send(util.fail(400, message.BAD_REQUEST, errors.array()));
   }
 
   const signupDto: SignupDto = req.body;
@@ -25,7 +27,11 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 
     const accessToken = getToken(result._id);
 
-    res.status(statusCode.CREATED).send(util.success(statusCode.CREATED, message.SIGNUP_SUCCESS, accessToken));
+    return res
+      .status(statusCode.CREATED)
+      .send(
+        util.success(statusCode.CREATED, message.SIGNUP_SUCCESS, accessToken)
+      );
   } catch (error) {
     next(error);
   }
@@ -39,7 +45,9 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 const login = async (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).send(util.fail(400, message.BAD_REQUEST, errors.array()));
+    return res
+      .status(400)
+      .send(util.fail(400, message.BAD_REQUEST, errors.array()));
   }
 
   const LoginDto: LoginDto = req.body;
@@ -49,9 +57,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     const accessToken = getToken(result._id);
 
-    res.status(statusCode.OK).send(util.success(statusCode.OK, message.LOGIN_SUCCESS, accessToken));
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.LOGIN_SUCCESS, accessToken));
   } catch (error) {
-    console.log('controller: ', error);
     next(error);
   }
 };

@@ -1,4 +1,4 @@
-//router index file
+// router index file
 import { Router } from 'express';
 import AuthRouter from './AuthRouter';
 

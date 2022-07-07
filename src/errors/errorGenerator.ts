@@ -20,9 +20,17 @@ export interface ErrorWithStatusCode extends Error {
   statusCode?: number;
 }
 
-const errorGenerator = ({ msg = message.INTERNAL_SERVER_ERROR, statusCode = 500 }: { msg?: string; statusCode: number }): void => {
+const errorGenerator = ({
+  msg = message.INTERNAL_SERVER_ERROR,
+  statusCode = 500
+}: {
+  msg?: string;
+  statusCode: number;
+}): void => {
   // 인자로 들어오는 메세지와 상태 코드를 매핑
-  const err: ErrorWithStatusCode = new Error(msg || DEFAULT_HTTP_STATUS_MESSAGES[statusCode]);
+  const err: ErrorWithStatusCode = new Error(
+    msg || DEFAULT_HTTP_STATUS_MESSAGES[statusCode]
+  );
   err.statusCode = statusCode;
   throw err;
 };

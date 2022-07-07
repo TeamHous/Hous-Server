@@ -17,10 +17,15 @@ const login = async (loginDto: LoginDto): Promise<PostBaseResponseDto> => {
         }
       }
     );
-    if (!user) throw errorGenerator({ msg: message.NOT_FOUND_USER_EMAIL, statusCode: 404 });
+    if (!user)
+      throw errorGenerator({
+        msg: message.NOT_FOUND_USER_EMAIL,
+        statusCode: 404
+      });
 
     const isMatch = await bcrypt.compare(loginDto.password, user.password);
-    if (!isMatch) throw errorGenerator({ msg: message.INVALID_PASSWORD, statusCode: 401 });
+    if (!isMatch)
+      throw errorGenerator({ msg: message.INVALID_PASSWORD, statusCode: 401 });
 
     user.fcmToken = loginDto.fcmToken;
 

@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import config from './config';
-import generalErrorHandler from './error/generalErrorHandler';
+import generalErrorHandler from './errors/generalErrorHandler';
 import connectDB from './loaders/db';
 import message from './modules/responseMessage';
 import util from './modules/util';
@@ -13,7 +13,7 @@ connectDB();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(routes); //라우터
+app.use(routes); // 라우터
 app.use(generalErrorHandler);
 app.use(function (req: Request, res: Response, next: NextFunction) {
   // 잘못된 경로에 대한 예외처리
@@ -26,7 +26,12 @@ interface ErrorType {
   status: number;
 }
 
-app.use(function (err: ErrorType, req: Request, res: Response, next: NextFunction) {
+app.use(function (
+  err: ErrorType,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'production' ? err : {};
 

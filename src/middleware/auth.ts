@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import { logger } from '../config/logger';
 import errorGenerator from '../errors/errorGenerator';
 import message from '../modules/responseMessage';
 
@@ -21,7 +22,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
     next();
   } catch (error: any) {
-    console.log(error);
+    logger.error(error);
     if (error.name === 'TokenExpiredError') {
       throw errorGenerator({ msg: message.INVALID_TOKEN, statusCode: 401 });
     }

@@ -1,5 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
+import morgan from 'morgan';
 import config from './config';
+import { logger, stream } from './config/logger';
 import generalErrorHandler from './errors/generalErrorHandler';
 import connectDB from './loaders/db';
 import message from './modules/responseMessage';
@@ -9,6 +11,14 @@ const app = express();
 require('dotenv').config();
 
 connectDB();
+
+let morganFormat: string;
+if (process.env.NODE_ENV !== 'development') {
+  morganFormat = 'combined'; // Apache 표준
+} else {
+  morganFormat = 'dev';
+}
+app.use(morgan(morganFormat, { stream: stream })); // logger 설정 추가
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -42,13 +52,13 @@ app.use(function (
 
 app
   .listen(config.port, () => {
-    console.log(`
-    ################################################
-          🛡️  Server listening on port 🛡️
-    ################################################
+    logger.info(`
+    ########################################################
+          🛡️ [${process.env.NODE_ENV}] Server listening on port 🛡️
+    ######################################################## 
   `);
   })
   .on('error', err => {
-    console.error(err);
+    logger.error(err);
     process.exit(1);
   });

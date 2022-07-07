@@ -22,11 +22,16 @@ const message = {
   SIGNUP_SUCCESS: '회원가입 성공입니다.',
   LOGIN_SUCCESS: '로그인 성공입니다.',
 
+  // 방
   NOT_FOUND_ROOM: '존재하지 않는 방입니다.',
   CONFLICT_JOINED_ROOM: '참가중인 방이 있습니다.',
 
   CREATE_ROOM_SUCCESS: '방 생성 성공입니다.',
-  JOIN_ROOM_SUCCESS: '방 참가 성공입니다.'
+  JOIN_ROOM_SUCCESS: '방 참가 성공입니다.',
+
+  // 규칙
+  CONFLICT_RULE_CATEGORY: '이미 존재하는 규칙 카테고리명입니다.',
+  CREATE_RULE_CATEGORY: '규칙 카테고리 생성 성공입니다.'
 };
 
 export default message;

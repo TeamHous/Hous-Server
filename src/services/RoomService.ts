@@ -3,6 +3,7 @@ import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import Room from '../models/Room';
 import User from '../models/User';
 import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
 
 const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
@@ -12,7 +13,7 @@ const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
     if (user.roomId != undefined && user.roomId != null)
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
-        statusCode: 409
+        statusCode: statusCode.CONFLICT
       });
 
     const room = new Room({

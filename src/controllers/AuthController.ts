@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+import { Result, ValidationError, validationResult } from 'express-validator';
 import { LoginDto } from '../interfaces/auth/LoginDto';
 import { SignupDto } from '../interfaces/auth/SignupDto';
+import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import getToken from '../modules/jwtHandler';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
@@ -13,8 +14,12 @@ import { AuthService, UserService } from '../services';
  *  @desc signup Create User
  *  @access Public
  */
-const signup = async (req: Request, res: Response, next: NextFunction) => {
-  const errors = validationResult(req);
+const signup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
     return res
       .status(400)
@@ -23,9 +28,9 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 
   const signupDto: SignupDto = req.body;
   try {
-    const result = await UserService.createUser(signupDto);
+    const result: PostBaseResponseDto = await UserService.createUser(signupDto);
 
-    const accessToken = getToken(result._id);
+    const accessToken: string = getToken(result._id);
 
     return res
       .status(statusCode.CREATED)
@@ -42,8 +47,12 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
  * @desc login
  * @access Public
  */
-const login = async (req: Request, res: Response, next: NextFunction) => {
-  const errors = validationResult(req);
+const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
     return res
       .status(400)
@@ -53,9 +62,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   const LoginDto: LoginDto = req.body;
 
   try {
-    const result = await AuthService.login(LoginDto);
+    const result: PostBaseResponseDto = await AuthService.login(LoginDto);
 
-    const accessToken = getToken(result._id);
+    const accessToken: string = getToken(result._id);
 
     return res
       .status(statusCode.OK)

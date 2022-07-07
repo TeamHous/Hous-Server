@@ -29,7 +29,7 @@ const login = async (loginDto: LoginDto): Promise<PostBaseResponseDto> => {
 
     user.fcmToken = loginDto.fcmToken;
 
-    const data = {
+    const data: PostBaseResponseDto = {
       _id: user._id
     };
 

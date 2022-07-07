@@ -12,7 +12,7 @@ const createUser = async (
       email: signupDto.email
     });
     if (existUser)
-      errorGenerator({ msg: '이메일 중복입니다.', statusCode: 409 });
+      throw errorGenerator({ msg: '이메일 중복입니다.', statusCode: 409 });
 
     const user = new User({
       email: signupDto.email,
@@ -20,11 +20,11 @@ const createUser = async (
       userName: signupDto.userName,
       gender: signupDto.gender,
       birthday: signupDto.birthday,
-      fcmToken: '',
+      fcmToken: signupDto.fcmToken,
       notificationState: true
     });
 
-    const salt = await bcrypt.genSalt(10);
+    const salt: string = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(signupDto.password, salt);
 
     await user.save();

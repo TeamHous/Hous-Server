@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
+import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -8,7 +9,7 @@ import { RuleService } from '../services';
 /**
  *  @route POST /room/:roomId/rules/category
  *  @desc Create RuleCategory
- *  @access Public
+ *  @access Private
  */
 const createRuleCategory = async (
   req: Request,
@@ -24,7 +25,7 @@ const createRuleCategory = async (
       );
   }
 
-  const ruleCategoryCreateDto = req.body;
+  const ruleCategoryCreateDto: RuleCategoryCreateDto = req.body;
   const { roomId } = req.params;
 
   try {

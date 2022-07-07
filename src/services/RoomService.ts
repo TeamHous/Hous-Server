@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
@@ -19,8 +18,7 @@ const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
       });
 
     const room = new Room({
-      roomCode: await createRoomCode(),
-      usersId: [userId]
+      roomCode: await createRoomCode()
     });
 
     await room.save();
@@ -48,21 +46,18 @@ const joinRoom = async (
   try {
     const user = await RoomServiceUtils.findUserById(userId);
 
+    if (user.roomId != undefined && user.roomId != null)
+      throw errorGenerator({
+        msg: message.CONFLICT_JOINED_ROOM,
+        statusCode: statusCode.CONFLICT
+      });
+
     const room = await Room.findOne({ roomCode: joinRoomDto.roomCode });
     if (!room)
       throw errorGenerator({
         msg: message.NOT_FOUND_ROOM,
         statusCode: statusCode.NOT_FOUND
       });
-
-    let usersIdInRoom: mongoose.Types.ObjectId[] = room.usersId;
-    usersIdInRoom.push(new mongoose.Types.ObjectId(userId));
-
-    await Room.findByIdAndDelete(room._id, {
-      $set: {
-        usersId: usersIdInRoom
-      }
-    });
 
     await User.findByIdAndUpdate(userId, {
       $set: {

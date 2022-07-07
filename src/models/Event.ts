@@ -3,6 +3,18 @@ import { EventInfo } from '../interfaces/event/EventInfo';
 
 const EventSchema = new mongoose.Schema(
   {
+    roomId: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: 'Room'
+    },
+    participantsId: [
+      {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'User'
+      }
+    ],
     eventName: {
       type: String,
       required: true
@@ -14,14 +26,7 @@ const EventSchema = new mongoose.Schema(
     date: {
       type: Date,
       required: true
-    },
-    participantsId: [
-      {
-        type: mongoose.Types.ObjectId,
-        required: true,
-        ref: 'User'
-      }
-    ]
+    }
   },
   {
     timestamps: true

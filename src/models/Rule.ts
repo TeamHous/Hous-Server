@@ -3,6 +3,11 @@ import { RuleInfo } from '../interfaces/rule/RuleInfo';
 
 const RuleSchema = new mongoose.Schema(
   {
+    roomId: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: 'Room'
+    },
     categoryId: {
       type: mongoose.Types.ObjectId,
       required: true,

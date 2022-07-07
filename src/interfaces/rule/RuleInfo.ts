@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export interface RuleInfo {
+  roomId: mongoose.Types.ObjectId;
   categoryId: mongoose.Types.ObjectId;
   ruleName: String;
   ruleMembers: RuleMembers[];

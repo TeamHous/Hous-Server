@@ -17,4 +17,7 @@ const RuleCategorySchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model<RuleCategoryInfo & mongoose.Document>('RuleCategory', RuleCategorySchema);
+export default mongoose.model<RuleCategoryInfo & mongoose.Document>(
+  'RuleCategory',
+  RuleCategorySchema
+);

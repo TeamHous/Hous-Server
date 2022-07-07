@@ -1,6 +1,6 @@
 {
   "arrowParens": "avoid",
-  "printWidth": 160,
+  "printWidth": 80,
   "endOfLine": "auto",
   "quoteProps": "as-needed",
   "singleQuote": true,

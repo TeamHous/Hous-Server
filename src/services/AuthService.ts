@@ -4,6 +4,7 @@ import { LoginDto } from '../interfaces/auth/LoginDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import User from '../models/User';
 import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
 
 const login = async (loginDto: LoginDto): Promise<PostBaseResponseDto> => {
   try {
@@ -20,12 +21,15 @@ const login = async (loginDto: LoginDto): Promise<PostBaseResponseDto> => {
     if (!user)
       throw errorGenerator({
         msg: message.NOT_FOUND_USER_EMAIL,
-        statusCode: 404
+        statusCode: statusCode.NOT_FOUND
       });
 
     const isMatch = await bcrypt.compare(loginDto.password, user.password);
     if (!isMatch)
-      throw errorGenerator({ msg: message.INVALID_PASSWORD, statusCode: 401 });
+      throw errorGenerator({
+        msg: message.INVALID_PASSWORD,
+        statusCode: statusCode.UNAUTHORIZED
+      });
 
     user.fcmToken = loginDto.fcmToken;
 

@@ -45,6 +45,9 @@ const updateUser = async (
   userUpdateDto: UserUpdateDto
 ): Promise<void> => {
   try {
+    const user = await User.findById(userId);
+    if (!user) throw errorGenerator({ statusCode: 401 });
+
     await User.findByIdAndUpdate(userId, userUpdateDto);
   } catch (error) {
     throw error;

@@ -3,6 +3,16 @@ import { UserInfo } from '../interfaces/user/UserInfo';
 
 const UserSchema = new mongoose.Schema(
   {
+    roomId: {
+      type: mongoose.Types.ObjectId,
+      required: false,
+      ref: 'Room'
+    },
+    typeId: {
+      type: mongoose.Types.ObjectId,
+      required: false,
+      ref: 'Type'
+    },
     email: {
       type: String,
       required: true,
@@ -47,22 +57,13 @@ const UserSchema = new mongoose.Schema(
       required: false,
       default: true
     },
-    typeId: {
-      type: mongoose.Types.ObjectId,
-      required: false,
-      ref: 'Type'
-    },
+
     typeScore: [
       {
         type: Number,
         required: false
       }
-    ],
-    roomId: {
-      type: mongoose.Types.ObjectId,
-      required: false,
-      ref: 'Room'
-    }
+    ]
   },
   {
     timestamps: true

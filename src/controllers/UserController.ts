@@ -19,8 +19,10 @@ const updateUser = async (
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
     return res
-      .status(400)
-      .send(util.fail(400, message.BAD_REQUEST, errors.array()));
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
   }
 
   const userUpdateDto: UserUpdateDto = req.body;

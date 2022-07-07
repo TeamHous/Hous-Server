@@ -3,11 +3,11 @@ import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import Room from '../models/Room';
 import User from '../models/User';
 import message from '../modules/responseMessage';
+import RoomServiceUtils from './RoomServiceUtils';
 
 const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
   try {
-    const user = await User.findById(userId);
-    if (!user) throw errorGenerator({ statusCode: 401 });
+    const user = await RoomServiceUtils.findUserById(userId);
 
     if (user.roomId != undefined && user.roomId != null)
       throw errorGenerator({

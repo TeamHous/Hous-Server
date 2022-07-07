@@ -23,4 +23,7 @@ const CheckSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model<CheckInfo & mongoose.Document>('Check', CheckSchema);
+export default mongoose.model<CheckInfo & mongoose.Document>(
+  'Check',
+  CheckSchema
+);

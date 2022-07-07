@@ -15,6 +15,14 @@ router.post(
   ],
   AuthController.signup
 );
-router.post('/login', [body('email').isEmail(), body('password').not().isEmpty(), body('fcmToken').not().isEmpty()], AuthController.login);
+router.post(
+  '/login',
+  [
+    body('email').isEmail(),
+    body('password').not().isEmpty(),
+    body('fcmToken').not().isEmpty()
+  ],
+  AuthController.login
+);
 
 export default router;

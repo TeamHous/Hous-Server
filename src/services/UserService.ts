@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import errorGenerator from '../errors/errorGenerator';
 import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
+import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import User from '../models/User';
 
 const createUser = async (
@@ -39,6 +40,18 @@ const createUser = async (
   }
 };
 
+const updateUser = async (
+  userId: string,
+  userUpdateDto: UserUpdateDto
+): Promise<void> => {
+  try {
+    await User.findByIdAndUpdate(userId, userUpdateDto);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
-  createUser
+  createUser,
+  updateUser
 };

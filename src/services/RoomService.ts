@@ -1,8 +1,11 @@
+import mongoose from 'mongoose';
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
+import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
 import Room from '../models/Room';
 import User from '../models/User';
 import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
 
 const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
@@ -12,7 +15,7 @@ const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
     if (user.roomId != undefined && user.roomId != null)
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
-        statusCode: 409
+        statusCode: statusCode.CONFLICT
       });
 
     const room = new Room({
@@ -21,6 +24,45 @@ const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
     });
 
     await room.save();
+
+    await User.findByIdAndUpdate(userId, {
+      $set: {
+        roomId: room._id
+      }
+    });
+
+    const data: PostBaseResponseDto = {
+      _id: room._id
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const joinRoom = async (
+  userId: string,
+  joinRoomDto: JoinRoomDto
+): Promise<PostBaseResponseDto> => {
+  try {
+    const user = await RoomServiceUtils.findUserById(userId);
+
+    const room = await Room.findOne({ roomCode: joinRoomDto.roomCode });
+    if (!room)
+      throw errorGenerator({
+        msg: message.NOT_FOUND_ROOM,
+        statusCode: statusCode.NOT_FOUND
+      });
+
+    let usersIdInRoom: mongoose.Types.ObjectId[] = room.usersId;
+    usersIdInRoom.push(new mongoose.Types.ObjectId(userId));
+
+    await Room.findByIdAndDelete(room._id, {
+      $set: {
+        usersId: usersIdInRoom
+      }
+    });
 
     await User.findByIdAndUpdate(userId, {
       $set: {
@@ -60,5 +102,6 @@ const duplicateRoomCode = async (roomCode: string): Promise<boolean> => {
 };
 
 export default {
-  createRoom
+  createRoom,
+  joinRoom
 };

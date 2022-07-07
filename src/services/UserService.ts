@@ -5,6 +5,7 @@ import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import User from '../models/User';
 import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
 
 const createUser = async (
   signupDto: SignupDto
@@ -14,7 +15,10 @@ const createUser = async (
       email: signupDto.email
     });
     if (existUser)
-      throw errorGenerator({ msg: message.CONFLICT_EMAIL, statusCode: 409 });
+      throw errorGenerator({
+        msg: message.CONFLICT_EMAIL,
+        statusCode: statusCode.CONFLICT
+      });
 
     const user = new User({
       email: signupDto.email,

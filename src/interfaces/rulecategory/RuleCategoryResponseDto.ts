@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
 export interface RuleCategoryResponseDto {
-  roomId: String;
-  categoryName: String;
-  categoryIcon: String;
+  _id: mongoose.Types.ObjectId;
+  roomId: string;
+  ruleCategoryName: string;
+  ruleCategoryIcon: string;
 }

@@ -1,4 +1,10 @@
+import mongoose from 'mongoose';
+
 export interface RoomInfo {
-  roomName: string;
+  roomOwner: mongoose.Types.ObjectId;
   roomCode: string;
+  userCnt: number;
+  eventCnt: number;
+  ruleCategoryCnt: number;
+  ruleCnt: number;
 }

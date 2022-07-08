@@ -6,6 +6,8 @@ import { UserResponseDto } from '../interfaces/user/UserResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import User from '../models/User';
+import checkValidUtils from '../modules/checkValidUtils';
+import limitNum from '../modules/limitNum';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import UserServiceUtils from './UserServiceUtils';
@@ -88,6 +90,19 @@ const updateUser = async (
 ): Promise<UserUpdateResponseDto> => {
   try {
     await UserServiceUtils.findUserById(userId);
+
+    if (Array.isArray(userUpdateDto.hashTag)) {
+      checkValidUtils.checkArraySize(
+        userUpdateDto.hashTag.length,
+        limitNum.PROFILE_HASH_TAG_CNT
+      );
+      userUpdateDto.hashTag.forEach(tag => {
+        checkValidUtils.checkStringLength(
+          tag.length,
+          limitNum.PROFILE_HASH_TAG_MAX_LENGTH
+        );
+      });
+    }
 
     await User.findByIdAndUpdate(userId, userUpdateDto);
     const data: UserUpdateResponseDto = {

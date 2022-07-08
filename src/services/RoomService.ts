@@ -4,6 +4,7 @@ import { CreateRoomDto } from '../interfaces/room/CreateRoomDto';
 import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
 import Room from '../models/Room';
 import User from '../models/User';
+import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
@@ -46,18 +47,23 @@ const createRoom = async (
 
 const joinRoom = async (
   userId: string,
+  roomId: string,
   joinRoomDto: JoinRoomDto
 ): Promise<PostBaseResponseDto> => {
   try {
-    const user = await RoomServiceUtils.findUserById(userId);
+    checkObjectIdValidation(roomId);
 
+    const user = await RoomServiceUtils.findUserById(userId);
     if (user.roomId != undefined && user.roomId != null)
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
         statusCode: statusCode.CONFLICT
       });
 
-    const room = await Room.findOne({ roomCode: joinRoomDto.roomCode });
+    const room = await Room.findOne({
+      _id: roomId,
+      roomCode: joinRoomDto.roomCode
+    });
     if (!room)
       throw errorGenerator({
         msg: message.NOT_FOUND_ROOM,

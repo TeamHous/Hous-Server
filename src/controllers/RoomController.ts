@@ -51,7 +51,7 @@ const createRoom = async (
 };
 
 /**
- *  @route POST /room/in
+ *  @route POST /room/:roomId/in
  *  @desc join Room
  *  @access Private
  */
@@ -70,11 +70,13 @@ const joinRoom = async (
   }
 
   const userId: string = req.body.user._id;
+  const { roomId } = req.params;
   const joinRoomDto: JoinRoomDto = req.body;
 
   try {
     const result: PostBaseResponseDto = await RoomService.joinRoom(
       userId,
+      roomId,
       joinRoomDto
     );
 

@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator/check';
-import { RuleController } from '../controllers';
-import { RoomController } from '../controllers';
+import { RoomController, RuleController } from '../controllers';
 import auth from '../middleware/auth';
 
 const router: Router = Router();
@@ -13,7 +12,7 @@ router.post(
   RoomController.createRoom
 );
 router.post(
-  '/in',
+  '/:roomId/in',
   [body('roomCode').notEmpty()],
   auth,
   RoomController.joinRoom

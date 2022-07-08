@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
+import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -37,7 +38,50 @@ const createRuleCategory = async (
     return res
       .status(statusCode.CREATED)
       .send(
-        util.success(statusCode.CREATED, message.CREATE_RULE_CATEGORY, data)
+        util.success(
+          statusCode.CREATED,
+          message.CREATE_RULE_CATEGORY_SUCCESS,
+          data
+        )
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *  @route PUT /room/:roomId/rules/category/:categoryId
+ *  @desc Update RuleCategory
+ *  @access Private
+ */
+const updateRuleCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
+  const ruleCategoryUpdateDto: RuleCategoryUpdateDto = req.body;
+  const { roomId, categoryId } = req.params;
+
+  try {
+    const data = await RuleService.updateRuleCategory(
+      roomId,
+      categoryId,
+      ruleCategoryUpdateDto
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.UPDATE_RULE_CATEGORY_SUCCESS, data)
       );
   } catch (error) {
     next(error);
@@ -45,5 +89,6 @@ const createRuleCategory = async (
 };
 
 export default {
-  createRuleCategory
+  createRuleCategory,
+  updateRuleCategory
 };

@@ -31,4 +31,11 @@ router.post(
   RuleController.createRuleCategory
 );
 
+router.put(
+  '/:roomId/rules/category/:categoryId',
+  [body('categoryName').not().isEmpty(), body('categoryIcon').not().isEmpty()],
+  auth,
+  RuleController.updateRuleCategory
+);
+
 export default router;

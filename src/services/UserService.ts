@@ -4,6 +4,7 @@ import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { UserResponseDto } from '../interfaces/user/UserResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
+import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import User from '../models/User';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
@@ -16,11 +17,12 @@ const createUser = async (
     const existUser = await User.findOne({
       email: signupDto.email
     });
-    if (existUser)
+    if (existUser) {
       throw errorGenerator({
         msg: message.CONFLICT_EMAIL,
         statusCode: statusCode.CONFLICT
       });
+    }
 
     const user = new User({
       email: signupDto.email,
@@ -56,11 +58,12 @@ const getUser = async (userId: string): Promise<UserResponseDto> => {
       'typeName typeColor'
     );
 
-    if (!userInfo)
+    if (!userInfo) {
       throw errorGenerator({
         msg: message.NOT_FOUND_USER,
         statusCode: statusCode.NOT_FOUND
       });
+    }
 
     const data: UserResponseDto = {
       userName: userInfo.userName,
@@ -82,11 +85,18 @@ const getUser = async (userId: string): Promise<UserResponseDto> => {
 const updateUser = async (
   userId: string,
   userUpdateDto: UserUpdateDto
-): Promise<void> => {
+): Promise<UserUpdateResponseDto> => {
   try {
     await UserServiceUtils.findUserById(userId);
 
     await User.findByIdAndUpdate(userId, userUpdateDto);
+    const data: UserUpdateResponseDto = {
+      userName: userUpdateDto.userName,
+      job: userUpdateDto.job,
+      introduction: userUpdateDto.introduction,
+      hashTag: userUpdateDto.hashTag
+    };
+    return data;
   } catch (error) {
     throw error;
   }

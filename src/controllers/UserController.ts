@@ -12,7 +12,7 @@ import { UserService } from '../services';
  * @desc select user information
  * @access Private
  */
-const selectUser = async (
+const getUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -20,11 +20,11 @@ const selectUser = async (
   const userId: string = req.body.user._id;
 
   try {
-    const result: UserResponseDto = await UserService.selectUser(userId);
+    const result: UserResponseDto = await UserService.getUser(userId);
 
     return res
       .status(statusCode.OK)
-      .json(util.success(statusCode.OK, message.READ_USER_SUCCESS, result));
+      .send(util.success(statusCode.OK, message.READ_USER_SUCCESS, result));
   } catch (error) {
     next(error);
   }
@@ -61,6 +61,6 @@ const updateUser = async (
 };
 
 export default {
-  selectUser,
+  getUser,
   updateUser
 };

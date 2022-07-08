@@ -4,6 +4,7 @@ import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCr
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import Room from '../models/Room';
 import RuleCategory from '../models/RuleCategory';
+import { isValidObjectId } from '../modules/checkObjectIdValidation';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 
@@ -12,6 +13,14 @@ const createRuleCategory = async (
   ruleCategoryCreateDto: RuleCategoryCreateDto
 ): Promise<RuleCategoryResponseDto> => {
   try {
+    // roomId가 ObjectId 형식인지 확인
+    const validRoomId = isValidObjectId(roomId);
+    if (!validRoomId)
+      throw errorGenerator({
+        msg: message.INVALID_ID,
+        statusCode: statusCode.BAD_REQUEST
+      });
+
     // 방 존재 여부 확인
     const existRoom = await Room.findById(roomId);
     if (!existRoom)

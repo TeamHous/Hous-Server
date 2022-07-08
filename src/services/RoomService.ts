@@ -1,16 +1,18 @@
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
-import { CreateRoomDto } from '../interfaces/room/CreateRoomDto';
-import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
+import { RoomCreateDto } from '../interfaces/room/RoomCreateDto';
+import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
+import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
 import Room from '../models/Room';
 import User from '../models/User';
+import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
 
 const createRoom = async (
   userId: string,
-  createRoomDto: CreateRoomDto
+  roomCreateDto: RoomCreateDto
 ): Promise<PostBaseResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
@@ -22,7 +24,7 @@ const createRoom = async (
       });
 
     const room = new Room({
-      roomName: createRoomDto.roomName,
+      roomName: roomCreateDto.roomName,
       roomCode: await createRoomCode()
     });
 
@@ -44,20 +46,58 @@ const createRoom = async (
   }
 };
 
-const joinRoom = async (
+const getRoomByRoomCode = async (
   userId: string,
-  joinRoomDto: JoinRoomDto
-): Promise<PostBaseResponseDto> => {
+  roomJoinDto: RoomJoinDto
+): Promise<RoomResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
-
     if (user.roomId != undefined && user.roomId != null)
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
         statusCode: statusCode.CONFLICT
       });
 
-    const room = await Room.findOne({ roomCode: joinRoomDto.roomCode });
+    const room = await Room.findOne({
+      roomCode: roomJoinDto.roomCode
+    });
+    if (!room)
+      throw errorGenerator({
+        msg: message.NOT_FOUND_ROOM,
+        statusCode: statusCode.NOT_FOUND
+      });
+
+    const data: RoomResponseDto = {
+      _id: room._id,
+      roomName: room.roomName,
+      roomCode: room.roomCode
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const joinRoom = async (
+  userId: string,
+  roomId: string,
+  roomJoinDto: RoomJoinDto
+): Promise<PostBaseResponseDto> => {
+  try {
+    checkObjectIdValidation(roomId);
+
+    const user = await RoomServiceUtils.findUserById(userId);
+    if (user.roomId != undefined && user.roomId != null)
+      throw errorGenerator({
+        msg: message.CONFLICT_JOINED_ROOM,
+        statusCode: statusCode.CONFLICT
+      });
+
+    const room = await Room.findOne({
+      _id: roomId,
+      roomCode: roomJoinDto.roomCode
+    });
     if (!room)
       throw errorGenerator({
         msg: message.NOT_FOUND_ROOM,
@@ -103,5 +143,6 @@ const duplicateRoomCode = async (roomCode: string): Promise<boolean> => {
 
 export default {
   createRoom,
+  getRoomByRoomCode,
   joinRoom
 };

@@ -27,6 +27,7 @@ const message = {
   NOT_FOUND_ROOM: '존재하지 않는 방입니다.',
   CONFLICT_JOINED_ROOM: '참가중인 방이 있습니다.',
 
+  READ_ROOM_SUCCESS: '방 조회 성공입니다.',
   CREATE_ROOM_SUCCESS: '방 생성 성공입니다.',
   JOIN_ROOM_SUCCESS: '방 참가 성공입니다.',
 

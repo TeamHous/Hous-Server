@@ -3,7 +3,7 @@ import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCr
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import RuleCategory from '../models/RuleCategory';
-import { checkObjectIdValidation } from '../modules/checkObjectIdValidation';
+import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import RuleServiceUtils from './RuleServiceUtils';
 
 const createRuleCategory = async (

@@ -3,6 +3,7 @@ import { Result, ValidationError, validationResult } from 'express-validator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { CreateRoomDto } from '../interfaces/room/CreateRoomDto';
 import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
+import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -51,6 +52,42 @@ const createRoom = async (
 };
 
 /**
+ *  @route POST /room/in
+ *  @desc get Room id and name
+ *  @access Private
+ */
+const beforeJoinRoom = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
+  const userId: string = req.body.user._id;
+  const joinRoomDto: JoinRoomDto = req.body;
+
+  try {
+    const result: RoomResponseDto = await RoomService.beforeJoinRoom(
+      userId,
+      joinRoomDto
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.READ_ROOM_SUCCESS, result));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  *  @route POST /room/:roomId/in
  *  @desc join Room
  *  @access Private
@@ -90,5 +127,6 @@ const joinRoom = async (
 
 export default {
   createRoom,
+  beforeJoinRoom,
   joinRoom
 };

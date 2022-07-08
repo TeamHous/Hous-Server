@@ -44,6 +44,44 @@ const createRuleCategory = async (
   }
 };
 
+/**
+ *  @route PUT /room/:roomId/rules/category/:categoryId
+ *  @desc Update RuleCategory
+ *  @access Private
+ */
+const updateRuleCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
+  const ruleCategoryUpdateDto: RuleCategoryCreateDto = req.body;
+  const { roomId, categoryId } = req.params;
+
+  try {
+    const data = await RuleService.updateRuleCategory(
+      roomId,
+      categoryId,
+      ruleCategoryUpdateDto
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.UPDATE_RULE_CATEGORY, data));
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
-  createRuleCategory
+  createRuleCategory,
+  updateRuleCategory
 };

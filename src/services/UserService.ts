@@ -47,29 +47,31 @@ const createUser = async (
   }
 };
 
-const selectUser = async (userId: string): Promise<UserResponseDto[]> => {
+const getUser = async (userId: string): Promise<UserResponseDto> => {
   try {
     await UserServiceUtils.findUserById(userId);
 
-    const userInfo = await User.find({
-      _id: userId
-    }).populate('typeId', 'typeName typeColor');
+    const userInfo = await User.findById(userId).populate(
+      'typeId',
+      'typeName typeColor'
+    );
 
-    if (!userInfo) throw errorGenerator({ statusCode: statusCode.NOT_FOUND });
+    if (!userInfo)
+      throw errorGenerator({
+        msg: message.NOT_FOUND_READ_USER,
+        statusCode: statusCode.NOT_FOUND
+      });
 
-    const data: UserResponseDto[] = userInfo.map((user: any) => {
-      const result = {
-        userName: user.userName,
-        job: user.job,
-        introduction: user.introduction,
-        hashTag: user.hashTag,
-        typeName: user.typeId.typeName,
-        typeColor: user.typeId.typeColor,
-        typeScore: user.typeScore,
-        notificationState: user.notificationState
-      };
-      return result;
-    });
+    const data: UserResponseDto = {
+      userName: userInfo.userName,
+      job: userInfo.job,
+      introduction: userInfo.introduction,
+      hashTag: userInfo.hashTag,
+      typeName: (userInfo.typeId as any).typeName,
+      typeColor: (userInfo.typeId as any).typeColor,
+      typeScore: userInfo.typeScore,
+      notificationState: userInfo.notificationState
+    };
 
     return data;
   } catch (error) {
@@ -93,5 +95,5 @@ const updateUser = async (
 export default {
   createUser,
   updateUser,
-  selectUser
+  getUser
 };

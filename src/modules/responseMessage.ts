@@ -34,7 +34,8 @@ const message = {
   CREATE_RULE_CATEGORY: '규칙 카테고리 생성 성공입니다.',
 
   // 사용자
-  READ_USER_SUCCESS: '사용자 정보 조회를 성공하였습니다.'
+  READ_USER_SUCCESS: '사용자 정보 조회를 성공하였습니다.',
+  NOT_FOUND_READ_USER: '조회할 사용자 정보가 없습니다'
 };
 
 export default message;

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
+import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -37,7 +38,11 @@ const createRuleCategory = async (
     return res
       .status(statusCode.CREATED)
       .send(
-        util.success(statusCode.CREATED, message.CREATE_RULE_CATEGORY, data)
+        util.success(
+          statusCode.CREATED,
+          message.CREATE_RULE_CATEGORY_SUCCESS,
+          data
+        )
       );
   } catch (error) {
     next(error);
@@ -63,7 +68,7 @@ const updateRuleCategory = async (
       );
   }
 
-  const ruleCategoryUpdateDto: RuleCategoryCreateDto = req.body;
+  const ruleCategoryUpdateDto: RuleCategoryUpdateDto = req.body;
   const { roomId, categoryId } = req.params;
 
   try {
@@ -75,7 +80,9 @@ const updateRuleCategory = async (
 
     return res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.UPDATE_RULE_CATEGORY, data));
+      .send(
+        util.success(statusCode.OK, message.UPDATE_RULE_CATEGORY_SUCCESS, data)
+      );
   } catch (error) {
     next(error);
   }

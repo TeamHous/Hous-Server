@@ -4,7 +4,7 @@ import { RoomInfo } from '../interfaces/room/RoomInfo';
 const RoomSchema = new mongoose.Schema(
   {
     roomOwner: {
-      type: String,
+      type: mongoose.Types.ObjectId,
       required: true,
       ref: 'User'
     },

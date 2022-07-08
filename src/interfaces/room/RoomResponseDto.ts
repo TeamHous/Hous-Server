@@ -1,6 +1,4 @@
-import mongoose from 'mongoose';
-import { RoomInfo } from './RoomInfo';
-
-export interface RoomResponseDto extends RoomInfo {
-  _id: mongoose.Types.ObjectId;
+export interface RoomResponseDto {
+  _id: string;
+  roomCode: string;
 }

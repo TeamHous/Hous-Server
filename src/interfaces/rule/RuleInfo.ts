@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export interface RuleInfo {
   roomId: mongoose.Types.ObjectId;
   categoryId: mongoose.Types.ObjectId;
-  ruleName: String;
+  ruleName: string;
   ruleMembers: RuleMembers[];
   tmpRuleMembers: RuleMembers[];
   isKeyRules: Boolean;

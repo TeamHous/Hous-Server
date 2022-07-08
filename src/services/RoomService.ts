@@ -2,6 +2,7 @@ import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { CreateRoomDto } from '../interfaces/room/CreateRoomDto';
 import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
+import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
 import Room from '../models/Room';
 import User from '../models/User';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
@@ -37,6 +38,39 @@ const createRoom = async (
 
     const data: PostBaseResponseDto = {
       _id: room._id
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const beforeJoinRoom = async (
+  userId: string,
+  joinRoomDto: JoinRoomDto
+): Promise<RoomResponseDto> => {
+  try {
+    const user = await RoomServiceUtils.findUserById(userId);
+    if (user.roomId != undefined && user.roomId != null)
+      throw errorGenerator({
+        msg: message.CONFLICT_JOINED_ROOM,
+        statusCode: statusCode.CONFLICT
+      });
+
+    const room = await Room.findOne({
+      roomCode: joinRoomDto.roomCode
+    });
+    if (!room)
+      throw errorGenerator({
+        msg: message.NOT_FOUND_ROOM,
+        statusCode: statusCode.NOT_FOUND
+      });
+
+    const data: RoomResponseDto = {
+      _id: room._id,
+      roomName: room.roomName,
+      roomCode: room.roomCode
     };
 
     return data;
@@ -109,5 +143,6 @@ const duplicateRoomCode = async (roomCode: string): Promise<boolean> => {
 
 export default {
   createRoom,
+  beforeJoinRoom,
   joinRoom
 };

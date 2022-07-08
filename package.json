@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc && node dist",
+    "build": "tsc",
     "test": "mocha ./test/"
   },
   "author": "",

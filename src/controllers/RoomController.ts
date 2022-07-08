@@ -52,11 +52,11 @@ const createRoom = async (
 };
 
 /**
- *  @route POST /room/in
- *  @desc get Room id and name
+ *  @route GET /room/in
+ *  @desc get Room
  *  @access Private
  */
-const beforeJoinRoom = async (
+const getRoomByRoomCode = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -74,7 +74,7 @@ const beforeJoinRoom = async (
   const roomJoinDto: RoomJoinDto = req.body;
 
   try {
-    const result: RoomResponseDto = await RoomService.beforeJoinRoom(
+    const result: RoomResponseDto = await RoomService.getRoomByRoomCode(
       userId,
       roomJoinDto
     );
@@ -127,6 +127,6 @@ const joinRoom = async (
 
 export default {
   createRoom,
-  beforeJoinRoom,
+  getRoomByRoomCode,
   joinRoom
 };

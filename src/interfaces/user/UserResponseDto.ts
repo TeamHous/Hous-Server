@@ -1,6 +1,10 @@
-import mongoose from 'mongoose';
-import { UserInfo } from './UserInfo';
-
-export interface UserResponseDto extends UserInfo {
-  _id: mongoose.Schema.Types.ObjectId;
+export interface UserResponseDto {
+  userName: string;
+  job: string;
+  introduction: string;
+  hashTag: string[];
+  typeName: string;
+  typeColor: string;
+  typeScore: number[];
+  notificationState: boolean;
 }

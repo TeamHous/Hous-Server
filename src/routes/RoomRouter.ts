@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { body } from 'express-validator/check';
 import { RoomController, RuleController } from '../controllers';
 import auth from '../middleware/auth';
+import limitNum from '../modules/limitNum';
 
 const router: Router = Router();
 
@@ -26,7 +27,14 @@ router.post(
 
 router.post(
   '/:roomId/rules/category',
-  [body('categoryName').not().isEmpty(), body('categoryIcon').not().isEmpty()],
+  [
+    body('categoryName').not().isEmpty(),
+    body('categoryIcon').not().isEmpty(),
+    body('categoryName').isLength({
+      min: 1,
+      max: limitNum.RULE_CATEGORY_NAME_MAX_LENGTH
+    })
+  ],
   auth,
   RuleController.createRuleCategory
 );

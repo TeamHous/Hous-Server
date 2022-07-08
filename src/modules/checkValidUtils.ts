@@ -11,6 +11,15 @@ const checkCountLimit = (currentSize: number, limitSize: number): void => {
   }
 };
 
+const checkArraySize = (currentSize: number, limitSize: number): void => {
+  if (currentSize > limitSize) {
+    throw errorGenerator({
+      msg: message.EXCEED_CNT,
+      statusCode: statusCode.BAD_REQUEST
+    });
+  }
+};
+
 const checkStringLength = (fieldLength: number, limitLength: number): void => {
   if (fieldLength > limitLength) {
     throw errorGenerator({
@@ -22,5 +31,6 @@ const checkStringLength = (fieldLength: number, limitLength: number): void => {
 
 export default {
   checkCountLimit,
+  checkArraySize,
   checkStringLength
 };

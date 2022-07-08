@@ -1,4 +1,4 @@
 export interface TypeInfo {
-  typeName: String;
-  typeColor: String;
+  typeName: string;
+  typeColor: string;
 }

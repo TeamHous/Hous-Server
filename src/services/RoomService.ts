@@ -1,7 +1,7 @@
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
-import { CreateRoomDto } from '../interfaces/room/CreateRoomDto';
-import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
+import { RoomCreateDto } from '../interfaces/room/RoomCreateDto';
+import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
 import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
 import Room from '../models/Room';
 import User from '../models/User';
@@ -12,7 +12,7 @@ import RoomServiceUtils from './RoomServiceUtils';
 
 const createRoom = async (
   userId: string,
-  createRoomDto: CreateRoomDto
+  roomCreateDto: RoomCreateDto
 ): Promise<PostBaseResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
@@ -24,7 +24,7 @@ const createRoom = async (
       });
 
     const room = new Room({
-      roomName: createRoomDto.roomName,
+      roomName: roomCreateDto.roomName,
       roomCode: await createRoomCode()
     });
 
@@ -48,7 +48,7 @@ const createRoom = async (
 
 const beforeJoinRoom = async (
   userId: string,
-  joinRoomDto: JoinRoomDto
+  roomJoinDto: RoomJoinDto
 ): Promise<RoomResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
@@ -59,7 +59,7 @@ const beforeJoinRoom = async (
       });
 
     const room = await Room.findOne({
-      roomCode: joinRoomDto.roomCode
+      roomCode: roomJoinDto.roomCode
     });
     if (!room)
       throw errorGenerator({
@@ -82,7 +82,7 @@ const beforeJoinRoom = async (
 const joinRoom = async (
   userId: string,
   roomId: string,
-  joinRoomDto: JoinRoomDto
+  roomJoinDto: RoomJoinDto
 ): Promise<PostBaseResponseDto> => {
   try {
     checkObjectIdValidation(roomId);
@@ -96,7 +96,7 @@ const joinRoom = async (
 
     const room = await Room.findOne({
       _id: roomId,
-      roomCode: joinRoomDto.roomCode
+      roomCode: roomJoinDto.roomCode
     });
     if (!room)
       throw errorGenerator({

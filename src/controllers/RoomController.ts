@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
-import { CreateRoomDto } from '../interfaces/room/CreateRoomDto';
-import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
+import { RoomCreateDto } from '../interfaces/room/RoomCreateDto';
+import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
 import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
@@ -29,12 +29,12 @@ const createRoom = async (
   }
 
   const userId: string = req.body.user._id;
-  const createRoomDto: CreateRoomDto = req.body;
+  const roomCreateDto: RoomCreateDto = req.body;
 
   try {
     const result: PostBaseResponseDto = await RoomService.createRoom(
       userId,
-      createRoomDto
+      roomCreateDto
     );
 
     return res
@@ -71,12 +71,12 @@ const beforeJoinRoom = async (
   }
 
   const userId: string = req.body.user._id;
-  const joinRoomDto: JoinRoomDto = req.body;
+  const roomJoinDto: RoomJoinDto = req.body;
 
   try {
     const result: RoomResponseDto = await RoomService.beforeJoinRoom(
       userId,
-      joinRoomDto
+      roomJoinDto
     );
 
     return res
@@ -108,13 +108,13 @@ const joinRoom = async (
 
   const userId: string = req.body.user._id;
   const { roomId } = req.params;
-  const joinRoomDto: JoinRoomDto = req.body;
+  const roomJoinDto: RoomJoinDto = req.body;
 
   try {
     const result: PostBaseResponseDto = await RoomService.joinRoom(
       userId,
       roomId,
-      joinRoomDto
+      roomJoinDto
     );
 
     return res

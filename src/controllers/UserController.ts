@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { UserResponseDto } from '../interfaces/user/UserResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
+import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -52,9 +53,14 @@ const updateUser = async (
   const userId: string = req.body.user._id;
 
   try {
-    await UserService.updateUser(userId, userUpdateDto);
+    const data: UserUpdateResponseDto = await UserService.updateUser(
+      userId,
+      userUpdateDto
+    );
 
-    return res.status(statusCode.NO_CONTENT).send();
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.UPDATE_USER_SUCCESS, data));
   } catch (error) {
     next(error);
   }

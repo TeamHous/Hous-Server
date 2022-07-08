@@ -1,11 +1,10 @@
 import errorGenerator from '../errors/errorGenerator';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
-import Room from '../models/Room';
+import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import RuleCategory from '../models/RuleCategory';
 import { checkObjectIdValidation } from '../modules/checkObjectIdValidation';
-import message from '../modules/responseMessage';
-import statusCode from '../modules/statusCode';
+import RuleServiceUtils from './RuleServiceUtils';
 
 const createRuleCategory = async (
   roomId: string,
@@ -16,24 +15,13 @@ const createRuleCategory = async (
     checkObjectIdValidation(roomId);
 
     // 방 존재 여부 확인
-    const existRoom = await Room.findById(roomId);
-    if (!existRoom)
-      throw errorGenerator({
-        msg: message.NOT_FOUND_ROOM,
-        statusCode: statusCode.NOT_FOUND
-      });
+    await RuleServiceUtils.findRoomById(roomId);
 
     // 규칙 카테고리명 중복 여부 확인
-    const conflictCategory = await RuleCategory.findOne({
-      roomId: roomId,
-      categoryName: ruleCategoryCreateDto.categoryName
-    });
-    if (conflictCategory) {
-      throw errorGenerator({
-        msg: message.CONFLICT_RULE_CATEGORY,
-        statusCode: statusCode.CONFLICT
-      });
-    }
+    await RuleServiceUtils.checkConflictRuleCategoryName(
+      roomId,
+      ruleCategoryCreateDto.categoryName
+    );
 
     const ruleCategory = new RuleCategory({
       roomId: roomId,
@@ -56,6 +44,46 @@ const createRuleCategory = async (
   }
 };
 
+const updateRuleCategory = async (
+  roomId: string,
+  categoryId: string,
+  ruleCategoryUpdateDto: RuleCategoryUpdateDto
+): Promise<RuleCategoryResponseDto | null> => {
+  try {
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // categoryId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(categoryId);
+
+    // 방 존재 여부 확인
+    await RuleServiceUtils.findRoomById(roomId);
+
+    // 규칙 카테고리 존재 여부 확인
+    await RuleServiceUtils.findRuleCategoryById(categoryId);
+
+    // 규칙 카테고리명 중복 여부 확인
+    await RuleServiceUtils.checkConflictRuleCategoryName(
+      roomId,
+      ruleCategoryUpdateDto.categoryName
+    );
+
+    await RuleCategory.findByIdAndUpdate(categoryId, ruleCategoryUpdateDto);
+
+    const data: RuleCategoryResponseDto = {
+      _id: categoryId,
+      roomId: roomId,
+      ruleCategoryName: ruleCategoryUpdateDto.categoryName,
+      ruleCategoryIcon: ruleCategoryUpdateDto.categoryIcon
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
-  createRuleCategory
+  createRuleCategory,
+  updateRuleCategory
 };

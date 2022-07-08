@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema(
     typeId: {
       type: mongoose.Types.ObjectId,
       required: false,
+      default: '62c86a178d1d1f31b5b3cb3e',
       ref: 'Type'
     },
     email: {
@@ -32,15 +33,18 @@ const UserSchema = new mongoose.Schema(
     },
     birthday: {
       type: Date,
-      required: false
+      required: false,
+      default: new Date()
     },
     job: {
       type: String,
-      required: false
+      required: false,
+      default: ''
     },
     introduction: {
       type: String,
-      required: false
+      required: false,
+      default: ''
     },
     hashTag: [
       {

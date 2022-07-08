@@ -3,7 +3,7 @@ import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCr
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import Room from '../models/Room';
 import RuleCategory from '../models/RuleCategory';
-import { checkObjectIdValidation } from '../modules/checkObjectIdValidation';
+import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 

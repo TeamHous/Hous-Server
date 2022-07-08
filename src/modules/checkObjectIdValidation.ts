@@ -3,8 +3,8 @@ import errorGenerator from '../errors/errorGenerator';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 
-const ObjectId = mongoose.Types.ObjectId;
-export const checkObjectIdValidation = (id: string): void => {
+const checkObjectIdValidation = (id: string): void => {
+  const ObjectId = mongoose.Types.ObjectId;
   if (ObjectId.isValid(id)) {
     if (String(new ObjectId(id)) === id) return;
     throw errorGenerator({
@@ -17,3 +17,5 @@ export const checkObjectIdValidation = (id: string): void => {
     statusCode: statusCode.BAD_REQUEST
   });
 };
+
+export default checkObjectIdValidation;

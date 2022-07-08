@@ -1,5 +1,6 @@
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
+import { CreateRoomDto } from '../interfaces/room/CreateRoomDto';
 import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
 import Room from '../models/Room';
 import User from '../models/User';
@@ -7,7 +8,10 @@ import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
 
-const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
+const createRoom = async (
+  userId: string,
+  createRoomDto: CreateRoomDto
+): Promise<PostBaseResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
 
@@ -18,6 +22,7 @@ const createRoom = async (userId: string): Promise<PostBaseResponseDto> => {
       });
 
     const room = new Room({
+      roomName: createRoomDto.roomName,
       roomCode: await createRoomCode()
     });
 

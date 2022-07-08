@@ -46,7 +46,7 @@ const createRoom = async (
   }
 };
 
-const beforeJoinRoom = async (
+const getRoomByRoomCode = async (
   userId: string,
   roomJoinDto: RoomJoinDto
 ): Promise<RoomResponseDto> => {
@@ -143,6 +143,6 @@ const duplicateRoomCode = async (roomCode: string): Promise<boolean> => {
 
 export default {
   createRoom,
-  beforeJoinRoom,
+  getRoomByRoomCode,
   joinRoom
 };

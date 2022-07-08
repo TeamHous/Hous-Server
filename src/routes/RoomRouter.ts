@@ -15,7 +15,7 @@ router.get(
   '/in',
   [body('roomCode').notEmpty()],
   auth,
-  RoomController.beforeJoinRoom
+  RoomController.getRoomByRoomCode
 );
 router.post(
   '/:roomId/in',

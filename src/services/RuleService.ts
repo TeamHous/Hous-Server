@@ -4,6 +4,8 @@ import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategory
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import RuleCategory from '../models/RuleCategory';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
+import checkValidUtils from '../modules/checkValidUtils';
+import limitNum from '../modules/limitNum';
 import RuleServiceUtils from './RuleServiceUtils';
 
 const createRuleCategory = async (
@@ -15,7 +17,13 @@ const createRuleCategory = async (
     checkObjectIdValidation(roomId);
 
     // 방 존재 여부 확인
-    await RuleServiceUtils.findRoomById(roomId);
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 규칙 카테고리 개수 확인
+    checkValidUtils.checkCountLimit(
+      room.ruleCategoryCnt,
+      limitNum.RULE_CATEGORY_CNT
+    );
 
     // 규칙 카테고리명 중복 여부 확인
     await RuleServiceUtils.checkConflictRuleCategoryName(
@@ -30,6 +38,8 @@ const createRuleCategory = async (
     });
 
     await ruleCategory.save();
+
+    await room.update({ ruleCategoryCnt: room.ruleCategoryCnt + 1 });
 
     const data: RuleCategoryResponseDto = {
       _id: ruleCategory._id,

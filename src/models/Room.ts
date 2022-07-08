@@ -3,14 +3,35 @@ import { RoomInfo } from '../interfaces/room/RoomInfo';
 
 const RoomSchema = new mongoose.Schema(
   {
-    roomName: {
+    roomOwner: {
       type: String,
-      required: true
+      required: true,
+      ref: 'User'
     },
     roomCode: {
       type: String,
       required: true,
       unique: true
+    },
+    userCnt: {
+      type: Number,
+      required: false,
+      default: 1
+    },
+    eventCnt: {
+      type: Number,
+      required: false,
+      default: 0
+    },
+    ruleCategoryCnt: {
+      type: Number,
+      required: false,
+      default: 1
+    },
+    ruleCnt: {
+      type: Number,
+      required: false,
+      default: 0
     }
   },
   {

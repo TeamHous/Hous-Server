@@ -13,9 +13,10 @@ router.put(
     body('userName')
       .not()
       .isEmpty()
-      .isLength({ max: limitNum.PROFILE_NAME_MAX_LENGTH }),
-    body('job').isLength({ max: limitNum.PROFILE_JOB_MAX_LENGTH }),
+      .isLength({ min: 1, max: limitNum.PROFILE_NAME_MAX_LENGTH }),
+    body('job').isLength({ min: 0, max: limitNum.PROFILE_JOB_MAX_LENGTH }),
     body('introduction').isLength({
+      min: 0,
       max: limitNum.PROFILE_INTRODUCTION_MAX_LENGTH
     })
   ],

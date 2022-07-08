@@ -3,6 +3,15 @@ import message from './responseMessage';
 import statusCode from './statusCode';
 
 const checkCountLimit = (currentSize: number, limitSize: number): void => {
+  if (currentSize >= limitSize) {
+    throw errorGenerator({
+      msg: message.EXCEED_CNT,
+      statusCode: statusCode.BAD_REQUEST
+    });
+  }
+};
+
+const checkArraySize = (currentSize: number, limitSize: number): void => {
   if (currentSize > limitSize) {
     throw errorGenerator({
       msg: message.EXCEED_CNT,
@@ -22,5 +31,6 @@ const checkStringLength = (fieldLength: number, limitLength: number): void => {
 
 export default {
   checkCountLimit,
+  checkArraySize,
   checkStringLength
 };

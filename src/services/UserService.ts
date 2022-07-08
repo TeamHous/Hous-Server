@@ -92,7 +92,7 @@ const updateUser = async (
     await UserServiceUtils.findUserById(userId);
 
     if (Array.isArray(userUpdateDto.hashTag)) {
-      checkValidUtils.checkCountLimit(
+      checkValidUtils.checkArraySize(
         userUpdateDto.hashTag.length,
         limitNum.PROFILE_HASH_TAG_CNT
       );

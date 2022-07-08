@@ -34,8 +34,8 @@ const message = {
   // 규칙
   NOT_FOUND_RULE_CATEGORY: '존재하지 않는 규칙입니다.',
   CONFLICT_RULE_CATEGORY: '이미 존재하는 규칙 카테고리명입니다.',
-  CREATE_RULE_CATEGORY: '규칙 카테고리 생성 성공입니다.',
-  UPDATE_RULE_CATEGORY: '규칙 카테고리 수정 성공입니다.',
+  CREATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 생성 성공입니다.',
+  UPDATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 수정 성공입니다.',
 
   // 사용자
   READ_USER_SUCCESS: '사용자 정보 조회를 성공하였습니다.',

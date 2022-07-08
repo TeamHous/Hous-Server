@@ -1,4 +1,3 @@
-export interface RuleCategoryUpdateDto {
-  categoryName: string;
-  categoryIcon: string;
-}
+import { RuleCategoryCreateDto } from './RuleCategoryCreateDto';
+
+export interface RuleCategoryUpdateDto extends RuleCategoryCreateDto {}

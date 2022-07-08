@@ -16,6 +16,8 @@ const message = {
   INVALID_TOKEN: '만료된 토큰 입니다.',
   INVALID_PASSWORD: '잘못된 비밀번호 입니다.',
   INVALID_ID: '유효하지 않은 id입니다.',
+  EXCEED_CNT: '제한 개수를 초과하였습니다.',
+  EXCEED_LENGTH: '제한 길이를 초과하였습니다.',
 
   NOT_FOUND_USER_EMAIL: '가입되지 않은 이메일입니다.',
   CONFLICT_EMAIL: '이메일 중복입니다.',

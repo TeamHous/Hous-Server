@@ -5,17 +5,12 @@ import auth from '../middleware/auth';
 
 const router: Router = Router();
 
-router.post(
-  '/',
-  [body('roomName').notEmpty()],
-  auth,
-  RoomController.createRoom
-);
+router.post('/', auth, RoomController.createRoom);
 router.get(
   '/in',
   [body('roomCode').notEmpty()],
   auth,
-  RoomController.getRoomByRoomCode
+  RoomController.getRoomAndUserByRoomCode
 );
 router.post(
   '/:roomId/in',

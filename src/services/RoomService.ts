@@ -1,7 +1,7 @@
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
-import { RoomCreateDto } from '../interfaces/room/RoomCreateDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
+import { RoomJoinResponseDto } from '../interfaces/room/RoomJoinResponseDto';
 import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
 import Room from '../models/Room';
 import User from '../models/User';
@@ -10,21 +10,19 @@ import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
 
-const createRoom = async (
-  userId: string,
-  roomCreateDto: RoomCreateDto
-): Promise<PostBaseResponseDto> => {
+const createRoom = async (userId: string): Promise<RoomResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
 
-    if (user.roomId != undefined && user.roomId != null)
+    if (user.roomId != undefined && user.roomId != null) {
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
         statusCode: statusCode.CONFLICT
       });
+    }
 
     const room = new Room({
-      roomName: roomCreateDto.roomName,
+      roomOwner: userId,
       roomCode: await createRoomCode()
     });
 
@@ -36,8 +34,9 @@ const createRoom = async (
       }
     });
 
-    const data: PostBaseResponseDto = {
-      _id: room._id
+    const data: RoomResponseDto = {
+      _id: room._id,
+      roomCode: room.roomCode
     };
 
     return data;
@@ -46,31 +45,37 @@ const createRoom = async (
   }
 };
 
-const getRoomByRoomCode = async (
+const getRoomAndUserByRoomCode = async (
   userId: string,
   roomJoinDto: RoomJoinDto
-): Promise<RoomResponseDto> => {
+): Promise<RoomJoinResponseDto> => {
   try {
-    const user = await RoomServiceUtils.findUserById(userId);
-    if (user.roomId != undefined && user.roomId != null)
+    let user = await RoomServiceUtils.findUserById(userId);
+
+    user = await user.populate('typeId', 'typeColor');
+
+    if (user.roomId != undefined && user.roomId != null) {
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
         statusCode: statusCode.CONFLICT
       });
+    }
 
     const room = await Room.findOne({
       roomCode: roomJoinDto.roomCode
     });
-    if (!room)
+    if (!room) {
       throw errorGenerator({
         msg: message.NOT_FOUND_ROOM,
         statusCode: statusCode.NOT_FOUND
       });
+    }
 
-    const data: RoomResponseDto = {
+    const data: RoomJoinResponseDto = {
       _id: room._id,
-      roomName: room.roomName,
-      roomCode: room.roomCode
+      typeColor: (user.typeId as any).typeColor,
+      userName: user.userName,
+      introduction: user.introduction
     };
 
     return data;
@@ -143,6 +148,6 @@ const duplicateRoomCode = async (roomCode: string): Promise<boolean> => {
 
 export default {
   createRoom,
-  getRoomByRoomCode,
+  getRoomAndUserByRoomCode,
   joinRoom
 };

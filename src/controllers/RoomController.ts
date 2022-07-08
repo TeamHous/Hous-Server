@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
-import { CreateRoomDto } from '../interfaces/room/CreateRoomDto';
-import { JoinRoomDto } from '../interfaces/room/JoinRoomDto';
+import { RoomCreateDto } from '../interfaces/room/RoomCreateDto';
+import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
+import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -28,12 +29,12 @@ const createRoom = async (
   }
 
   const userId: string = req.body.user._id;
-  const createRoomDto: CreateRoomDto = req.body;
+  const roomCreateDto: RoomCreateDto = req.body;
 
   try {
     const result: PostBaseResponseDto = await RoomService.createRoom(
       userId,
-      createRoomDto
+      roomCreateDto
     );
 
     return res
@@ -51,7 +52,43 @@ const createRoom = async (
 };
 
 /**
- *  @route POST /room/in
+ *  @route GET /room/in
+ *  @desc get Room
+ *  @access Private
+ */
+const getRoomByRoomCode = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
+  const userId: string = req.body.user._id;
+  const roomJoinDto: RoomJoinDto = req.body;
+
+  try {
+    const result: RoomResponseDto = await RoomService.getRoomByRoomCode(
+      userId,
+      roomJoinDto
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.READ_ROOM_SUCCESS, result));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *  @route POST /room/:roomId/in
  *  @desc join Room
  *  @access Private
  */
@@ -70,12 +107,14 @@ const joinRoom = async (
   }
 
   const userId: string = req.body.user._id;
-  const joinRoomDto: JoinRoomDto = req.body;
+  const { roomId } = req.params;
+  const roomJoinDto: RoomJoinDto = req.body;
 
   try {
     const result: PostBaseResponseDto = await RoomService.joinRoom(
       userId,
-      joinRoomDto
+      roomId,
+      roomJoinDto
     );
 
     return res
@@ -88,5 +127,6 @@ const joinRoom = async (
 
 export default {
   createRoom,
+  getRoomByRoomCode,
   joinRoom
 };

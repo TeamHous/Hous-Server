@@ -11,8 +11,6 @@ const message = {
   DB_ERROR: '데이터베이스 오류입니다.',
 
   // etc
-  EXCEED_CNT: '제한 개수를 초과하였습니다.',
-  EXCEED_LENGTH: '제한 길이를 초과하였습니다.',
   NULL_VALUE: '필요한 값이 없습니다.',
   NULL_VALUE_TOKEN: '토큰이 없습니다.',
   INVALID_TOKEN: '만료된 토큰 입니다.',

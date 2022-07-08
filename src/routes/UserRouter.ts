@@ -5,6 +5,7 @@ import auth from '../middleware/auth';
 
 const router: Router = Router();
 
+router.get('/profile/me', auth, UserController.getUser);
 router.put(
   '/profile/me',
   [body('userName').notEmpty()],

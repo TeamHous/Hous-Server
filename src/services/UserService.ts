@@ -58,7 +58,7 @@ const getUser = async (userId: string): Promise<UserResponseDto> => {
 
     if (!userInfo)
       throw errorGenerator({
-        msg: message.NOT_FOUND_READ_USER,
+        msg: message.NOT_FOUND_USER,
         statusCode: statusCode.NOT_FOUND
       });
 

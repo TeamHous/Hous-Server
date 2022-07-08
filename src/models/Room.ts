@@ -3,6 +3,10 @@ import { RoomInfo } from '../interfaces/room/RoomInfo';
 
 const RoomSchema = new mongoose.Schema(
   {
+    roomName: {
+      type: String,
+      required: true
+    },
     roomCode: {
       type: String,
       required: true,

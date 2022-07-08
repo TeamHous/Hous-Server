@@ -1,9 +1,9 @@
 import errorGenerator from '../errors/errorGenerator';
-import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import Room from '../models/Room';
 import RuleCategory from '../models/RuleCategory';
+import { checkObjectIdValidation } from '../modules/checkObjectIdValidation';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 
@@ -12,6 +12,9 @@ const createRuleCategory = async (
   ruleCategoryCreateDto: RuleCategoryCreateDto
 ): Promise<RuleCategoryResponseDto> => {
   try {
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
     // 방 존재 여부 확인
     const existRoom = await Room.findById(roomId);
     if (!existRoom)
@@ -41,9 +44,10 @@ const createRuleCategory = async (
     await ruleCategory.save();
 
     const data: RuleCategoryResponseDto = {
-      roomId: ruleCategory._id,
-      categoryName: ruleCategory.categoryName,
-      categoryIcon: ruleCategory.categoryIcon
+      _id: ruleCategory._id,
+      roomId: roomId,
+      ruleCategoryName: ruleCategory.categoryName,
+      ruleCategoryIcon: ruleCategory.categoryIcon
     };
 
     return data;

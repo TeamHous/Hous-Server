@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
 import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseDto';
 import { EventUpdateResponseDto } from '../interfaces/event/EventCreateResponseDto copy';
@@ -39,12 +40,11 @@ const createEvent = async (
       participants.push(user.toString());
     });
 
-    //TODO date -> dayjs 반영하기
     const event = new Event({
       roomId: roomId,
       eventName: eventCreateDto.eventName,
       eventIcon: eventCreateDto.eventIcon,
-      date: new Date(eventCreateDto.date),
+      date: dayjs(eventCreateDto.date),
       participantsId: eventCreateDto.participants
     });
 
@@ -57,7 +57,7 @@ const createEvent = async (
       _id: event._id,
       eventName: event.eventName,
       eventIcon: event.eventIcon,
-      date: event.date,
+      date: dayjs(event.date).format('YYYY-MM-DD'),
       participants: participants
     };
 
@@ -104,12 +104,11 @@ const updateEvent = async (
 
     await Event.findByIdAndUpdate(eventId, eventUpdateDto);
 
-    //TODO date -> dayjs 반영하기
     const data: EventUpdateResponseDto = {
       _id: event._id,
       eventName: eventUpdateDto.eventName,
       eventIcon: eventUpdateDto.eventIcon,
-      date: new Date(eventUpdateDto.date),
+      date: dayjs(eventUpdateDto.date).format('YYYY-MM-DD'),
       participants: participants
     };
     return data;

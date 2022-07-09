@@ -84,10 +84,8 @@ const updateEvent = async (
     );
 
     return res
-      .status(statusCode.CREATED)
-      .send(
-        util.success(statusCode.CREATED, message.CREATE_EVENT_SUCCESS, result)
-      );
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.UPDATE_EVENT_SUCCESS, result));
   } catch (error) {
     next(error);
   }

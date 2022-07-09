@@ -30,9 +30,9 @@ const signup = async (
 
   const signupDto: SignupDto = req.body;
   try {
-    const result: PostBaseResponseDto = await UserService.createUser(signupDto);
+    const data: PostBaseResponseDto = await UserService.createUser(signupDto);
 
-    const accessToken: string = getToken(result._id);
+    const accessToken: string = getToken(data._id);
 
     return res
       .status(statusCode.CREATED)
@@ -66,9 +66,9 @@ const login = async (
   const LoginDto: LoginDto = req.body;
 
   try {
-    const result: PostBaseResponseDto = await AuthService.login(LoginDto);
+    const data: PostBaseResponseDto = await AuthService.login(LoginDto);
 
-    const accessToken: string = getToken(result._id);
+    const accessToken: string = getToken(data._id);
 
     return res
       .status(statusCode.OK)

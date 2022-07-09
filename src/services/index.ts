@@ -1,7 +1,8 @@
 import AuthService from './AuthService';
+import EventService from './EventService';
 import RoomService from './RoomService';
-import UserService from './UserService';
 import RuleService from './RuleService';
+import UserService from './UserService';
 
 // service index file
-export { AuthService, UserService, RoomService, RuleService };
+export { AuthService, UserService, RoomService, RuleService, EventService };

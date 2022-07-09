@@ -1,6 +1,10 @@
 import { Router } from 'express';
 import { body } from 'express-validator/check';
-import { RoomController, RuleController } from '../controllers';
+import {
+  EventController,
+  RoomController,
+  RuleController
+} from '../controllers';
 import auth from '../middleware/auth';
 import limitNum from '../modules/limitNum';
 
@@ -39,6 +43,24 @@ router.put(
   [body('categoryName').not().isEmpty(), body('categoryIcon').not().isEmpty()],
   auth,
   RuleController.updateRuleCategory
+);
+
+/**
+ * 이벤트
+ */
+router.post(
+  '/:roomId/event',
+  [
+    body('eventName')
+      .not()
+      .isEmpty()
+      .isLength({ min: 1, max: limitNum.EVENT_NAME_MAX_LENGTH }),
+    body('eventIcon').not().isEmpty(),
+    body('date').not().isEmpty(),
+    body('participant').isArray()
+  ],
+  auth,
+  EventController.createEvent
 );
 
 export default router;

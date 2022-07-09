@@ -43,7 +43,10 @@ const message = {
   // 사용자
   READ_USER_SUCCESS: '사용자 정보 조회 성공입니다.',
   UPDATE_USER_SUCCESS: '사용자 정보 수정 성공입니다.',
-  NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.'
+  NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.',
+
+  // 이벤트
+  CREATE_EVENT_SUCCESS: '이벤트 생성 성공입니다.'
 };
 
 export default message;

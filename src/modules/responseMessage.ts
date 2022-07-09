@@ -18,6 +18,7 @@ const message = {
   INVALID_ID: '유효하지 않은 id입니다.',
   EXCEED_CNT: '제한 개수를 초과하였습니다.',
   EXCEED_LENGTH: '제한 길이를 초과하였습니다.',
+  INVALID_ICON_ENUM: '잘못된 아이콘 enum 입니다.',
 
   NOT_FOUND_USER_EMAIL: '가입되지 않은 이메일입니다.',
   CONFLICT_EMAIL: '이메일 중복입니다.',

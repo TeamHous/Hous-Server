@@ -6,6 +6,7 @@ import { UserResponseDto } from '../interfaces/user/UserResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
+import { UserNotificationUpdateDto } from '../interfaces/user/UsuerNotificationStateUpdateDto';
 import User from '../models/User';
 import checkValidUtils from '../modules/checkValidUtils';
 import limitNum from '../modules/limitNum';
@@ -134,9 +135,27 @@ const getUserSetting = async (
   }
 };
 
+const updateUserNotificationState = async (
+  userId: string
+): Promise<UserSettingResponseDto> => {
+  try {
+    const user = await UserServiceUtils.findUserById(userId);
+
+    const data: UserNotificationUpdateDto = {
+      notificationState: !user.notificationState
+    };
+    user.update(data);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createUser,
   updateUser,
   getUser,
-  getUserSetting
+  getUserSetting,
+  updateUserNotificationState
 };

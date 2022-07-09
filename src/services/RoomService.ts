@@ -1,9 +1,12 @@
+import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
 import { RoomJoinResponseDto } from '../interfaces/room/RoomJoinResponseDto';
 import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
+import Event from '../models/Event';
 import Room from '../models/Room';
+import RuleCategory from '../models/RuleCategory';
 import User from '../models/User';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import message from '../modules/responseMessage';
@@ -29,10 +32,26 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
     await room.save();
 
     await User.findByIdAndUpdate(userId, {
-      $set: {
-        roomId: room._id
-      }
+      roomId: room._id
     });
+
+    const ruleCategory = new RuleCategory({
+      roomId: room._id,
+      categoryName: '청소',
+      categoryIcon: 'CLEAN'
+    });
+
+    await ruleCategory.save();
+
+    const event = new Event({
+      roomId: room._id,
+      eventName: '여기에 이벤트를 추가하세요.',
+      eventIcon: 'PARTY',
+      date: dayjs().add(10, 'day'), // 오늘 + 10일
+      participantsId: [user._id]
+    });
+
+    await event.save();
 
     const data: RoomResponseDto = {
       _id: room._id,

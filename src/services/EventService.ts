@@ -1,5 +1,7 @@
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
 import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseDto';
+import { EventUpdateResponseDto } from '../interfaces/event/EventCreateResponseDto copy';
+import { EventUpdateDto } from '../interfaces/event/EventUpdateDto';
 import Event from '../models/Event';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
@@ -37,11 +39,12 @@ const createEvent = async (
       participants.push(user.toString());
     });
 
+    //TODO date -> dayjs 반영하기
     const event = new Event({
       roomId: roomId,
       eventName: eventCreateDto.eventName,
       eventIcon: eventCreateDto.eventIcon,
-      date: eventCreateDto.date,
+      date: new Date(eventCreateDto.date),
       participantsId: eventCreateDto.participants
     });
 
@@ -64,6 +67,58 @@ const createEvent = async (
   }
 };
 
+const updateEvent = async (
+  userId: string,
+  roomId: string,
+  eventId: string,
+  eventUpdateDto: EventUpdateDto
+) => {
+  try {
+    // 유저 확인
+    await EventServiceUtil.findUserById(userId);
+
+    // roomId ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // eventId ObjectId 형식인지 확인
+    checkObjectIdValidation(eventId);
+
+    // 방 존재 여부 확인
+    const room = await EventServiceUtil.findRoomById(roomId);
+
+    // 이벤트 존재 여부 확인
+    const event = await EventServiceUtil.findEventById(eventId);
+
+    // 참여자 개수가 방 인원의 수가 넘는지 확인
+    checkValidUtils.checkArraySize(
+      eventUpdateDto.participants.length,
+      room.userCnt
+    );
+
+    // event 참여자 ObjectId 형식인지 확인
+    let participants: string[] = [];
+    eventUpdateDto.participants.forEach(user => {
+      checkObjectIdValidation(user);
+      participants.push(user.toString());
+    });
+
+    await Event.findByIdAndUpdate(eventId, eventUpdateDto);
+
+    //TODO date -> dayjs 반영하기
+    const data: EventUpdateResponseDto = {
+      _id: event._id,
+      eventName: eventUpdateDto.eventName,
+      eventIcon: eventUpdateDto.eventIcon,
+      date: new Date(eventUpdateDto.date),
+      participants: participants
+    };
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
-  createEvent
+  createEvent,
+  updateEvent
 };

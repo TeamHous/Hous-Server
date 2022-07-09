@@ -1,4 +1,3 @@
-import errorGenerator from '../errors/errorGenerator';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';

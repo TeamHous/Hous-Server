@@ -3,6 +3,7 @@ import errorGenerator from '../errors/errorGenerator';
 import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { UserResponseDto } from '../interfaces/user/UserResponseDto';
+import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import User from '../models/User';
@@ -117,8 +118,25 @@ const updateUser = async (
   }
 };
 
+const getUserSetting = async (
+  userId: string
+): Promise<UserSettingResponseDto> => {
+  try {
+    const user = await UserServiceUtils.findUserById(userId);
+
+    const data: UserSettingResponseDto = {
+      notificationState: user.notificationState
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createUser,
   updateUser,
-  getUser
+  getUser,
+  getUserSetting
 };

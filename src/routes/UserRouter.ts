@@ -23,5 +23,6 @@ router.put(
   auth,
   UserController.updateUser
 );
+router.get('/setting', auth, UserController.getUserSetting);
 
 export default router;

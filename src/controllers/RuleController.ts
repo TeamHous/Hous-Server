@@ -26,11 +26,13 @@ const createRuleCategory = async (
       );
   }
 
+  const userId: string = req.body.user._id;
   const ruleCategoryCreateDto: RuleCategoryCreateDto = req.body;
   const { roomId } = req.params;
 
   try {
     const data = await RuleService.createRuleCategory(
+      userId,
       roomId,
       ruleCategoryCreateDto
     );
@@ -68,11 +70,13 @@ const updateRuleCategory = async (
       );
   }
 
+  const userId: string = req.body.user._id;
   const ruleCategoryUpdateDto: RuleCategoryUpdateDto = req.body;
   const { roomId, categoryId } = req.params;
 
   try {
     const data = await RuleService.updateRuleCategory(
+      userId,
       roomId,
       categoryId,
       ruleCategoryUpdateDto

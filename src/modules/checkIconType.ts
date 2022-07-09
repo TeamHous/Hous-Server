@@ -1,15 +1,15 @@
 import errorGenerator from '../errors/errorGenerator';
-import IconTypeArray from './IconType';
+import IconType from './IconType';
 import message from './responseMessage';
 import statusCode from './statusCode';
 
-const isIconType = (iconType: string) => {
-  if (IconTypeArray.indexOf(iconType) == -1) {
+const isEventIconType = (eventIcon: string) => {
+  if (IconType.EventIconTypeArray.indexOf(eventIcon) == -1) {
     throw errorGenerator({
-      msg: message.INVALID_ICON_ENUM,
+      msg: message.INVALID_ICON,
       statusCode: statusCode.BAD_REQUEST
     });
   }
 };
 
-export default isIconType;
+export default { isEventIconType };

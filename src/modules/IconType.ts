@@ -1,13 +1,3 @@
-const IconTypeArray = [
-  'CLEAN',
-  'TRASH',
-  'HEART',
-  'LIGHT',
-  'BEER',
-  'CAKE',
-  'LAUNDRY',
-  'COFFEE',
-  'PARTY'
-];
+const EventIconTypeArray = ['BEER', 'CAKE', 'COFFEE', 'PARTY'];
 
-export default IconTypeArray;
+export default { EventIconTypeArray };

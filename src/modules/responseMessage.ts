@@ -19,6 +19,7 @@ const message = {
   EXCEED_CNT: '제한 개수를 초과하였습니다.',
   EXCEED_LENGTH: '제한 길이를 초과하였습니다.',
   INVALID_ICON: '잘못된 아이콘 값입니다.',
+  INVALID_DAY: '잘못된 요일 값입니다.',
 
   NOT_FOUND_USER_EMAIL: '가입되지 않은 이메일입니다.',
   CONFLICT_EMAIL: '이메일 중복입니다.',
@@ -37,6 +38,8 @@ const message = {
   // 규칙
   NOT_FOUND_RULE_CATEGORY: '존재하지 않는 규칙입니다.',
   CONFLICT_RULE_CATEGORY: '이미 존재하는 규칙 카테고리명입니다.',
+
+  CREATE_RULL_SUCCESS: '규칙 생성 성공입니다.',
   CREATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 생성 성공입니다.',
   UPDATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 수정 성공입니다.',
 

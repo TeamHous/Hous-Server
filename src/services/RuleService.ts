@@ -3,6 +3,7 @@ import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCr
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import RuleCategory from '../models/RuleCategory';
+import checkIconType from '../modules/checkIconType';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
 import limitNum from '../modules/limitNum';
@@ -30,6 +31,9 @@ const createRuleCategory = async (
       roomId,
       ruleCategoryCreateDto.categoryName
     );
+
+    // 규칙 카테고리 아이콘 유효성 확인
+    checkIconType.isRuleCategoryIconType(ruleCategoryCreateDto.categoryIcon);
 
     const ruleCategory = new RuleCategory({
       roomId: roomId,
@@ -77,6 +81,9 @@ const updateRuleCategory = async (
       roomId,
       ruleCategoryUpdateDto.categoryName
     );
+
+    // 규칙 카테고리 아이콘 유효성 확인
+    checkIconType.isRuleCategoryIconType(ruleCategoryUpdateDto.categoryIcon);
 
     await RuleCategory.findByIdAndUpdate(categoryId, ruleCategoryUpdateDto);
 

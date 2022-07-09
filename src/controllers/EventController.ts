@@ -87,4 +87,27 @@ const updateEvent = async (
   }
 };
 
-export default { createEvent, updateEvent };
+/**
+ *  @route DELETE /room/:roomId/event/:eventId
+ *  @desc Delete Event
+ *  @access private
+ */
+const deleteEvent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId, eventId } = req.params;
+
+  try {
+    const data = await EventService.deleteEvent(userId, roomId, eventId);
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.DELETE_EVENT_SUCCESS, data));
+  } catch (error) {
+    next(error);
+  }
+};
+export default { createEvent, updateEvent, deleteEvent };

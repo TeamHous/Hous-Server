@@ -79,5 +79,6 @@ router.put(
   auth,
   EventController.updateEvent
 );
+router.delete('/:roomId/event/:eventId', auth, EventController.deleteEvent);
 
 export default router;

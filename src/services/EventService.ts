@@ -3,9 +3,8 @@ import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseD
 import Event from '../models/Event';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
-import { IconType } from '../modules/IconType';
 import limitNum from '../modules/limitNum';
-import EventServiceUtil from './EventServiceUtil';
+import EventServiceUtil from './EventServiceUtils';
 
 const createEvent = async (
   userId: string,
@@ -27,26 +26,23 @@ const createEvent = async (
 
     // 참여자 개수가 방 인원의 수가 넘는지 확인
     checkValidUtils.checkArraySize(
-      eventCreateDto.participant.length,
+      eventCreateDto.participants.length,
       room.userCnt
     );
 
     // event 참여자 ObjectId 형식인지 확인
     let participants: string[] = [];
-    eventCreateDto.participant.forEach(user => {
+    eventCreateDto.participants.forEach(user => {
       checkObjectIdValidation(user);
       participants.push(user.toString());
     });
-
-    // icon이 정해진 타입으로 왔는지 확인
-    EventServiceUtil.isIconType(eventCreateDto.eventIcon as IconType);
 
     const event = new Event({
       roomId: roomId,
       eventName: eventCreateDto.eventName,
       eventIcon: eventCreateDto.eventIcon,
       date: eventCreateDto.date,
-      participantsId: eventCreateDto.participant
+      participantsId: eventCreateDto.participants
     });
 
     await event.save();
@@ -59,7 +55,7 @@ const createEvent = async (
       eventName: event.eventName,
       eventIcon: event.eventIcon,
       date: event.date,
-      participant: participants
+      participants: participants
     };
 
     return data;

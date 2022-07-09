@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
+import isIconType from '../modules/isIconType';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -30,6 +31,8 @@ const createEvent = async (
   const { roomId } = req.params;
 
   try {
+    isIconType(eventCreateDto.eventIcon);
+
     const result = await EventService.createEvent(
       userId,
       roomId,

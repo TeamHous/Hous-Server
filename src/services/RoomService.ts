@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
@@ -46,7 +47,7 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
       roomId: room._id,
       eventName: '여기에 이벤트를 추가하세요.',
       eventIcon: 'PARTY',
-      date: Date.now() + 10 * 24 * 60 * 60 * 1000, // 오늘 + 10일
+      date: dayjs().add(10, 'day'), // 오늘 + 10일
       participantsId: [user._id]
     });
 

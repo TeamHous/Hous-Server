@@ -34,16 +34,12 @@ const createEvent = async (
   try {
     checkIconType.isEventIconType(eventCreateDto.eventIcon);
 
-    const result = await EventService.createEvent(
-      userId,
-      roomId,
-      eventCreateDto
-    );
+    const data = await EventService.createEvent(userId, roomId, eventCreateDto);
 
     return res
       .status(statusCode.CREATED)
       .send(
-        util.success(statusCode.CREATED, message.CREATE_EVENT_SUCCESS, result)
+        util.success(statusCode.CREATED, message.CREATE_EVENT_SUCCESS, data)
       );
   } catch (error) {
     next(error);
@@ -76,7 +72,7 @@ const updateEvent = async (
   try {
     checkIconType.isEventIconType(eventUpdateDto.eventIcon);
 
-    const result = await EventService.updateEvent(
+    const data = await EventService.updateEvent(
       userId,
       roomId,
       eventId,
@@ -85,7 +81,7 @@ const updateEvent = async (
 
     return res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.UPDATE_EVENT_SUCCESS, result));
+      .send(util.success(statusCode.OK, message.UPDATE_EVENT_SUCCESS, data));
   } catch (error) {
     next(error);
   }

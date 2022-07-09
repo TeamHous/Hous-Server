@@ -1,8 +1,21 @@
 import errorGenerator from '../errors/errorGenerator';
 import Room from '../models/Room';
 import RuleCategory from '../models/RuleCategory';
+import User from '../models/User';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
+
+// 유저 존재 여부 확인
+const findUserById = async (userId: string) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw errorGenerator({
+      msg: message.UNAUTHORIZED,
+      statusCode: statusCode.UNAUTHORIZED
+    });
+  }
+  return user;
+};
 
 // 방 존재 여부 확인
 const findRoomById = async (roomId: string) => {
@@ -47,6 +60,7 @@ const checkConflictRuleCategoryName = async (
 };
 
 export default {
+  findUserById,
   findRoomById,
   findRuleCategoryById,
   checkConflictRuleCategoryName

@@ -9,10 +9,14 @@ import limitNum from '../modules/limitNum';
 import RuleServiceUtils from './RuleServiceUtils';
 
 const createRuleCategory = async (
+  userId: string,
   roomId: string,
   ruleCategoryCreateDto: RuleCategoryCreateDto
 ): Promise<RuleCategoryResponseDto> => {
   try {
+    // 유저 존재 여부 확인
+    await RuleServiceUtils.findUserById(userId);
+
     // roomId가 ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
 
@@ -58,11 +62,15 @@ const createRuleCategory = async (
 };
 
 const updateRuleCategory = async (
+  userId: string,
   roomId: string,
   categoryId: string,
   ruleCategoryUpdateDto: RuleCategoryUpdateDto
 ): Promise<RuleCategoryResponseDto | null> => {
   try {
+    // 유저 존재 여부 확인
+    await RuleServiceUtils.findUserById(userId);
+
     // roomId가 ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
 

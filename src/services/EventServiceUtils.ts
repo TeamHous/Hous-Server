@@ -31,7 +31,7 @@ const findEventById = async (eventId: string) => {
   const event = await Event.findById(eventId);
   if (!event) {
     throw errorGenerator({
-      msg: message.NOT_FOUND_ROOM,
+      msg: message.NOT_FOUND_EVENT,
       statusCode: statusCode.NOT_FOUND
     });
   }

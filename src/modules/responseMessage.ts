@@ -18,6 +18,7 @@ const message = {
   INVALID_ID: '유효하지 않은 id입니다.',
   EXCEED_CNT: '제한 개수를 초과하였습니다.',
   EXCEED_LENGTH: '제한 길이를 초과하였습니다.',
+  INVALID_ICON_ENUM: '잘못된 아이콘 enum 입니다.',
 
   NOT_FOUND_USER_EMAIL: '가입되지 않은 이메일입니다.',
   CONFLICT_EMAIL: '이메일 중복입니다.',
@@ -42,7 +43,10 @@ const message = {
   // 사용자
   READ_USER_SUCCESS: '사용자 정보 조회 성공입니다.',
   UPDATE_USER_SUCCESS: '사용자 정보 수정 성공입니다.',
-  NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.'
+  NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.',
+
+  // 이벤트
+  CREATE_EVENT_SUCCESS: '이벤트 생성 성공입니다.'
 };
 
 export default message;

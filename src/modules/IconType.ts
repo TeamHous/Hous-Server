@@ -1,14 +1,3 @@
-type IconType =
-  | 'CLEAN'
-  | 'TRASH'
-  | 'HEART'
-  | 'LIGHT'
-  | 'BEER'
-  | 'CAKE'
-  | 'LAUNDRY'
-  | 'COFFEE'
-  | 'PARTY';
-
 const IconTypeArray = [
   'CLEAN',
   'TRASH',
@@ -21,4 +10,4 @@ const IconTypeArray = [
   'PARTY'
 ];
 
-export { IconType, IconTypeArray };
+export default IconTypeArray;

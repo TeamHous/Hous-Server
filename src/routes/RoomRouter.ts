@@ -57,7 +57,7 @@ router.post(
       .isLength({ min: 1, max: limitNum.EVENT_NAME_MAX_LENGTH }),
     body('eventIcon').not().isEmpty(),
     body('date').not().isEmpty(),
-    body('participant').isArray()
+    body('participants').isArray()
   ],
   auth,
   EventController.createEvent

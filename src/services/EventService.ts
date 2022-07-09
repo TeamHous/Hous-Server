@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
 import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseDto';
 import { EventUpdateResponseDto } from '../interfaces/event/EventCreateResponseDto copy';
@@ -72,7 +73,7 @@ const updateEvent = async (
   roomId: string,
   eventId: string,
   eventUpdateDto: EventUpdateDto
-) => {
+): Promise<EventUpdateResponseDto> => {
   try {
     // 유저 확인
     await EventServiceUtil.findUserById(userId);
@@ -117,7 +118,42 @@ const updateEvent = async (
   }
 };
 
+const deleteEvent = async (
+  userId: string,
+  roomId: string,
+  eventId: string
+): Promise<PostBaseResponseDto> => {
+  try {
+    // 유저 확인
+    await EventServiceUtil.findUserById(userId);
+
+    // roomId ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // eventId ObjectId 형식인지 확인
+    checkObjectIdValidation(eventId);
+
+    // 방 존재 여부 확인
+    const room = await EventServiceUtil.findRoomById(roomId);
+
+    // 이벤트 존재 여부 확인
+    const event = await EventServiceUtil.findEventById(eventId);
+
+    await Event.findByIdAndDelete(eventId);
+
+    await room.update({ eventCnt: room.eventCnt - 1 });
+
+    const data: PostBaseResponseDto = {
+      _id: event._id
+    };
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createEvent,
-  updateEvent
+  updateEvent,
+  deleteEvent
 };

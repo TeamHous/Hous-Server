@@ -1,4 +1,4 @@
-const IconTypeArray = [
+const EventIconTypeArray = [
   'CLEAN',
   'TRASH',
   'HEART',
@@ -10,4 +10,18 @@ const IconTypeArray = [
   'PARTY'
 ];
 
-export default IconTypeArray;
+const RuleCategoryIconTypeArray = [
+  'CLEAN',
+  'TRASH',
+  'HEART',
+  'LIGHT',
+  'BEER',
+  'CAKE',
+  'LAUNDRY',
+  'COFFEE'
+];
+
+export default {
+  IconTypeArray: EventIconTypeArray,
+  RuleCategoryIconTypeArray
+};

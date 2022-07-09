@@ -22,12 +22,12 @@ const createRoom = async (
   const userId: string = req.body.user._id;
 
   try {
-    const result: RoomResponseDto = await RoomService.createRoom(userId);
+    const data: RoomResponseDto = await RoomService.createRoom(userId);
 
     return res
       .status(statusCode.CREATED)
       .send(
-        util.success(statusCode.CREATED, message.CREATE_ROOM_SUCCESS, result)
+        util.success(statusCode.CREATED, message.CREATE_ROOM_SUCCESS, data)
       );
   } catch (error) {
     next(error);
@@ -57,12 +57,12 @@ const getRoomAndUserByRoomCode = async (
   const roomJoinDto: RoomJoinDto = req.body;
 
   try {
-    const result: RoomJoinResponseDto =
+    const data: RoomJoinResponseDto =
       await RoomService.getRoomAndUserByRoomCode(userId, roomJoinDto);
 
     return res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.READ_ROOM_SUCCESS, result));
+      .send(util.success(statusCode.OK, message.READ_ROOM_SUCCESS, data));
   } catch (error) {
     next(error);
   }
@@ -92,7 +92,7 @@ const joinRoom = async (
   const roomJoinDto: RoomJoinDto = req.body;
 
   try {
-    const result: PostBaseResponseDto = await RoomService.joinRoom(
+    const data: PostBaseResponseDto = await RoomService.joinRoom(
       userId,
       roomId,
       roomJoinDto
@@ -100,7 +100,7 @@ const joinRoom = async (
 
     return res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.JOIN_ROOM_SUCCESS, result._id));
+      .send(util.success(statusCode.OK, message.JOIN_ROOM_SUCCESS, data._id));
   } catch (error) {
     next(error);
   }

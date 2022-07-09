@@ -38,6 +38,9 @@ router.post(
   RuleController.createRuleCategory
 );
 
+/**
+ * 규칙 카테고리
+ */
 router.put(
   '/:roomId/rules/category/:categoryId',
   [body('categoryName').not().isEmpty(), body('categoryIcon').not().isEmpty()],
@@ -61,6 +64,20 @@ router.post(
   ],
   auth,
   EventController.createEvent
+);
+router.put(
+  '/:roomId/event/:eventId',
+  [
+    body('eventName')
+      .not()
+      .isEmpty()
+      .isLength({ min: 1, max: limitNum.EVENT_NAME_MAX_LENGTH }),
+    body('eventIcon').not().isEmpty(),
+    body('date').not().isEmpty(),
+    body('participants').not().isEmpty().isArray()
+  ],
+  auth,
+  EventController.updateEvent
 );
 
 export default router;

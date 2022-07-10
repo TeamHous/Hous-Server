@@ -36,9 +36,12 @@ const message = {
   JOIN_ROOM_SUCCESS: '방 참가 성공입니다.',
 
   // 규칙
-  NOT_FOUND_RULE_CATEGORY: '존재하지 않는 규칙입니다.',
+  NOT_FOUND_RULE: '존재하지 않는 규칙입니다.',
+  FORBIDDEN_GET_RULE: '참가하고 있지 않은 방의 규칙을 조회할 수 없습니다.',
+  NOT_FOUND_RULE_CATEGORY: '존재하지 않는 규칙 카테고리입니다.',
   CONFLICT_RULE_CATEGORY: '이미 존재하는 규칙 카테고리명입니다.',
 
+  READ_RULE_SUCCESS: '규칙 조회 성공입니다.',
   CREATE_RULE_SUCCESS: '규칙 생성 성공입니다.',
   CREATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 생성 성공입니다.',
   UPDATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 수정 성공입니다.',

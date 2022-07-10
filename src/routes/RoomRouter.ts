@@ -39,6 +39,7 @@ router.post(
   auth,
   RuleController.createRule
 );
+router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
 
 router.post(
   '/:roomId/rules/category',

@@ -103,6 +103,39 @@ const createRule = async (
   }
 };
 
+const getRuleByRuleId = async (
+  userId: string,
+  roomId: string,
+  ruleId: string
+): Promise<RuleResponseDto> => {
+  try {
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // ruleId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 방에 참가중인 user가 맞는지 확인
+    if (!user.roomId.equals(room._id)) {
+      throw errorGenerator({
+        msg: message.FORBIDDEN_GET_RULE,
+        statusCode: statusCode.FORBIDDEN
+      });
+    }
+
+    const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    return rule;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const createRuleCategory = async (
   userId: string,
   roomId: string,
@@ -204,6 +237,7 @@ const updateRuleCategory = async (
 
 export default {
   createRule,
+  getRuleByRuleId,
   createRuleCategory,
   updateRuleCategory
 };

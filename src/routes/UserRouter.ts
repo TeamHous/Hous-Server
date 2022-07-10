@@ -23,5 +23,11 @@ router.put(
   auth,
   UserController.updateUser
 );
+router.get('/setting', auth, UserController.getUserSetting);
+router.put(
+  '/setting/notification',
+  auth,
+  UserController.updateUserNotificationState
+);
 
 export default router;

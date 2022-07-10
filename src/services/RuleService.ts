@@ -175,17 +175,20 @@ const getRuleByRuleId = async (
     await rule.populate('ruleMembers.userId', 'typeId userName');
     await rule.populate('ruleMembers.userId.typeId', 'typeColor');
 
-    let ruleMembers: RuleMembers[] = [];
-    rule.ruleMembers.forEach(ruleMember => {
-      ruleMembers.push({
-        homie: {
-          _id: ruleMember.userId._id,
-          name: (ruleMember.userId as any).userName,
-          typeColor: (ruleMember.userId as any).typeId.typeColor
-        },
-        day: ruleMember.day
-      });
-    });
+    const ruleMembers: RuleMembers[] = await Promise.all(
+      rule.ruleMembers.map(async (ruleMember: any) => {
+        const result = {
+          homie: {
+            _id: ruleMember.userId._id,
+            name: (ruleMember.userId as any).userName,
+            typeColor: (ruleMember.userId as any).typeId.typeColor
+          },
+          day: ruleMember.day
+        };
+
+        return result;
+      })
+    );
 
     const ruleReadInfo: RuleReadInfo = {
       _id: rule._id,

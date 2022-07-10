@@ -141,7 +141,7 @@ const deleteEvent = async (
 
     await Event.findByIdAndDelete(eventId);
 
-    await room.update({ eventCnt: room.eventCnt - 1 });
+    await room.updateOne({ eventCnt: room.eventCnt - 1 });
 
     const data: PostBaseResponseDto = {
       _id: event._id

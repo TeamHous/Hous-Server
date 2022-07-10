@@ -13,9 +13,7 @@ const login = async (loginDto: LoginDto): Promise<PostBaseResponseDto> => {
         email: loginDto.email
       },
       {
-        $set: {
-          fcmToken: loginDto.fcmToken
-        }
+        fcmToken: loginDto.fcmToken
       }
     );
     if (!user)

@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
 import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseDto';
-import { EventUpdateResponseDto } from '../interfaces/event/EventCreateResponseDto copy';
 import { EventUpdateDto } from '../interfaces/event/EventUpdateDto';
+import { EventUpdateResponseDto } from '../interfaces/event/EventUpdateResponseDto';
 import Event from '../models/Event';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
@@ -141,7 +141,7 @@ const deleteEvent = async (
 
     await Event.findByIdAndDelete(eventId);
 
-    await room.update({ eventCnt: room.eventCnt - 1 });
+    await room.updateOne({ eventCnt: room.eventCnt - 1 });
 
     const data: PostBaseResponseDto = {
       _id: event._id

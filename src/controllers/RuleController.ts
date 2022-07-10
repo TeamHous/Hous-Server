@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
+import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
@@ -63,7 +64,7 @@ const getRuleByRuleId = async (
   const { roomId, ruleId } = req.params;
 
   try {
-    const data: RuleResponseDto = await RuleService.getRuleByRuleId(
+    const data: RuleReadInfoResponseDto = await RuleService.getRuleByRuleId(
       userId,
       roomId,
       ruleId

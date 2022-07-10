@@ -1,12 +1,22 @@
 import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
+import {
+  Homies,
+  RuleCategories
+} from '../interfaces/rule/RuleCreateInfoResponseDto';
+import {
+  RuleMembers,
+  RuleReadInfo,
+  RuleReadInfoResponseDto
+} from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import Rule from '../models/Rule';
 import RuleCategory from '../models/RuleCategory';
+import User from '../models/User';
 import checkIconType from '../modules/checkIconType';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
@@ -107,7 +117,7 @@ const getRuleByRuleId = async (
   userId: string,
   roomId: string,
   ruleId: string
-): Promise<RuleResponseDto> => {
+): Promise<RuleReadInfoResponseDto> => {
   try {
     const user = await RuleServiceUtils.findUserById(userId);
 
@@ -130,7 +140,72 @@ const getRuleByRuleId = async (
 
     const rule = await RuleServiceUtils.findRuleById(ruleId);
 
-    return rule;
+    const tmpRuleCategories = await RuleCategory.find({
+      roomId: user.roomId
+    });
+
+    const ruleCategories: RuleCategories[] = await Promise.all(
+      tmpRuleCategories.map(async (ruleCategory: any) => {
+        const result = {
+          _id: ruleCategory._id,
+          categoryName: ruleCategory.categoryName
+        };
+
+        return result;
+      })
+    );
+
+    const tmpHomies = await User.find({
+      roomId: user.roomId
+    }).populate('typeId', 'typeColor');
+
+    const homies: Homies[] = await Promise.all(
+      tmpHomies.map(async (homie: any) => {
+        const result = {
+          _id: homie._id,
+          name: homie.userName,
+          typeColor: homie.typeId.typeColor
+        };
+
+        return result;
+      })
+    );
+
+    await rule.populate('categoryId', 'categoryName');
+    await rule.populate('ruleMembers.userId', 'typeId userName');
+    await rule.populate('ruleMembers.userId.typeId', 'typeColor');
+
+    let ruleMembers: RuleMembers[] = [];
+    rule.ruleMembers.forEach(ruleMember => {
+      ruleMembers.push({
+        homie: {
+          _id: ruleMember.userId._id,
+          name: (ruleMember.userId as any).userName,
+          typeColor: (ruleMember.userId as any).typeId.typeColor
+        },
+        day: ruleMember.day
+      });
+    });
+
+    const ruleReadInfo: RuleReadInfo = {
+      _id: rule._id,
+      notificationState: rule.notificationState,
+      ruleName: rule.ruleName,
+      ruleCategory: {
+        _id: rule.categoryId._id,
+        categoryName: (rule.categoryId as any).categoryName
+      },
+      isKeyRules: rule.isKeyRules,
+      ruleMembers: ruleMembers
+    };
+
+    const data: RuleReadInfoResponseDto = {
+      rule: ruleReadInfo,
+      ruleCategories: ruleCategories,
+      homies: homies
+    };
+
+    return data;
   } catch (error) {
     throw error;
   }

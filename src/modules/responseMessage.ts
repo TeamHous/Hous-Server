@@ -44,6 +44,8 @@ const message = {
   READ_USER_SUCCESS: '사용자 정보 조회 성공입니다.',
   UPDATE_USER_SUCCESS: '사용자 정보 수정 성공입니다.',
   NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.',
+  READ_USER_SETTING_SUCCESS: '사용자 설정 조회 성공입니다.',
+  UPDATE_USER_NOTIFICATION_STATE_SUCCESS: '사용자 알림 설정 수정 성공입니다.',
 
   // 이벤트
   NOT_FOUND_EVENT: '존재하지 않는 이벤트입니다.',

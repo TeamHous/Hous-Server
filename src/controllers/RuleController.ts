@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
+import { RuleCreateInfoResponseDto } from '../interfaces/rule/RuleCreateInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
@@ -163,9 +164,35 @@ const updateRuleCategory = async (
   }
 };
 
+/**
+ *  @route GET /room/:roomId/rule/new
+ *  @desc Get rule categories & homies
+ *  @access Private
+ */
+const getRuleCreateInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+
+  try {
+    const data = await RuleService.getRuleCreateInfo(userId);
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.READ_RULE_CREATE_INFO_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
   createRuleCategory,
-  updateRuleCategory
+  updateRuleCategory,
+  getRuleCreateInfo
 };

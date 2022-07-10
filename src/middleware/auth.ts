@@ -29,10 +29,13 @@ export default (req: Request, res: Response, next: NextFunction) => {
     logger.error(error);
     if (error.name === 'TokenExpiredError') {
       throw errorGenerator({
-        msg: message.INVALID_TOKEN,
+        msg: message.EXPIRED_TOKEN,
         statusCode: statusCode.UNAUTHORIZED
       });
     }
-    throw errorGenerator({ statusCode: statusCode.INTERNAL_SERVER_ERROR });
+    throw errorGenerator({
+      msg: message.INVALID_TOKEN,
+      statusCode: statusCode.UNAUTHORIZED
+    });
   }
 };

@@ -144,7 +144,7 @@ const updateUserNotificationState = async (
     const data: UserNotificationUpdateDto = {
       notificationState: !user.notificationState
     };
-    user.update(data);
+    user.updateOne(data);
 
     return data;
   } catch (error) {

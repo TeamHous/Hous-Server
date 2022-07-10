@@ -1,12 +1,19 @@
 import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
+import {
+  Homies,
+  RuleCategories,
+  RuleCreateInfoResponseDto
+} from '../interfaces/rule/RuleCreateInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
+import Room from '../models/Room';
 import Rule from '../models/Rule';
 import RuleCategory from '../models/RuleCategory';
+import User from '../models/User';
 import checkIconType from '../modules/checkIconType';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
@@ -141,7 +148,7 @@ const createRuleCategory = async (
 
     await ruleCategory.save();
 
-    await room.update({ ruleCategoryCnt: room.ruleCategoryCnt + 1 });
+    await room.updateOne({ ruleCategoryCnt: room.ruleCategoryCnt + 1 });
 
     const data: RuleCategoryResponseDto = {
       _id: ruleCategory._id,
@@ -202,8 +209,57 @@ const updateRuleCategory = async (
   }
 };
 
+const getRuleCreateInfo = async (
+  userId: string
+): Promise<RuleCreateInfoResponseDto | null> => {
+  try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    const tmpRuleCategories = await RuleCategory.find({
+      roomId: user.roomId
+    });
+
+    const ruleCategories: RuleCategories[] = await Promise.all(
+      tmpRuleCategories.map(async (ruleCategory: any) => {
+        const result = {
+          _id: ruleCategory._id,
+          categoryName: ruleCategory.categoryName
+        };
+
+        return result;
+      })
+    );
+
+    const tmpHomies = await User.find({
+      roomId: user.roomId
+    }).populate('typeId', 'typeColor');
+
+    const homies: Homies[] = await Promise.all(
+      tmpHomies.map(async (homie: any) => {
+        const result = {
+          _id: homie._id,
+          name: homie.userName,
+          typeColor: homie.typeId.typeColor
+        };
+
+        return result;
+      })
+    );
+
+    const data: RuleCreateInfoResponseDto = {
+      ruleCategories: ruleCategories,
+      homies: homies
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 export default {
   createRule,
   createRuleCategory,
-  updateRuleCategory
+  updateRuleCategory,
+  getRuleCreateInfo
 };

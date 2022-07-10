@@ -10,6 +10,9 @@ import limitNum from '../modules/limitNum';
 
 const router: Router = Router();
 
+/**
+ * 방
+ */
 router.post('/', auth, RoomController.createRoom);
 router.get(
   '/in',
@@ -24,6 +27,9 @@ router.post(
   RoomController.joinRoom
 );
 
+/**
+ * 규칙
+ */
 router.post(
   '/:roomId/rule',
   [
@@ -40,6 +46,11 @@ router.post(
   RuleController.createRule
 );
 
+router.get('/:roomId/rule/new', auth, RuleController.getRuleCreateInfo);
+
+/**
+ * 규칙 카테고리
+ */
 router.post(
   '/:roomId/rules/category',
   [
@@ -54,9 +65,6 @@ router.post(
   RuleController.createRuleCategory
 );
 
-/**
- * 규칙 카테고리
- */
 router.put(
   '/:roomId/rules/category/:categoryId',
   [body('categoryName').not().isEmpty(), body('categoryIcon').not().isEmpty()],

@@ -1,4 +1,8 @@
-export interface UserResponseDto {
+export interface UserResponseDto extends UserBaseResponseDto {
+  notificationState: boolean;
+}
+
+export interface UserBaseResponseDto {
   userName: string;
   job: string;
   introduction: string;
@@ -6,5 +10,4 @@ export interface UserResponseDto {
   typeName: string;
   typeColor: string;
   typeScore: number[];
-  notificationState: boolean;
 }

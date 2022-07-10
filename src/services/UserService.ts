@@ -2,11 +2,13 @@ import bcrypt from 'bcryptjs';
 import errorGenerator from '../errors/errorGenerator';
 import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
+import { HomieResponseDto } from '../interfaces/user/HomieResponseDto';
 import { UserResponseDto } from '../interfaces/user/UserResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import User from '../models/User';
+import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
 import limitNum from '../modules/limitNum';
 import message from '../modules/responseMessage';
@@ -134,9 +136,60 @@ const getUserSetting = async (
   }
 };
 
+const getHomieProfile = async (
+  userId: string,
+  homieId: string
+): Promise<HomieResponseDto> => {
+  try {
+    // ObjectId 인지 확인
+    checkObjectIdValidation(userId);
+    checkObjectIdValidation(homieId);
+
+    // 유저 확인
+    const user = await UserServiceUtils.findUserById(userId);
+    const homie = await UserServiceUtils.findUserById(homieId);
+
+    console.log(user.roomId);
+    console.log(homie.roomId);
+
+    if (!user.roomId.equals(homie.roomId)) {
+      throw errorGenerator({
+        msg: message.NOT_FOUND_ROOMMATE,
+        statusCode: statusCode.NOT_FOUND
+      });
+    }
+    const homieInfo = await User.findById(userId).populate(
+      'typeId',
+      'typeName typeColor'
+    );
+
+    if (!homieInfo) {
+      throw errorGenerator({
+        msg: message.NOT_FOUND_USER,
+        statusCode: statusCode.NOT_FOUND
+      });
+    }
+
+    const data: HomieResponseDto = {
+      userName: homieInfo.userName,
+      job: homieInfo.job,
+      introduction: homieInfo.introduction,
+      hashTag: homieInfo.hashTag,
+      typeName: (homieInfo.typeId as any).typeName,
+      typeColor: (homieInfo.typeId as any).typeColor,
+      typeScore: homieInfo.typeScore
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createUser,
   updateUser,
   getUser,
-  getUserSetting
+  getUserSetting,
+  getHomieProfile
 };

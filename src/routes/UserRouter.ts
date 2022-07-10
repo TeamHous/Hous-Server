@@ -6,6 +6,11 @@ import limitNum from '../modules/limitNum';
 
 const router: Router = Router();
 
+router.get('/:homieId', auth, UserController.getHomieProfile);
+
+/**
+ * 프로필
+ */
 router.get('/profile/me', auth, UserController.getUser);
 router.put(
   '/profile/me',

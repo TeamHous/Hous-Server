@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
+import { HomieResponseDto } from '../interfaces/user/HomieResponseDto';
 import { UserResponseDto } from '../interfaces/user/UserResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
@@ -92,8 +93,36 @@ const getUserSetting = async (
   }
 };
 
+/**
+ * @route GET /user/:userId
+ * @desc get homie profile
+ * @access Private
+ */
+const getHomieProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { homieId } = req.params;
+  try {
+    const data: HomieResponseDto = await UserService.getHomieProfile(
+      userId,
+      homieId
+    );
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.READ_HOMIE_PROFILE_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getUser,
   updateUser,
-  getUserSetting
+  getUserSetting,
+  getHomieProfile
 };

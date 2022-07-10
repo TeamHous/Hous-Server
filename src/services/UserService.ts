@@ -152,7 +152,7 @@ const getHomieProfile = async (
 
     if (!user.roomId.equals(homie.roomId)) {
       throw errorGenerator({
-        msg: message.NOT_FOUND_ROOMMATE,
+        msg: message.NOT_FOUND_HOMIE,
         statusCode: statusCode.NOT_FOUND
       });
     }

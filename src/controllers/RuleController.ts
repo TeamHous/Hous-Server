@@ -42,7 +42,7 @@ const createRule = async (
     return res
       .status(statusCode.CREATED)
       .send(
-        util.success(statusCode.CREATED, message.CREATE_RULL_SUCCESS, data)
+        util.success(statusCode.CREATED, message.CREATE_RULE_SUCCESS, data)
       );
   } catch (error) {
     next(error);

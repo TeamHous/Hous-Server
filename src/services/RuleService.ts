@@ -11,6 +11,7 @@ import checkIconType from '../modules/checkIconType';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
 import limitNum from '../modules/limitNum';
+import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import RuleServiceUtils from './RuleServiceUtils';
 
@@ -21,6 +22,9 @@ const createRule = async (
 ): Promise<RuleResponseDto> => {
   try {
     const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
 
     // categoryId가 ObjectId 형식인지 확인
     checkObjectIdValidation(ruleCreateDto.categoryId);
@@ -39,7 +43,10 @@ const createRule = async (
         ruleCreateDto.notificationState == true ||
         ruleCreateDto.ruleMembers.length != 0
       ) {
-        throw errorGenerator({ statusCode: statusCode.BAD_REQUEST });
+        throw errorGenerator({
+          msg: message.BAD_REQUEST,
+          statusCode: statusCode.BAD_REQUEST
+        });
       }
     }
 
@@ -50,11 +57,17 @@ const createRule = async (
       });
       // 담당자가 체크됐는데 요일 선택 1개 이상 안 된 경우 -> 에러
       if (userId != null && ruleMember.day.length == 0) {
-        throw errorGenerator({ statusCode: statusCode.BAD_REQUEST });
+        throw errorGenerator({
+          msg: message.BAD_REQUEST,
+          statusCode: statusCode.BAD_REQUEST
+        });
       }
       // 요일이 선택됐는데 isKeyRules == true 인 경우 -> 에러
       if (ruleMember.day.length != 0 && ruleCreateDto.isKeyRules == true) {
-        throw errorGenerator({ statusCode: statusCode.BAD_REQUEST });
+        throw errorGenerator({
+          msg: message.BAD_REQUEST,
+          statusCode: statusCode.BAD_REQUEST
+        });
       }
     });
 
@@ -63,7 +76,10 @@ const createRule = async (
       ruleCreateDto.ruleMembers.length == 0 &&
       ruleCreateDto.isKeyRules == false
     ) {
-      throw errorGenerator({ statusCode: statusCode.BAD_REQUEST });
+      throw errorGenerator({
+        msg: message.BAD_REQUEST,
+        statusCode: statusCode.BAD_REQUEST
+      });
     }
 
     const rule = new Rule({
@@ -79,7 +95,7 @@ const createRule = async (
 
     await rule.save();
 
-    await room.update({ ruleCnt: room.ruleCnt + 1 });
+    await room.updateOne({ ruleCnt: room.ruleCnt + 1 });
 
     return rule;
   } catch (error) {

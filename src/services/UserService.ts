@@ -7,6 +7,7 @@ import { UserResponseDto } from '../interfaces/user/UserResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
+import { UserNotificationUpdateDto } from '../interfaces/user/UsuerNotificationStateUpdateDto';
 import User from '../models/User';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
@@ -176,6 +177,22 @@ const getHomieProfile = async (
       typeColor: (homieInfo.typeId as any).typeColor,
       typeScore: homieInfo.typeScore
     };
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateUserNotificationState = async (
+  userId: string
+): Promise<UserSettingResponseDto> => {
+  try {
+    const user = await UserServiceUtils.findUserById(userId);
+
+    const data: UserNotificationUpdateDto = {
+      notificationState: !user.notificationState
+    };
+    user.update(data);
 
     return data;
   } catch (error) {
@@ -188,5 +205,6 @@ export default {
   updateUser,
   getUser,
   getUserSetting,
-  getHomieProfile
+  getHomieProfile,
+  updateUserNotificationState
 };

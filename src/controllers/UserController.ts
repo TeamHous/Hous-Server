@@ -5,6 +5,7 @@ import { UserResponseDto } from '../interfaces/user/UserResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
+import { UserNotificationUpdateDto } from '../interfaces/user/UsuerNotificationStateUpdateDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -87,7 +88,38 @@ const getUserSetting = async (
 
     return res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.READ_USER_SUCCESS, data));
+      .send(
+        util.success(statusCode.OK, message.READ_USER_SETTING_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @route PUT /user/setting/notification
+ * @desc update user notification state
+ * @access Private
+ */
+const updateUserNotificationState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  try {
+    const data: UserNotificationUpdateDto =
+      await UserService.updateUserNotificationState(userId);
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(
+          statusCode.OK,
+          message.UPDATE_USER_NOTIFICATION_STATE_SUCCESS,
+          data
+        )
+      );
   } catch (error) {
     next(error);
   }
@@ -124,5 +156,6 @@ export default {
   getUser,
   updateUser,
   getUserSetting,
-  getHomieProfile
+  getHomieProfile,
+  updateUserNotificationState
 };

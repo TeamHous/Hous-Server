@@ -13,7 +13,8 @@ const message = {
   // etc
   NULL_VALUE: '필요한 값이 없습니다.',
   NULL_VALUE_TOKEN: '토큰이 없습니다.',
-  INVALID_TOKEN: '만료된 토큰 입니다.',
+  EXPIRED_TOKEN: '만료된 토큰 입니다.',
+  INVALID_TOKEN: '존재하지 않는 토큰 입니다.',
   INVALID_PASSWORD: '잘못된 비밀번호 입니다.',
   INVALID_ID: '유효하지 않은 id입니다.',
   EXCEED_CNT: '제한 개수를 초과하였습니다.',

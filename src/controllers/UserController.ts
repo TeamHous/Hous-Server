@@ -94,7 +94,7 @@ const getUserSetting = async (
 };
 
 /**
- * @route GET /user/:userId
+ * @route GET /user/:homieId
  * @desc get homie profile
  * @access Private
  */

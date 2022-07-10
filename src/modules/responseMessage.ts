@@ -13,8 +13,9 @@ const message = {
   // etc
   NULL_VALUE: '필요한 값이 없습니다.',
   NULL_VALUE_TOKEN: '토큰이 없습니다.',
-  INVALID_TOKEN: '만료된 토큰 입니다.',
-  INVALID_PASSWORD: '잘못된 비밀번호 입니다.',
+  EXPIRED_TOKEN: '만료된 토큰입니다.',
+  INVALID_TOKEN: '존재하지 않는 토큰입니다.',
+  INVALID_PASSWORD: '잘못된 비밀번호입니다.',
   INVALID_ID: '유효하지 않은 id입니다.',
   EXCEED_CNT: '제한 개수를 초과하였습니다.',
   EXCEED_LENGTH: '제한 길이를 초과하였습니다.',
@@ -45,11 +46,14 @@ const message = {
   CREATE_RULE_SUCCESS: '규칙 생성 성공입니다.',
   CREATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 생성 성공입니다.',
   UPDATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 수정 성공입니다.',
+  READ_RULE_CREATE_INFO_SUCCESS: '규칙 생성 시 조회 성공입니다.',
 
   // 사용자
   READ_USER_SUCCESS: '사용자 정보 조회 성공입니다.',
   UPDATE_USER_SUCCESS: '사용자 정보 수정 성공입니다.',
   NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.',
+  READ_HOMIE_PROFILE_SUCCESS: '호미 프로필 조회를 성공하였습니다.',
+  NOT_FOUND_HOMIE: '같은 방에 존재하지 않는 호미입니다.',
   READ_USER_SETTING_SUCCESS: '사용자 설정 조회 성공입니다.',
   UPDATE_USER_NOTIFICATION_STATE_SUCCESS: '사용자 알림 설정 수정 성공입니다.',
 

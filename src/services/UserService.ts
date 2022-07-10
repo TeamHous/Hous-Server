@@ -149,9 +149,6 @@ const getHomieProfile = async (
     const user = await UserServiceUtils.findUserById(userId);
     const homie = await UserServiceUtils.findUserById(homieId);
 
-    console.log(user.roomId);
-    console.log(homie.roomId);
-
     if (!user.roomId.equals(homie.roomId)) {
       throw errorGenerator({
         msg: message.NOT_FOUND_ROOMMATE,

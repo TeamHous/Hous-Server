@@ -1,7 +1,11 @@
 import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
-import { RuleCreateInfoResponseDto } from '../interfaces/rule/RuleCreateInfoResponseDto';
+import {
+  Homies,
+  RuleCategories,
+  RuleCreateInfoResponseDto
+} from '../interfaces/rule/RuleCreateInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
@@ -216,12 +220,11 @@ const getRuleCreateInfo = async (
       roomId: user.roomId
     });
 
-    const ruleCategories = await Promise.all(
+    const ruleCategories: RuleCategories[] = await Promise.all(
       tmpRuleCategories.map(async (ruleCategory: any) => {
         const result = {
           _id: ruleCategory._id,
-          categoryName: ruleCategory.categoryName,
-          categoryIcon: ruleCategory.categoryIcon
+          categoryName: ruleCategory.categoryName
         };
 
         return result;
@@ -232,7 +235,7 @@ const getRuleCreateInfo = async (
       roomId: user.roomId
     }).populate('typeId', 'typeColor');
 
-    const homies = await Promise.all(
+    const homies: Homies[] = await Promise.all(
       tmpHomies.map(async (homie: any) => {
         const result = {
           _id: homie._id,

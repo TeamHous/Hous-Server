@@ -5,13 +5,12 @@ export interface RuleCreateInfoResponseDto {
   homies: Homies[];
 }
 
-interface RuleCategories {
+export interface RuleCategories {
   _id: mongoose.Types.ObjectId;
   categoryName: string;
-  categoryIcon: string;
 }
 
-interface Homies {
+export interface Homies {
   _id: mongoose.Types.ObjectId;
   name: string;
   typeColor: string;

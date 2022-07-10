@@ -25,6 +25,22 @@ router.post(
 );
 
 router.post(
+  '/:roomId/rule',
+  [
+    body('notificationState').isBoolean(),
+    body('ruleName').isLength({
+      min: 1,
+      max: limitNum.RULE_NAME_MAX_LENGTH
+    }),
+    body('categoryId').not().isEmpty(),
+    body('isKeyRules').isBoolean(),
+    body('ruleMembers').isArray()
+  ],
+  auth,
+  RuleController.createRule
+);
+
+router.post(
   '/:roomId/rules/category',
   [
     body('categoryName').not().isEmpty(),

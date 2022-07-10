@@ -29,8 +29,19 @@ const checkStringLength = (fieldLength: number, limitLength: number): void => {
   }
 };
 
+const checkDayNumber = (day: number): void => {
+  const validDays: number[] = [0, 1, 2, 3, 4, 5, 6];
+  if (validDays.indexOf(day) == -1) {
+    throw errorGenerator({
+      msg: message.INVALID_DAY,
+      statusCode: statusCode.BAD_REQUEST
+    });
+  }
+};
+
 export default {
   checkCountLimit,
   checkArraySize,
-  checkStringLength
+  checkStringLength,
+  checkDayNumber
 };

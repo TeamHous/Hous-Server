@@ -13,6 +13,7 @@ const router: Router = Router();
 /**
  * 방
  */
+router.get('/', auth, RoomController.getRoom);
 router.post('/', auth, RoomController.createRoom);
 router.get(
   '/in',

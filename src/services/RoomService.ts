@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import mongoose from 'mongoose';
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
@@ -12,6 +13,25 @@ import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
+
+const getRoom = async (
+  userId: string
+): Promise<mongoose.Types.ObjectId | null> => {
+  try {
+    const user = await RoomServiceUtils.findUserById(userId);
+
+    let data: mongoose.Types.ObjectId | null;
+    if (user.roomId != undefined && user.roomId != null) {
+      data = user.roomId;
+    } else {
+      data = null;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const createRoom = async (userId: string): Promise<RoomResponseDto> => {
   try {
@@ -166,6 +186,7 @@ const duplicateRoomCode = async (roomCode: string): Promise<boolean> => {
 };
 
 export default {
+  getRoom,
   createRoom,
   getRoomAndUserByRoomCode,
   joinRoom

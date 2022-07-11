@@ -175,9 +175,10 @@ const getRuleCreateInfo = async (
   next: NextFunction
 ): Promise<void | Response> => {
   const userId: string = req.body.user._id;
+  const { roomId } = req.params;
 
   try {
-    const data = await RuleService.getRuleCreateInfo(userId);
+    const data = await RuleService.getRuleCreateInfo(userId, roomId);
 
     return res
       .status(statusCode.OK)

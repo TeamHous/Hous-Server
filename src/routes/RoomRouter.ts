@@ -45,9 +45,8 @@ router.post(
   auth,
   RuleController.createRule
 );
-router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
-
 router.get('/:roomId/rule/new', auth, RuleController.getRuleCreateInfo);
+router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
 
 /**
  * 규칙 카테고리

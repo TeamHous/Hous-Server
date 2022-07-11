@@ -316,14 +316,21 @@ const updateRuleCategory = async (
 };
 
 const getRuleCreateInfo = async (
-  userId: string
+  userId: string,
+  roomId: string
 ): Promise<RuleCreateInfoResponseDto | null> => {
   try {
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
     // 유저 존재 여부 확인
     const user = await RuleServiceUtils.findUserById(userId);
 
+    // 방 존재 여부 확인
+    await RuleServiceUtils.findRoomById(roomId);
+
     const tmpRuleCategories = await RuleCategory.find({
-      roomId: user.roomId
+      roomId: roomId
     });
 
     const ruleCategories: RuleCategories[] = await Promise.all(
@@ -338,7 +345,7 @@ const getRuleCreateInfo = async (
     );
 
     const tmpHomies = await User.find({
-      roomId: user.roomId
+      roomId: roomId
     }).populate('typeId', 'typeColor');
 
     const homies: Homies[] = await Promise.all(

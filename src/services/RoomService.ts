@@ -26,7 +26,7 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
 
-    RoomServiceUtils.checkExistRoomId(user.roomId);
+    RoomServiceUtils.checkJoinedRoomId(user.roomId);
 
     const room = new Room({
       roomOwner: userId,
@@ -77,7 +77,7 @@ const getRoomAndUserByRoomCode = async (
 
     user = await user.populate('typeId', 'typeColor');
 
-    RoomServiceUtils.checkExistRoomId(user.roomId);
+    RoomServiceUtils.checkJoinedRoomId(user.roomId);
 
     const room = await Room.findOne({
       roomCode: roomJoinDto.roomCode
@@ -112,7 +112,7 @@ const joinRoom = async (
 
     const user = await RoomServiceUtils.findUserById(userId);
 
-    RoomServiceUtils.checkExistRoomId(user.roomId);
+    RoomServiceUtils.checkJoinedRoomId(user.roomId);
 
     const room = await Room.findOne({
       _id: roomId,
@@ -172,13 +172,9 @@ const getRoomInfoAtHome = async (
 
     // 존재하는 id인지 확인
     await RuleServiceUtils.findUserById(userId);
-    const room = await Room.findById(roomId);
-    if (!room) {
-      throw errorGenerator({
-        msg: message.NOT_FOUND_ROOM,
-        statusCode: statusCode.NOT_FOUND
-      });
-    }
+
+    // 존재하는 room인지 확인
+    const room = await RoomServiceUtils.findRoomById(roomId);
 
     // KeyRules 조회
     const tmpKeyRulesList = await Rule.find({
@@ -188,7 +184,7 @@ const getRoomInfoAtHome = async (
 
     const keyRulesList: string[] = await Promise.all(
       tmpKeyRulesList.map(async (KeyRules: any) => {
-        return KeyRules;
+        return KeyRules.ruleName;
       })
     );
 
@@ -204,7 +200,7 @@ const getRoomInfoAtHome = async (
         const todayDate = dayjs();
         const eventDday = nowEventDate.diff(todayDate, 'day');
         const result = {
-          eventId: event._id,
+          _id: event._id,
           eventName: event.eventName,
           eventIcon: event.eventIcon,
           dDay: eventDday.toString()
@@ -221,7 +217,7 @@ const getRoomInfoAtHome = async (
     const homies: HomieProfile[] = await Promise.all(
       tmpHomies.map(async (homie: any) => {
         const result = {
-          homieId: homie._id,
+          _id: homie._id,
           userName: homie.userName,
           typeName: homie.typeId.typeName,
           typeColor: homie.typeId.typeColor
@@ -232,7 +228,8 @@ const getRoomInfoAtHome = async (
 
     // to-do 체크 여부 포함 조회
     const tmpRuleList = await Rule.find({
-      roomId: roomId
+      roomId: roomId,
+      isKeyRules: false
     }).sort({ createdAt: 'asc' });
 
     const todoInfoList: TodoInfo[] = await Promise.all(

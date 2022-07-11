@@ -128,7 +128,9 @@ const getRoomInfoAtHome = async (
 
     return res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.READ_ROOM_AT_HOME, data));
+      .send(
+        util.success(statusCode.OK, message.READ_ROOM_AT_HOME_SUCCESS, data)
+      );
   } catch (error) {
     next(error);
   }

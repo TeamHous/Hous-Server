@@ -7,7 +7,7 @@ export interface HomeResponseDto {
 }
 
 export interface EventsInfo {
-  eventId: string;
+  _id: string;
   dDay: string;
   eventName: string;
   eventIcon: string;
@@ -19,7 +19,7 @@ export interface TodoInfo {
 }
 
 export interface HomieProfile {
-  homieId: string;
+  _id: string;
   userName: string;
   typeName: string;
   typeColor: string;

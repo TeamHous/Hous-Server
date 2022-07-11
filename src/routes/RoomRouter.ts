@@ -47,6 +47,22 @@ router.post(
 );
 router.get('/:roomId/rule/new', auth, RuleController.getRuleCreateInfo);
 router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
+router.put(
+  '/:roomId/rule/:ruleId',
+  [
+    body('notificationState').isBoolean(),
+    body('ruleName').isLength({
+      min: 1,
+      max: limitNum.RULE_NAME_MAX_LENGTH
+    }),
+    body('categoryId').not().isEmpty(),
+    body('isKeyRules').isBoolean(),
+    body('ruleMembers').isArray()
+  ],
+  auth,
+  RuleController.updateRule
+);
+router.delete('/:roomId/rule/:ruleId', auth, RuleController.deleteRule);
 
 /**
  * 규칙 카테고리

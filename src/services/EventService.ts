@@ -35,10 +35,9 @@ const createEvent = async (
     );
 
     // event 참여자 ObjectId 형식인지 확인
-    let participants: string[] = [];
-    eventCreateDto.participants.forEach(user => {
+    const participants: string[] = eventCreateDto.participants.map(user => {
       checkObjectIdValidation(user);
-      participants.push(user.toString());
+      return user;
     });
 
     const event = new Event({

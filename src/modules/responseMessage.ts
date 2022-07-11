@@ -45,6 +45,7 @@ const message = {
 
   READ_RULE_SUCCESS: '규칙 조회 성공입니다.',
   CREATE_RULE_SUCCESS: '규칙 생성 성공입니다.',
+  UPDATE_RULE_SUCCESS: '규칙 수정 성공입니다.',
   CREATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 생성 성공입니다.',
   UPDATE_RULE_CATEGORY_SUCCESS: '규칙 카테고리 수정 성공입니다.',
   READ_RULE_CREATE_INFO_SUCCESS: '규칙 생성 시 조회 성공입니다.',

@@ -62,6 +62,7 @@ router.put(
   auth,
   RuleController.updateRule
 );
+router.delete('/:roomId/rule/:ruleId', auth, RuleController.deleteRule);
 
 /**
  * 규칙 카테고리

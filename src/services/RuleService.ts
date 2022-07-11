@@ -266,6 +266,17 @@ const updateRule = async (
     // 참가하고 있는 방의 규칙이 아니면 접근 불가능
     await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
 
+    // 규칙 카테고리 존재 여부 확인
+    const ruleCategory = await RuleServiceUtils.findRuleCategoryById(
+      ruleUpdateDto.categoryId
+    );
+
+    // 참가하고 있는 방의 규칙 카테고리가 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRuleCategory(
+      user.roomId,
+      ruleCategory.roomId
+    );
+
     // 규칙 이름 중복 체크
     if (rule.ruleName != ruleUpdateDto.ruleName) {
       await RuleServiceUtils.checkConflictRuleName(

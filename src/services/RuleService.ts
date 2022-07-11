@@ -45,6 +45,9 @@ const createRule = async (
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
 
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
     // 규칙 개수 확인
     checkValidUtils.checkCountLimit(room.ruleCnt, limitNum.RULE_CNT);
 
@@ -141,6 +144,9 @@ const getRuleByRuleId = async (
 
     // 규칙 존재 여부 확인
     const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
     // 참가하고 있는 방의 규칙이 아니면 접근 불가능
     await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
@@ -240,6 +246,9 @@ const updateRule = async (
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
 
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
     // 규칙 존재 여부 확인
     let rule = await RuleServiceUtils.findRuleById(ruleId);
 
@@ -327,6 +336,9 @@ const deleteRule = async (
 
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
     // 규칙 존재 여부 확인
     const rule = await RuleServiceUtils.findRuleById(ruleId);

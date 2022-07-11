@@ -3,6 +3,7 @@ import { Result, ValidationError, validationResult } from 'express-validator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
+import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import message from '../modules/responseMessage';
@@ -73,6 +74,45 @@ const getRuleByRuleId = async (
     return res
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.READ_RULE_SUCCESS, data));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *  @route PUT /room/:roomId/rule/:ruleId
+ *  @desc Update Rule
+ *  @access Private
+ */
+const updateRule = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
+  const userId: string = req.body.user._id;
+  const ruleUpdateDto: RuleUpdateDto = req.body;
+  const { roomId, ruleId } = req.params;
+
+  try {
+    const data: RuleResponseDto = await RuleService.updateRule(
+      userId,
+      roomId,
+      ruleId,
+      ruleUpdateDto
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.UPDATE_RULE_SUCCESS, data));
   } catch (error) {
     next(error);
   }
@@ -191,6 +231,7 @@ const getRuleCreateInfo = async (
 export default {
   createRule,
   getRuleByRuleId,
+  updateRule,
   createRuleCategory,
   updateRuleCategory,
   getRuleCreateInfo

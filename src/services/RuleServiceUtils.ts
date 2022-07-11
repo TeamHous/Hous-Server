@@ -54,6 +54,19 @@ const findRuleCategoryById = async (categoryId: string) => {
   return ruleCategory;
 };
 
+const checkConflictRuleName = async (roomId: string, ruleName: string) => {
+  const checkRules = await Rule.find({
+    roomId: roomId,
+    ruleName: ruleName
+  });
+  if (checkRules.length != 0) {
+    throw errorGenerator({
+      msg: message.CONFLICT_RULE_NAME,
+      statusCode: statusCode.CONFLICT
+    });
+  }
+};
+
 // 규칙 카테고리 중복 여부 확인
 const checkConflictRuleCategoryName = async (
   roomId: string,
@@ -77,5 +90,6 @@ export default {
   findRoomById,
   findRuleById,
   findRuleCategoryById,
+  checkConflictRuleName,
   checkConflictRuleCategoryName
 };

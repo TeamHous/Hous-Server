@@ -45,9 +45,23 @@ router.post(
   auth,
   RuleController.createRule
 );
-router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
-
 router.get('/:roomId/rule/new', auth, RuleController.getRuleCreateInfo);
+router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
+router.put(
+  '/:roomId/rule/:ruleId',
+  [
+    body('notificationState').isBoolean(),
+    body('ruleName').isLength({
+      min: 1,
+      max: limitNum.RULE_NAME_MAX_LENGTH
+    }),
+    body('categoryId').not().isEmpty(),
+    body('isKeyRules').isBoolean(),
+    body('ruleMembers').isArray()
+  ],
+  auth,
+  RuleController.updateRule
+);
 
 /**
  * 규칙 카테고리

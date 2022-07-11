@@ -11,7 +11,7 @@ import limitNum from '../modules/limitNum';
 const router: Router = Router();
 
 /**
- * 방
+ * 룸
  */
 router.post('/', auth, RoomController.createRoom);
 router.get(
@@ -105,5 +105,10 @@ router.put(
   EventController.updateEvent
 );
 router.delete('/:roomId/event/:eventId', auth, EventController.deleteEvent);
+
+/**
+ * 홈
+ */
+router.get('/:roomId/home', auth, RoomController.getRoomInfoAtHome);
 
 export default router;

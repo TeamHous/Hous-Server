@@ -29,7 +29,7 @@ const message = {
   LOGIN_SUCCESS: '로그인 성공입니다.',
 
   // 홈
-  READ_ROOM_AT_HOME: '홈화면 조회 성공입니다.',
+  READ_ROOM_AT_HOME_SUCCESS: '홈화면 조회 성공입니다.',
 
   // 방
   NOT_FOUND_ROOM: '존재하지 않는 방입니다.',
@@ -56,7 +56,7 @@ const message = {
   UPDATE_USER_SUCCESS: '사용자 정보 수정 성공입니다.',
   NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.',
   READ_HOMIE_PROFILE_SUCCESS: '호미 프로필 조회를 성공하였습니다.',
-  NOT_FOUND_HOMIE: '같은 방에 존재하지 않는 호미입니다.',
+  FORBIDDEN_HOMIE: '참가하고 있지 않은 방의 호미입니다.',
   READ_USER_SETTING_SUCCESS: '사용자 설정 조회 성공입니다.',
   UPDATE_USER_NOTIFICATION_STATE_SUCCESS: '사용자 알림 설정 수정 성공입니다.',
 

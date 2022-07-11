@@ -17,7 +17,7 @@ import { UserService } from '../services';
  * @desc Read User information at profile home View
  * @access Private
  */
-const getUser = async (
+const getUserAtHome = async (
   req: Request,
   res: Response,
   next: NextFunction

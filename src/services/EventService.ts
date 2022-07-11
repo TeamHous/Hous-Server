@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
 import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseDto';
 import { EventUpdateDto } from '../interfaces/event/EventUpdateDto';
@@ -130,7 +129,7 @@ const deleteEvent = async (
   userId: string,
   roomId: string,
   eventId: string
-): Promise<PostBaseResponseDto> => {
+): Promise<void> => {
   try {
     // 유저 확인
     const user = await EventServiceUtils.findUserById(userId);
@@ -156,11 +155,6 @@ const deleteEvent = async (
     await Event.findByIdAndDelete(eventId);
 
     await room.updateOne({ eventCnt: room.eventCnt - 1 });
-
-    const data: PostBaseResponseDto = {
-      _id: event._id
-    };
-    return data;
   } catch (error) {
     throw error;
   }

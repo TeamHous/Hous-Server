@@ -51,7 +51,7 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
       roomId: room._id,
       eventName: '여기에 이벤트를 추가하세요.',
       eventIcon: 'PARTY',
-      date: dayjs().add(10, 'day'), // 오늘 + 10일
+      date: dayjs().add(10, 'day').format('YYYY-MM-DD'), // 오늘 + 10일
       participantsId: [user._id]
     });
 

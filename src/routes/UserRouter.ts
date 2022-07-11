@@ -11,7 +11,8 @@ router.get('/:homieId', auth, UserController.getHomieProfile);
 /**
  * 프로필
  */
-router.get('/profile/me', auth, UserController.getUser);
+router.get('/profile', auth, UserController.getUserAtHome);
+router.get('/profile/me', auth, UserController.getUserAtModify);
 router.put(
   '/profile/me',
   [

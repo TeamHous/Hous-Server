@@ -1,3 +1,3 @@
-import { UserBaseResponseDto } from './UserResponseDto';
+import { TypeDto, UserBaseResponseDto } from './UserProfileResponseDto';
 
-export interface HomieResponseDto extends UserBaseResponseDto {}
+export interface HomieResponseDto extends UserBaseResponseDto, TypeDto {}

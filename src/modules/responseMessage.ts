@@ -28,6 +28,9 @@ const message = {
   SIGNUP_SUCCESS: '회원가입 성공입니다.',
   LOGIN_SUCCESS: '로그인 성공입니다.',
 
+  // 홈
+  READ_ROOM_AT_HOME_SUCCESS: '홈화면 조회 성공입니다.',
+
   // 방
   NOT_FOUND_ROOM: '존재하지 않는 방입니다.',
   CONFLICT_JOINED_ROOM: '참가중인 방이 있습니다.',
@@ -61,7 +64,7 @@ const message = {
   UPDATE_USER_SUCCESS: '사용자 정보 수정 성공입니다.',
   NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.',
   READ_HOMIE_PROFILE_SUCCESS: '호미 프로필 조회를 성공하였습니다.',
-  NOT_FOUND_HOMIE: '같은 방에 존재하지 않는 호미입니다.',
+  FORBIDDEN_HOMIE: '참가하고 있지 않은 방의 호미입니다.',
   READ_USER_SETTING_SUCCESS: '사용자 설정 조회 성공입니다.',
   UPDATE_USER_NOTIFICATION_STATE_SUCCESS: '사용자 알림 설정 수정 성공입니다.',
 
@@ -69,7 +72,8 @@ const message = {
   NOT_FOUND_EVENT: '존재하지 않는 이벤트입니다.',
   CREATE_EVENT_SUCCESS: '이벤트 생성 성공입니다.',
   UPDATE_EVENT_SUCCESS: '이벤트 수정 성공입니다.',
-  DELETE_EVENT_SUCCESS: '이벤트 삭제 성공입니다.'
+  DELETE_EVENT_SUCCESS: '이벤트 삭제 성공입니다.',
+  FORBIDDEN_EVENT: '참가하고 있지 않은 방의 이벤트입니다.'
 };
 
 export default message;

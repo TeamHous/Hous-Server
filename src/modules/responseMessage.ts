@@ -31,6 +31,7 @@ const message = {
   // 방
   NOT_FOUND_ROOM: '존재하지 않는 방입니다.',
   CONFLICT_JOINED_ROOM: '참가중인 방이 있습니다.',
+  FORBIDDEN_ROOM: '참가하고 있지 않은 방에 접근할 수 없습니다.',
 
   READ_ROOM_SUCCESS: '방 조회 성공입니다.',
   CREATE_ROOM_SUCCESS: '방 생성 성공입니다.',

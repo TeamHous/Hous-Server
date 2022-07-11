@@ -2,20 +2,21 @@ import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import {
-  RuleMembers,
-  RuleReadInfo,
-  RuleReadInfoResponseDto
-} from '../interfaces/rule/RuleReadInfoResponseDto';
-import {
   Homies,
   RuleCategories,
   RuleCreateInfoResponseDto
 } from '../interfaces/rule/RuleCreateInfoResponseDto';
+import {
+  RuleMembers,
+  RuleReadInfo,
+  RuleReadInfoResponseDto
+} from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
+import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
-import Room from '../models/Room';
+import Check from '../models/Check';
 import Rule from '../models/Rule';
 import RuleCategory from '../models/RuleCategory';
 import User from '../models/User';
@@ -44,8 +45,17 @@ const createRule = async (
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
 
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
     // 규칙 개수 확인
     checkValidUtils.checkCountLimit(room.ruleCnt, limitNum.RULE_CNT);
+
+    // 규칙 이름 중복 체크
+    await RuleServiceUtils.checkConflictRuleName(
+      room._id,
+      ruleCreateDto.ruleName
+    );
 
     // isKeyRules == true 인 경우
     // 알림 비활성화, 담당자 설정 X, 요일 설정 X
@@ -132,15 +142,14 @@ const getRuleByRuleId = async (
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
 
-    // 방에 참가중인 user가 맞는지 확인
-    if (!user.roomId.equals(room._id)) {
-      throw errorGenerator({
-        msg: message.FORBIDDEN_GET_RULE,
-        statusCode: statusCode.FORBIDDEN
-      });
-    }
-
+    // 규칙 존재 여부 확인
     const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
 
     const tmpRuleCategories = await RuleCategory.find({
       roomId: user.roomId
@@ -211,6 +220,141 @@ const getRuleByRuleId = async (
     };
 
     return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateRule = async (
+  userId: string,
+  roomId: string,
+  ruleId: string,
+  ruleUpdateDto: RuleUpdateDto
+): Promise<RuleResponseDto> => {
+  try {
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // ruleId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleId);
+
+    // categoryId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleUpdateDto.categoryId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 규칙 존재 여부 확인
+    let rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
+
+    // 규칙 이름 중복 체크
+    if (rule.ruleName != ruleUpdateDto.ruleName) {
+      await RuleServiceUtils.checkConflictRuleName(
+        room._id,
+        ruleUpdateDto.ruleName
+      );
+    }
+
+    // isKeyRules == true 인 경우
+    // 알림 비활성화, 담당자 설정 X, 요일 설정 X
+    // 위 조건 충족 안 된 경우 -> 에러
+    if (ruleUpdateDto.isKeyRules == true) {
+      if (
+        ruleUpdateDto.notificationState == true ||
+        ruleUpdateDto.ruleMembers.length != 0
+      ) {
+        throw errorGenerator({
+          msg: message.BAD_REQUEST,
+          statusCode: statusCode.BAD_REQUEST
+        });
+      }
+    }
+
+    ruleUpdateDto.ruleMembers.forEach(ruleMember => {
+      ruleMember.day.forEach(day => {
+        // 선택된 요일이 전부 0~6 값이 아닌 경우 -> 에러
+        checkValidUtils.checkDayNumber(day);
+      });
+      // 담당자가 체크됐는데 요일 선택 1개 이상 안 된 경우 -> 에러
+      if (userId != null && ruleMember.day.length == 0) {
+        throw errorGenerator({
+          msg: message.BAD_REQUEST,
+          statusCode: statusCode.BAD_REQUEST
+        });
+      }
+      // 요일이 선택됐는데 isKeyRules == true 인 경우 -> 에러
+      if (ruleMember.day.length != 0 && ruleUpdateDto.isKeyRules == true) {
+        throw errorGenerator({
+          msg: message.BAD_REQUEST,
+          statusCode: statusCode.BAD_REQUEST
+        });
+      }
+    });
+
+    // 담당자 X + 요일 선택 X -> isKeyRules == false -> 에러
+    if (
+      ruleUpdateDto.ruleMembers.length == 0 &&
+      ruleUpdateDto.isKeyRules == false
+    ) {
+      throw errorGenerator({
+        msg: message.BAD_REQUEST,
+        statusCode: statusCode.BAD_REQUEST
+      });
+    }
+
+    await rule.updateOne(ruleUpdateDto);
+
+    rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    return rule;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteRule = async (
+  userId: string,
+  roomId: string,
+  ruleId: string
+): Promise<void> => {
+  try {
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // ruleId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 규칙 존재 여부 확인
+    const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
+
+    // 규칙과 관련된 check 삭제
+    const checks = await Check.find({ ruleId: rule._id });
+    for (const check of checks) {
+      await check.deleteOne();
+    }
+
+    await rule.deleteOne();
+
+    await room.updateOne({ ruleCnt: room.ruleCnt - 1 });
   } catch (error) {
     throw error;
   }
@@ -373,6 +517,8 @@ const getRuleCreateInfo = async (
 export default {
   createRule,
   getRuleByRuleId,
+  updateRule,
+  deleteRule,
   createRuleCategory,
   updateRuleCategory,
   getRuleCreateInfo

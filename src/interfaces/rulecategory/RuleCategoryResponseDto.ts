@@ -5,4 +5,5 @@ export interface RuleCategoryResponseDto {
   roomId: string;
   ruleCategoryName: string;
   ruleCategoryIcon: string;
+  ruleCnt: number;
 }

@@ -423,7 +423,8 @@ const createRuleCategory = async (
       _id: ruleCategory._id,
       roomId: roomId,
       ruleCategoryName: ruleCategory.categoryName,
-      ruleCategoryIcon: ruleCategory.categoryIcon
+      ruleCategoryIcon: ruleCategory.categoryIcon,
+      ruleCnt: ruleCategory.ruleCnt
     };
 
     return data;
@@ -480,7 +481,8 @@ const updateRuleCategory = async (
       _id: categoryId,
       roomId: roomId,
       ruleCategoryName: ruleCategoryUpdateDto.categoryName,
-      ruleCategoryIcon: ruleCategoryUpdateDto.categoryIcon
+      ruleCategoryIcon: ruleCategoryUpdateDto.categoryIcon,
+      ruleCnt: ruleCategory.ruleCnt
     };
 
     return data;

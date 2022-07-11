@@ -482,6 +482,9 @@ const deleteRuleCategory = async (
     // roomId가 ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
 
+    // categoryId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(categoryId);
+
     // 유저 존재 여부 확인
     const user = await RuleServiceUtils.findUserById(userId);
 

@@ -17,7 +17,7 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
 
-    if (user.roomId != undefined && user.roomId != null) {
+    RoomServiceUtils.checkExistRoomId(user.roomId);
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
         statusCode: statusCode.CONFLICT
@@ -73,7 +73,7 @@ const getRoomAndUserByRoomCode = async (
 
     user = await user.populate('typeId', 'typeColor');
 
-    if (user.roomId != undefined && user.roomId != null) {
+    RoomServiceUtils.checkExistRoomId(user.roomId);
       throw errorGenerator({
         msg: message.CONFLICT_JOINED_ROOM,
         statusCode: statusCode.CONFLICT
@@ -112,8 +112,8 @@ const joinRoom = async (
     checkObjectIdValidation(roomId);
 
     const user = await RoomServiceUtils.findUserById(userId);
-    if (user.roomId != undefined && user.roomId != null)
-      throw errorGenerator({
+
+    RoomServiceUtils.checkExistRoomId(user.roomId);
         msg: message.CONFLICT_JOINED_ROOM,
         statusCode: statusCode.CONFLICT
       });
@@ -122,6 +122,7 @@ const joinRoom = async (
       _id: roomId,
       roomCode: roomJoinDto.roomCode
     });
+
     if (!room)
       throw errorGenerator({
         msg: message.NOT_FOUND_ROOM,

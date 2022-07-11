@@ -134,6 +134,30 @@ const joinRoom = async (
 };
 
 /**
+ *  @route DELETE /room/:roomId/out
+ *  @desc leave Room
+ *  @access Private
+ */
+const leaveRoom = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId } = req.params;
+
+  try {
+    await RoomService.leaveRoom(userId, roomId);
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.LEAVE_ROOM_SUCCESS, null));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  *  @route Get /room/:roomId/home
  *  @desc Read room info at home view
  *  @access Private
@@ -167,5 +191,6 @@ export default {
   createRoom,
   getRoomAndUserByRoomCode,
   joinRoom,
+  leaveRoom,
   getRoomInfoAtHome
 };

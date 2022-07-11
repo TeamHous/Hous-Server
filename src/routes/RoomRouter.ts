@@ -27,6 +27,7 @@ router.post(
   auth,
   RoomController.joinRoom
 );
+router.delete('/:roomId/out', auth, RoomController.leaveRoom);
 
 /**
  * 규칙

@@ -39,6 +39,7 @@ const message = {
   READ_ROOM_SUCCESS: '방 조회 성공입니다.',
   CREATE_ROOM_SUCCESS: '방 생성 성공입니다.',
   JOIN_ROOM_SUCCESS: '방 참가 성공입니다.',
+  LEAVE_ROOM_SUCCESS: '방 퇴사 성공입니다.',
 
   // 규칙
   NOT_FOUND_RULE: '존재하지 않는 규칙입니다.',

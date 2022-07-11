@@ -119,6 +119,30 @@ const updateRule = async (
 };
 
 /**
+ *  @route DELETE /room/:roomId/rule/:ruleId
+ *  @desc DELETE Rule
+ *  @access Private
+ */
+const deleteRule = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId, ruleId } = req.params;
+
+  try {
+    await RuleService.deleteRule(userId, roomId, ruleId);
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.DELETE_RULE_SUCCESS, null));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  *  @route POST /room/:roomId/rules/category
  *  @desc Create RuleCategory
  *  @access Private
@@ -232,6 +256,7 @@ export default {
   createRule,
   getRuleByRuleId,
   updateRule,
+  deleteRule,
   createRuleCategory,
   updateRuleCategory,
   getRuleCreateInfo

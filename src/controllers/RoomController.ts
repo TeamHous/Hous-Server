@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
+import mongoose from 'mongoose';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
 import { RoomJoinResponseDto } from '../interfaces/room/RoomJoinResponseDto';
@@ -8,6 +9,31 @@ import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import { RoomService } from '../services';
+
+/**
+ *  @route GET /room
+ *  @desc Read Room
+ *  @access Private
+ */
+const getRoom = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+
+  try {
+    const data: mongoose.Types.ObjectId | null = await RoomService.getRoom(
+      userId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.READ_ROOM_SUCCESS, data));
+  } catch (error) {
+    next(error);
+  }
+};
 
 /**
  *  @route POST /room
@@ -107,6 +133,7 @@ const joinRoom = async (
 };
 
 export default {
+  getRoom,
   createRoom,
   getRoomAndUserByRoomCode,
   joinRoom

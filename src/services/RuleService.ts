@@ -48,8 +48,19 @@ const createRule = async (
     // 참가하고 있는 방이 아니면 접근 불가능
     await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
-    // 규칙 개수 확인
-    checkValidUtils.checkCountLimit(room.ruleCnt, limitNum.RULE_CNT);
+    // 규칙 카테고리 존재 여부 확인
+    const ruleCategory = await RuleServiceUtils.findRuleCategoryById(
+      ruleCreateDto.categoryId
+    );
+
+    // 참가하고 있는 방의 규칙 카테고리가 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRuleCategory(
+      user.roomId,
+      ruleCategory.roomId
+    );
+
+    // 카테고리 별 규칙 개수 확인
+    checkValidUtils.checkCountLimit(ruleCategory.ruleCnt, limitNum.RULE_CNT);
 
     // 규칙 이름 중복 체크
     await RuleServiceUtils.checkConflictRuleName(
@@ -117,7 +128,7 @@ const createRule = async (
 
     await rule.save();
 
-    await room.updateOne({ ruleCnt: room.ruleCnt + 1 });
+    await ruleCategory.updateOne({ ruleCnt: ruleCategory.ruleCnt + 1 });
 
     return rule;
   } catch (error) {
@@ -255,6 +266,17 @@ const updateRule = async (
     // 참가하고 있는 방의 규칙이 아니면 접근 불가능
     await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
 
+    // 규칙 카테고리 존재 여부 확인
+    const ruleCategory = await RuleServiceUtils.findRuleCategoryById(
+      ruleUpdateDto.categoryId
+    );
+
+    // 참가하고 있는 방의 규칙 카테고리가 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRuleCategory(
+      user.roomId,
+      ruleCategory.roomId
+    );
+
     // 규칙 이름 중복 체크
     if (rule.ruleName != ruleUpdateDto.ruleName) {
       await RuleServiceUtils.checkConflictRuleName(
@@ -346,6 +368,11 @@ const deleteRule = async (
     // 참가하고 있는 방의 규칙이 아니면 접근 불가능
     await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
 
+    // 규칙 카테고리 가져오기
+    const ruleCategory = await RuleServiceUtils.findRuleCategoryById(
+      rule.categoryId.toString()
+    );
+
     // 규칙과 관련된 check 삭제
     const checks = await Check.find({ ruleId: rule._id });
     for (const check of checks) {
@@ -354,7 +381,7 @@ const deleteRule = async (
 
     await rule.deleteOne();
 
-    await room.updateOne({ ruleCnt: room.ruleCnt - 1 });
+    await ruleCategory.updateOne({ ruleCnt: ruleCategory.ruleCnt - 1 });
   } catch (error) {
     throw error;
   }
@@ -407,7 +434,8 @@ const createRuleCategory = async (
       _id: ruleCategory._id,
       roomId: roomId,
       ruleCategoryName: ruleCategory.categoryName,
-      ruleCategoryIcon: ruleCategory.categoryIcon
+      ruleCategoryIcon: ruleCategory.categoryIcon,
+      ruleCnt: ruleCategory.ruleCnt
     };
 
     return data;
@@ -464,7 +492,8 @@ const updateRuleCategory = async (
       _id: categoryId,
       roomId: roomId,
       ruleCategoryName: ruleCategoryUpdateDto.categoryName,
-      ruleCategoryIcon: ruleCategoryUpdateDto.categoryIcon
+      ruleCategoryIcon: ruleCategoryUpdateDto.categoryIcon,
+      ruleCnt: ruleCategory.ruleCnt
     };
 
     return data;
@@ -514,10 +543,9 @@ const deleteRuleCategory = async (
     // 해당 규칙 카테고리 삭제
     await ruleCategory.deleteOne();
 
-    // 방의 규칙 카테고리 개수 -1, 규책 개수 - 삭제된 규칙 개수
+    // 방의 규칙 카테고리 개수 -1
     await room.updateOne({
-      ruleCategoryCnt: room.ruleCategoryCnt - 1,
-      ruleCnt: room.ruleCnt - deletedRules.deletedCount
+      ruleCategoryCnt: room.ruleCategoryCnt - 1
     });
   } catch (error) {
     throw error;

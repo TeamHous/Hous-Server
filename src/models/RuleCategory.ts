@@ -15,6 +15,11 @@ const RuleCategorySchema = new mongoose.Schema(
     categoryIcon: {
       type: String,
       required: true
+    },
+    ruleCnt: {
+      type: Number,
+      required: false,
+      default: 0
     }
   },
   {

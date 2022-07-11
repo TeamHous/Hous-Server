@@ -27,11 +27,6 @@ const RoomSchema = new mongoose.Schema(
       type: Number,
       required: false,
       default: 1
-    },
-    ruleCnt: {
-      type: Number,
-      required: false,
-      default: 0
     }
   },
   {

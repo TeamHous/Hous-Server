@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import errorGenerator from '../errors/errorGenerator';
 import Event from '../models/Event';
 import Room from '../models/Room';
@@ -38,8 +39,21 @@ const findEventById = async (eventId: string) => {
   return event;
 };
 
+const checkForbiddenEvent = async (
+  userRoomId: mongoose.Types.ObjectId,
+  eventRoomId: mongoose.Types.ObjectId
+) => {
+  if (!userRoomId.equals(eventRoomId)) {
+    throw errorGenerator({
+      msg: message.FORBIDDEN_EVENT,
+      statusCode: statusCode.FORBIDDEN
+    });
+  }
+};
+
 export default {
   findUserById,
   findRoomById,
-  findEventById
+  findEventById,
+  checkForbiddenEvent
 };

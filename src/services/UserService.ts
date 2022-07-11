@@ -152,8 +152,8 @@ const getHomieProfile = async (
 
     if (!user.roomId.equals(homie.roomId)) {
       throw errorGenerator({
-        msg: message.NOT_FOUND_HOMIE,
-        statusCode: statusCode.NOT_FOUND
+        msg: message.FORBIDDEN_HOMIE,
+        statusCode: statusCode.FORBIDDEN
       });
     }
     const homieInfo = await User.findById(userId).populate(

@@ -2,17 +2,26 @@ import dayjs from 'dayjs';
 import mongoose from 'mongoose';
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
+import {
+  EventsInfo,
+  HomeResponseDto,
+  HomieProfile,
+  TodoInfo
+} from '../interfaces/room/HomeResponseDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
 import { RoomJoinResponseDto } from '../interfaces/room/RoomJoinResponseDto';
 import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
+import Check from '../models/Check';
 import Event from '../models/Event';
 import Room from '../models/Room';
+import Rule from '../models/Rule';
 import RuleCategory from '../models/RuleCategory';
 import User from '../models/User';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
+import RuleServiceUtils from './RuleServiceUtils';
 
 const getRoom = async (
   userId: string
@@ -37,12 +46,7 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
   try {
     const user = await RoomServiceUtils.findUserById(userId);
 
-    if (user.roomId != undefined && user.roomId != null) {
-      throw errorGenerator({
-        msg: message.CONFLICT_JOINED_ROOM,
-        statusCode: statusCode.CONFLICT
-      });
-    }
+    RoomServiceUtils.checkJoinedRoomId(user.roomId);
 
     const room = new Room({
       roomOwner: userId,
@@ -67,7 +71,7 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
       roomId: room._id,
       eventName: '여기에 이벤트를 추가하세요.',
       eventIcon: 'PARTY',
-      date: dayjs().add(10, 'day'), // 오늘 + 10일
+      date: dayjs().add(10, 'day').format('YYYY-MM-DD'), // 오늘 + 10일
       participantsId: [user._id]
     });
 
@@ -93,12 +97,7 @@ const getRoomAndUserByRoomCode = async (
 
     user = await user.populate('typeId', 'typeColor');
 
-    if (user.roomId != undefined && user.roomId != null) {
-      throw errorGenerator({
-        msg: message.CONFLICT_JOINED_ROOM,
-        statusCode: statusCode.CONFLICT
-      });
-    }
+    RoomServiceUtils.checkJoinedRoomId(user.roomId);
 
     const room = await Room.findOne({
       roomCode: roomJoinDto.roomCode
@@ -132,16 +131,14 @@ const joinRoom = async (
     checkObjectIdValidation(roomId);
 
     const user = await RoomServiceUtils.findUserById(userId);
-    if (user.roomId != undefined && user.roomId != null)
-      throw errorGenerator({
-        msg: message.CONFLICT_JOINED_ROOM,
-        statusCode: statusCode.CONFLICT
-      });
+
+    RoomServiceUtils.checkJoinedRoomId(user.roomId);
 
     const room = await Room.findOne({
       _id: roomId,
       roomCode: roomJoinDto.roomCode
     });
+
     if (!room)
       throw errorGenerator({
         msg: message.NOT_FOUND_ROOM,
@@ -185,9 +182,119 @@ const duplicateRoomCode = async (roomCode: string): Promise<boolean> => {
   else return true;
 };
 
+const getRoomInfoAtHome = async (
+  userId: string,
+  roomId: string
+): Promise<HomeResponseDto> => {
+  try {
+    // ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // 존재하는 id인지 확인
+    await RuleServiceUtils.findUserById(userId);
+
+    // 존재하는 room인지 확인
+    const room = await RoomServiceUtils.findRoomById(roomId);
+
+    // KeyRules 조회
+    const tmpKeyRulesList = await Rule.find({
+      roomId: roomId,
+      isKeyRules: true
+    });
+
+    const keyRulesList: string[] = await Promise.all(
+      tmpKeyRulesList.map(async (KeyRules: any) => {
+        return KeyRules.ruleName;
+      })
+    );
+
+    // Events 조회
+    const tmpEventList = await Event.find({
+      roomId: roomId,
+      date: { $gt: dayjs().subtract(9, 'hour') }
+    });
+
+    const eventList: EventsInfo[] = await Promise.all(
+      tmpEventList.map(async (event: any) => {
+        const nowEventDate = dayjs(event.date);
+        const todayDate = dayjs();
+        const eventDday = nowEventDate.diff(todayDate, 'day');
+        const result = {
+          _id: event._id,
+          eventName: event.eventName,
+          eventIcon: event.eventIcon,
+          dDay: eventDday.toString()
+        };
+        return result;
+      })
+    );
+
+    // Homie 조회
+    const tmpHomies = await User.find({
+      roomId: roomId
+    }).populate('typeId', 'typeName typeColor');
+
+    const homies: HomieProfile[] = await Promise.all(
+      tmpHomies.map(async (homie: any) => {
+        const result = {
+          _id: homie._id,
+          userName: homie.userName,
+          typeName: homie.typeId.typeName,
+          typeColor: homie.typeId.typeColor
+        };
+        return result;
+      })
+    );
+
+    // to-do 체크 여부 포함 조회
+    const tmpRuleList = await Rule.find({
+      roomId: roomId,
+      isKeyRules: false
+    }).sort({ createdAt: 'asc' });
+
+    const todoInfoList: TodoInfo[] = await Promise.all(
+      tmpRuleList.map(async (rule: any) => {
+        const isCheck = await Check.findOne({
+          ruleId: rule._id,
+          userId: userId
+        });
+
+        if (!isCheck) {
+          return {
+            isCheck: false,
+            todo: rule.ruleName
+          };
+        } else {
+          const isCheckDate = dayjs(isCheck.date);
+          const check: boolean = isCheckDate.isSame(dayjs().add(9, 'hour'))
+            ? true
+            : false;
+          return {
+            isCheck: check,
+            todo: rule.ruleName
+          };
+        }
+      })
+    );
+
+    const data: HomeResponseDto = {
+      eventList: eventList,
+      keyRulesList: keyRulesList,
+      todoList: todoInfoList,
+      homieProfileList: homies,
+      roomCode: room.roomCode
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   getRoom,
   createRoom,
   getRoomAndUserByRoomCode,
-  joinRoom
+  joinRoom,
+  getRoomInfoAtHome
 };

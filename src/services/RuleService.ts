@@ -471,7 +471,10 @@ const getRuleCreateInfo = async (
     const user = await RuleServiceUtils.findUserById(userId);
 
     // 방 존재 여부 확인
-    await RuleServiceUtils.findRoomById(roomId);
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
     const tmpRuleCategories = await RuleCategory.find({
       roomId: roomId

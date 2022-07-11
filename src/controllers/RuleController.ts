@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
-import { RuleCreateInfoResponseDto } from '../interfaces/rule/RuleCreateInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';

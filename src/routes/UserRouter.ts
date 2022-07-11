@@ -6,12 +6,11 @@ import limitNum from '../modules/limitNum';
 
 const router: Router = Router();
 
-router.get('/:homieId', auth, UserController.getHomieProfile);
-
 /**
  * 프로필
  */
-router.get('/profile/me', auth, UserController.getUser);
+router.get('/profile', auth, UserController.getUserAtHome);
+router.get('/profile/me', auth, UserController.getUserAtModify);
 router.put(
   '/profile/me',
   [
@@ -34,5 +33,10 @@ router.put(
   auth,
   UserController.updateUserNotificationState
 );
+
+/**
+ * 룸메이트 조회 (홈화면에서 호미 클릭 시)
+ */
+router.get('/:homieId', auth, UserController.getHomieProfile);
 
 export default router;

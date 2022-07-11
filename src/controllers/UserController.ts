@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { HomieResponseDto } from '../interfaces/user/HomieResponseDto';
-import { UserResponseDto } from '../interfaces/user/UserResponseDto';
+import { UserModifyResponseDto } from '../interfaces/user/UserModifyResponseDto';
+import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
@@ -12,11 +13,11 @@ import util from '../modules/util';
 import { UserService } from '../services';
 
 /**
- * @route GET /user/profile/me
- * @desc select user information
+ * @route GET /user/profile
+ * @desc Read User information at profile home View
  * @access Private
  */
-const getUser = async (
+const getUserAtHome = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -24,7 +25,34 @@ const getUser = async (
   const userId: string = req.body.user._id;
 
   try {
-    const data: UserResponseDto = await UserService.getUser(userId);
+    const data: UserProfileResponseDto = await UserService.getUserAtHome(
+      userId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.READ_USER_SUCCESS, data));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @route POST /user/profile/me
+ * @desc Read User information at profile modify View
+ * @access Private
+ */
+const getUserAtModify = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+
+  try {
+    const data: UserModifyResponseDto = await UserService.getUserAtModify(
+      userId
+    );
 
     return res
       .status(statusCode.OK)
@@ -153,7 +181,8 @@ const getHomieProfile = async (
 };
 
 export default {
-  getUser,
+  getUserAtHome,
+  getUserAtModify,
   updateUser,
   getUserSetting,
   getHomieProfile,

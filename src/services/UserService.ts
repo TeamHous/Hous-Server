@@ -3,7 +3,8 @@ import errorGenerator from '../errors/errorGenerator';
 import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { HomieResponseDto } from '../interfaces/user/HomieResponseDto';
-import { UserResponseDto } from '../interfaces/user/UserResponseDto';
+import { UserModifyResponseDto } from '../interfaces/user/UserModifyResponseDto';
+import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
@@ -55,7 +56,9 @@ const createUser = async (
   }
 };
 
-const getUser = async (userId: string): Promise<UserResponseDto> => {
+const getUserAtHome = async (
+  userId: string
+): Promise<UserProfileResponseDto> => {
   try {
     await UserServiceUtils.findUserById(userId);
 
@@ -71,7 +74,7 @@ const getUser = async (userId: string): Promise<UserResponseDto> => {
       });
     }
 
-    const data: UserResponseDto = {
+    const data: UserProfileResponseDto = {
       userName: userInfo.userName,
       job: userInfo.job,
       introduction: userInfo.introduction,
@@ -80,6 +83,39 @@ const getUser = async (userId: string): Promise<UserResponseDto> => {
       typeColor: (userInfo.typeId as any).typeColor,
       typeScore: userInfo.typeScore,
       notificationState: userInfo.notificationState
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getUserAtModify = async (
+  userId: string
+): Promise<UserModifyResponseDto> => {
+  try {
+    await UserServiceUtils.findUserById(userId);
+
+    const userInfo = await User.findById(userId).populate(
+      'typeId',
+      'typeName typeColor'
+    );
+
+    if (!userInfo) {
+      throw errorGenerator({
+        msg: message.NOT_FOUND_USER,
+        statusCode: statusCode.NOT_FOUND
+      });
+    }
+
+    const data: UserModifyResponseDto = {
+      userName: userInfo.userName,
+      job: userInfo.job,
+      introduction: userInfo.introduction,
+      hashTag: userInfo.hashTag,
+      typeName: (userInfo.typeId as any).typeName,
+      typeColor: (userInfo.typeId as any).typeColor
     };
 
     return data;
@@ -203,7 +239,8 @@ const updateUserNotificationState = async (
 export default {
   createUser,
   updateUser,
-  getUser,
+  getUserAtHome,
+  getUserAtModify,
   getUserSetting,
   getHomieProfile,
   updateUserNotificationState

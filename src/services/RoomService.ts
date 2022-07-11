@@ -203,8 +203,8 @@ const getRoomInfoAtHome = async (
     });
 
     const keyRulesList: string[] = await Promise.all(
-      tmpKeyRulesList.map(async (KeyRules: any) => {
-        return KeyRules.ruleName;
+      tmpKeyRulesList.map(async (keyRule: any) => {
+        return keyRule.ruleName;
       })
     );
 

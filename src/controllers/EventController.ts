@@ -101,11 +101,11 @@ const deleteEvent = async (
   const { roomId, eventId } = req.params;
 
   try {
-    const data = await EventService.deleteEvent(userId, roomId, eventId);
+    await EventService.deleteEvent(userId, roomId, eventId);
 
     return res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.DELETE_EVENT_SUCCESS, data));
+      .send(util.success(statusCode.OK, message.DELETE_EVENT_SUCCESS, null));
   } catch (error) {
     next(error);
   }

@@ -89,7 +89,7 @@ const updateEvent = async (
     // 이벤트 존재 여부 확인
     const event = await EventServiceUtil.findEventById(eventId);
 
-    // 참여하고 있는 방의 이벤트인지 확인
+    // 참가하고 있는 방의 이벤트가 아니면 접근 불가능
     await EventServiceUtil.checkForbiddenEvent(user.roomId, event.roomId);
 
     // 참여자 개수가 방 인원의 수가 넘는지 확인
@@ -141,8 +141,8 @@ const deleteEvent = async (
     // 이벤트 존재 여부 확인
     const event = await EventServiceUtil.findEventById(eventId);
 
-    // 참여하고 있는 방의 이벤트인지 확인
-    await EventServiceUtil.checkForbiddenEvent(user.roomId, event._id);
+    // 참가하고 있는 방의 이벤트가 아니면 접근 불가능
+    await EventServiceUtil.checkForbiddenEvent(user.roomId, event.roomId);
 
     await Event.findByIdAndDelete(eventId);
 

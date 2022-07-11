@@ -36,8 +36,21 @@ const checkJoinedRoomId = (roomId: mongoose.Types.ObjectId) => {
   }
 };
 
+const checkForbiddenRoom = async (
+  userRoomId: mongoose.Types.ObjectId,
+  roomId: mongoose.Types.ObjectId
+) => {
+  if (!userRoomId.equals(roomId)) {
+    throw errorGenerator({
+      msg: message.FORBIDDEN_ROOM,
+      statusCode: statusCode.FORBIDDEN
+    });
+  }
+};
+
 export default {
   findUserById,
   findRoomById,
-  checkJoinedRoomId
+  checkJoinedRoomId,
+  checkForbiddenRoom
 };

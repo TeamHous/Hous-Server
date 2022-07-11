@@ -473,6 +473,54 @@ const updateRuleCategory = async (
   }
 };
 
+const deleteRuleCategory = async (
+  userId: string,
+  roomId: string,
+  categoryId: string
+): Promise<void> => {
+  try {
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 규칙 카테고리 존재 여부 확인
+    const ruleCategory = await RuleServiceUtils.findRuleCategoryById(
+      categoryId
+    );
+
+    // 참가하고 있는 방의 규칙 카테고리가 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRuleCategory(
+      user.roomId,
+      ruleCategory.roomId
+    );
+
+    // 해당 규칙 카테고리 내부의 모든 규칙들 삭제
+    const deletedRules = await Rule.deleteMany({
+      roomId: roomId,
+      categoryId: categoryId
+    });
+
+    // 해당 규칙 카테고리 삭제
+    await ruleCategory.deleteOne();
+
+    // 방의 규칙 카테고리 개수 -1, 규책 개수 - 삭제된 규칙 개수
+    await room.updateOne({
+      ruleCategoryCnt: room.ruleCategoryCnt - 1,
+      ruleCnt: room.ruleCnt - deletedRules.deletedCount
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getRuleCreateInfo = async (
   userId: string,
   roomId: string
@@ -538,5 +586,6 @@ export default {
   deleteRule,
   createRuleCategory,
   updateRuleCategory,
+  deleteRuleCategory,
   getRuleCreateInfo
 };

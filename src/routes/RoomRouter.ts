@@ -89,6 +89,12 @@ router.put(
   RuleController.updateRuleCategory
 );
 
+router.delete(
+  '/:roomId/rules/category/:categoryId',
+  auth,
+  RuleController.deleteRuleCategory
+);
+
 /**
  * 이벤트
  */

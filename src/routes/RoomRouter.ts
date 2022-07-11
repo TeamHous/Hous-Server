@@ -45,6 +45,7 @@ router.post(
   auth,
   RuleController.createRule
 );
+router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
 
 router.get('/:roomId/rule/new', auth, RuleController.getRuleCreateInfo);
 

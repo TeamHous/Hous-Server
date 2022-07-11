@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import errorGenerator from '../errors/errorGenerator';
 import User from '../models/User';
 import message from '../modules/responseMessage';
@@ -14,6 +15,16 @@ const findUserById = async (userId: string) => {
   return user;
 };
 
+const checkExistRoomId = (roomId: mongoose.Types.ObjectId) => {
+  if (roomId != undefined && roomId != null) {
+    throw errorGenerator({
+      msg: message.CONFLICT_JOINED_ROOM,
+      statusCode: statusCode.CONFLICT
+    });
+  }
+};
+
 export default {
-  findUserById
+  findUserById,
+  checkExistRoomId
 };

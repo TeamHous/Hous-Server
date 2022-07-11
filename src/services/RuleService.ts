@@ -2,20 +2,19 @@ import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import {
-  RuleMembers,
-  RuleReadInfo,
-  RuleReadInfoResponseDto
-} from '../interfaces/rule/RuleReadInfoResponseDto';
-import {
   Homies,
   RuleCategories,
   RuleCreateInfoResponseDto
 } from '../interfaces/rule/RuleCreateInfoResponseDto';
+import {
+  RuleMembers,
+  RuleReadInfo,
+  RuleReadInfoResponseDto
+} from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
-import Room from '../models/Room';
 import Rule from '../models/Rule';
 import RuleCategory from '../models/RuleCategory';
 import User from '../models/User';
@@ -46,6 +45,19 @@ const createRule = async (
 
     // 규칙 개수 확인
     checkValidUtils.checkCountLimit(room.ruleCnt, limitNum.RULE_CNT);
+
+    // 규칙 이름 중복 체크
+    const checkRules = await Rule.find({
+      roomId: roomId,
+      ruleName: ruleCreateDto.ruleName
+    });
+
+    if (checkRules.length != 0) {
+      throw errorGenerator({
+        msg: message.CONFLICT_RULE_NAME,
+        statusCode: statusCode.CONFLICT
+      });
+    }
 
     // isKeyRules == true 인 경우
     // 알림 비활성화, 담당자 설정 X, 요일 설정 X

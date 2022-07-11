@@ -16,6 +16,7 @@ import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
+import Check from '../models/Check';
 import Rule from '../models/Rule';
 import RuleCategory from '../models/RuleCategory';
 import User from '../models/User';
@@ -138,15 +139,11 @@ const getRuleByRuleId = async (
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
 
-    // 방에 참가중인 user가 맞는지 확인
-    if (!user.roomId.equals(room._id)) {
-      throw errorGenerator({
-        msg: message.FORBIDDEN_GET_RULE,
-        statusCode: statusCode.FORBIDDEN
-      });
-    }
-
+    // 규칙 존재 여부 확인
     const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
 
     const tmpRuleCategories = await RuleCategory.find({
       roomId: user.roomId
@@ -246,6 +243,9 @@ const updateRule = async (
     // 규칙 존재 여부 확인
     let rule = await RuleServiceUtils.findRuleById(ruleId);
 
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
+
     // 규칙 이름 중복 체크
     if (rule.ruleName != ruleUpdateDto.ruleName) {
       await RuleServiceUtils.checkConflictRuleName(
@@ -306,6 +306,43 @@ const updateRule = async (
     rule = await RuleServiceUtils.findRuleById(ruleId);
 
     return rule;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteRule = async (
+  userId: string,
+  roomId: string,
+  ruleId: string
+): Promise<void> => {
+  try {
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // ruleId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 규칙 존재 여부 확인
+    const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
+
+    // 규칙과 관련된 check 삭제
+    const checks = await Check.find({ ruleId: rule._id });
+    for (const check of checks) {
+      await check.deleteOne();
+    }
+
+    await rule.deleteOne();
+
+    await room.updateOne({ ruleCnt: room.ruleCnt - 1 });
   } catch (error) {
     throw error;
   }
@@ -462,6 +499,7 @@ export default {
   createRule,
   getRuleByRuleId,
   updateRule,
+  deleteRule,
   createRuleCategory,
   updateRuleCategory,
   getRuleCreateInfo

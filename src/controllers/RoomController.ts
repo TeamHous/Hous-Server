@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
+import { HomeResponseDto } from '../interfaces/room/HomeResponseDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
 import { RoomJoinResponseDto } from '../interfaces/room/RoomJoinResponseDto';
 import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
@@ -106,8 +107,36 @@ const joinRoom = async (
   }
 };
 
+/**
+ *  @route Get /room/:roomId/home
+ *  @desc Read room info at home view
+ *  @access Private
+ */
+const getRoomInfoAtHome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId } = req.params;
+
+  try {
+    const data: HomeResponseDto = await RoomService.getRoomInfoAtHome(
+      userId,
+      roomId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.READ_ROOM_AT_HOME, data));
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createRoom,
   getRoomAndUserByRoomCode,
-  joinRoom
+  joinRoom,
+  getRoomInfoAtHome
 };

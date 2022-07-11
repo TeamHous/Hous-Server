@@ -28,6 +28,9 @@ const message = {
   SIGNUP_SUCCESS: '회원가입 성공입니다.',
   LOGIN_SUCCESS: '로그인 성공입니다.',
 
+  // 홈
+  READ_ROOM_AT_HOME: '홈화면 조회 성공입니다.',
+
   // 방
   NOT_FOUND_ROOM: '존재하지 않는 방입니다.',
   CONFLICT_JOINED_ROOM: '참가중인 방이 있습니다.',

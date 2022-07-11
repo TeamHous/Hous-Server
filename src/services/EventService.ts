@@ -75,7 +75,7 @@ const updateEvent = async (
 ): Promise<EventUpdateResponseDto> => {
   try {
     // 유저 확인
-    await EventServiceUtil.findUserById(userId);
+    const user = await EventServiceUtil.findUserById(userId);
 
     // roomId ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
@@ -88,6 +88,9 @@ const updateEvent = async (
 
     // 이벤트 존재 여부 확인
     const event = await EventServiceUtil.findEventById(eventId);
+
+    // 참여하고 있는 방의 이벤트인지 확인
+    await EventServiceUtil.checkForbiddenEvent(user.roomId, event.roomId);
 
     // 참여자 개수가 방 인원의 수가 넘는지 확인
     checkValidUtils.checkArraySize(
@@ -124,7 +127,7 @@ const deleteEvent = async (
 ): Promise<PostBaseResponseDto> => {
   try {
     // 유저 확인
-    await EventServiceUtil.findUserById(userId);
+    const user = await EventServiceUtil.findUserById(userId);
 
     // roomId ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
@@ -137,6 +140,9 @@ const deleteEvent = async (
 
     // 이벤트 존재 여부 확인
     const event = await EventServiceUtil.findEventById(eventId);
+
+    // 참여하고 있는 방의 이벤트인지 확인
+    await EventServiceUtil.checkForbiddenEvent(user.roomId, event._id);
 
     await Event.findByIdAndDelete(eventId);
 

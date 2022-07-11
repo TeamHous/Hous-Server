@@ -64,7 +64,8 @@ const message = {
   NOT_FOUND_EVENT: '존재하지 않는 이벤트입니다.',
   CREATE_EVENT_SUCCESS: '이벤트 생성 성공입니다.',
   UPDATE_EVENT_SUCCESS: '이벤트 수정 성공입니다.',
-  DELETE_EVENT_SUCCESS: '이벤트 삭제 성공입니다.'
+  DELETE_EVENT_SUCCESS: '이벤트 삭제 성공입니다.',
+  FORBIDDEN_EVENT: '참가하고 있지 않은 방의 이벤트입니다.'
 };
 
 export default message;

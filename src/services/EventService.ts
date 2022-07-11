@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
 import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseDto';
 import { EventUpdateDto } from '../interfaces/event/EventUpdateDto';
@@ -8,7 +7,7 @@ import Event from '../models/Event';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
 import limitNum from '../modules/limitNum';
-import EventServiceUtil from './EventServiceUtils';
+import EventServiceUtils from './EventServiceUtils';
 
 const createEvent = async (
   userId: string,
@@ -17,13 +16,16 @@ const createEvent = async (
 ): Promise<EventCreateResponseDto> => {
   try {
     // 유저 확인
-    await EventServiceUtil.findUserById(userId);
+    const user = await EventServiceUtils.findUserById(userId);
 
     // roomId ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
 
     // 방 존재 여부 확인
-    const room = await EventServiceUtil.findRoomById(roomId);
+    const room = await EventServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await EventServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
     // event 개수 확인
     checkValidUtils.checkCountLimit(room.eventCnt, limitNum.EVENT_CNT);
@@ -75,7 +77,7 @@ const updateEvent = async (
 ): Promise<EventUpdateResponseDto> => {
   try {
     // 유저 확인
-    const user = await EventServiceUtil.findUserById(userId);
+    const user = await EventServiceUtils.findUserById(userId);
 
     // roomId ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
@@ -84,13 +86,16 @@ const updateEvent = async (
     checkObjectIdValidation(eventId);
 
     // 방 존재 여부 확인
-    const room = await EventServiceUtil.findRoomById(roomId);
+    const room = await EventServiceUtils.findRoomById(roomId);
 
     // 이벤트 존재 여부 확인
-    const event = await EventServiceUtil.findEventById(eventId);
+    const event = await EventServiceUtils.findEventById(eventId);
 
-    // 참여하고 있는 방의 이벤트인지 확인
-    await EventServiceUtil.checkForbiddenEvent(user.roomId, event.roomId);
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await EventServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 참가하고 있는 방의 이벤트가 아니면 접근 불가능
+    await EventServiceUtils.checkForbiddenEvent(user.roomId, event.roomId);
 
     // 참여자 개수가 방 인원의 수가 넘는지 확인
     checkValidUtils.checkArraySize(
@@ -124,10 +129,10 @@ const deleteEvent = async (
   userId: string,
   roomId: string,
   eventId: string
-): Promise<PostBaseResponseDto> => {
+): Promise<void> => {
   try {
     // 유저 확인
-    const user = await EventServiceUtil.findUserById(userId);
+    const user = await EventServiceUtils.findUserById(userId);
 
     // roomId ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
@@ -136,22 +141,20 @@ const deleteEvent = async (
     checkObjectIdValidation(eventId);
 
     // 방 존재 여부 확인
-    const room = await EventServiceUtil.findRoomById(roomId);
+    const room = await EventServiceUtils.findRoomById(roomId);
 
     // 이벤트 존재 여부 확인
-    const event = await EventServiceUtil.findEventById(eventId);
+    const event = await EventServiceUtils.findEventById(eventId);
 
-    // 참여하고 있는 방의 이벤트인지 확인
-    await EventServiceUtil.checkForbiddenEvent(user.roomId, event._id);
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await EventServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 참가하고 있는 방의 이벤트가 아니면 접근 불가능
+    await EventServiceUtils.checkForbiddenEvent(user.roomId, event.roomId);
 
     await Event.findByIdAndDelete(eventId);
 
     await room.updateOne({ eventCnt: room.eventCnt - 1 });
-
-    const data: PostBaseResponseDto = {
-      _id: event._id
-    };
-    return data;
   } catch (error) {
     throw error;
   }

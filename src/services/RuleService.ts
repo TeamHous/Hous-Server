@@ -367,13 +367,16 @@ const createRuleCategory = async (
 ): Promise<RuleCategoryResponseDto> => {
   try {
     // 유저 존재 여부 확인
-    await RuleServiceUtils.findUserById(userId);
+    const user = await RuleServiceUtils.findUserById(userId);
 
     // roomId가 ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
 
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
     // 규칙 카테고리 개수 확인
     checkValidUtils.checkCountLimit(
@@ -421,7 +424,7 @@ const updateRuleCategory = async (
 ): Promise<RuleCategoryResponseDto | null> => {
   try {
     // 유저 존재 여부 확인
-    await RuleServiceUtils.findUserById(userId);
+    const user = await RuleServiceUtils.findUserById(userId);
 
     // roomId가 ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
@@ -430,10 +433,21 @@ const updateRuleCategory = async (
     checkObjectIdValidation(categoryId);
 
     // 방 존재 여부 확인
-    await RuleServiceUtils.findRoomById(roomId);
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
     // 규칙 카테고리 존재 여부 확인
-    await RuleServiceUtils.findRuleCategoryById(categoryId);
+    const ruleCategory = await RuleServiceUtils.findRuleCategoryById(
+      categoryId
+    );
+
+    // 참가하고 있는 방의 규칙 카테고리가 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRuleCategory(
+      user.roomId,
+      ruleCategory.roomId
+    );
 
     // 규칙 카테고리명 중복 여부 확인
     await RuleServiceUtils.checkConflictRuleCategoryName(

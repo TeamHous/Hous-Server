@@ -79,6 +79,18 @@ const checkForbiddenRule = async (
   }
 };
 
+const checkForbiddenRuleCategory = async (
+  userRoomId: mongoose.Types.ObjectId,
+  ruleCategoryRoomId: mongoose.Types.ObjectId
+) => {
+  if (!userRoomId.equals(ruleCategoryRoomId)) {
+    throw errorGenerator({
+      msg: message.FORBIDDEN_RULE_CATEGORY,
+      statusCode: statusCode.FORBIDDEN
+    });
+  }
+};
+
 const checkConflictRuleName = async (roomId: string, ruleName: string) => {
   const checkRules = await Rule.find({
     roomId: roomId,
@@ -117,6 +129,7 @@ export default {
   findRuleCategoryById,
   checkForbiddenRoom,
   checkForbiddenRule,
+  checkForbiddenRuleCategory,
   checkConflictRuleName,
   checkConflictRuleCategoryName
 };

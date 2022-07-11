@@ -6,5 +6,4 @@ export interface RoomInfo {
   userCnt: number;
   eventCnt: number;
   ruleCategoryCnt: number;
-  ruleCnt: number;
 }

@@ -530,10 +530,9 @@ const deleteRuleCategory = async (
     // 해당 규칙 카테고리 삭제
     await ruleCategory.deleteOne();
 
-    // 방의 규칙 카테고리 개수 -1, 규책 개수 - 삭제된 규칙 개수
+    // 방의 규칙 카테고리 개수 -1
     await room.updateOne({
-      ruleCategoryCnt: room.ruleCategoryCnt - 1,
-      ruleCnt: room.ruleCnt - deletedRules.deletedCount
+      ruleCategoryCnt: room.ruleCategoryCnt - 1
     });
   } catch (error) {
     throw error;

@@ -16,6 +16,7 @@ export interface EventsInfo {
 export interface TodoInfo {
   isCheck: boolean;
   todo: string;
+  createdAt: Date;
 }
 
 export interface HomieProfile {

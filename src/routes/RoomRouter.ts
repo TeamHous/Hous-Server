@@ -17,13 +17,13 @@ router.get('/', auth, RoomController.getRoom);
 router.post('/', auth, RoomController.createRoom);
 router.get(
   '/in',
-  [body('roomCode').notEmpty()],
+  [body('roomCode').not().isEmpty()],
   auth,
   RoomController.getRoomAndUserByRoomCode
 );
 router.post(
   '/:roomId/in',
-  [body('roomCode').notEmpty()],
+  [body('roomCode').not().isEmpty()],
   auth,
   RoomController.joinRoom
 );
@@ -72,12 +72,11 @@ router.delete('/:roomId/rule/:ruleId', auth, RuleController.deleteRule);
 router.post(
   '/:roomId/rules/category',
   [
-    body('categoryName').not().isEmpty(),
-    body('categoryIcon').not().isEmpty(),
-    body('categoryName').isLength({
+    body('categoryName').not().isEmpty().isLength({
       min: 1,
       max: limitNum.RULE_CATEGORY_NAME_MAX_LENGTH
-    })
+    }),
+    body('categoryIcon').not().isEmpty()
   ],
   auth,
   RuleController.createRuleCategory
@@ -85,7 +84,13 @@ router.post(
 
 router.put(
   '/:roomId/rules/category/:categoryId',
-  [body('categoryName').not().isEmpty(), body('categoryIcon').not().isEmpty()],
+  [
+    body('categoryName').not().isEmpty().isLength({
+      min: 1,
+      max: limitNum.RULE_CATEGORY_NAME_MAX_LENGTH
+    }),
+    body('categoryIcon').not().isEmpty()
+  ],
   auth,
   RuleController.updateRuleCategory
 );
@@ -108,7 +113,7 @@ router.post(
       .isLength({ min: 1, max: limitNum.EVENT_NAME_MAX_LENGTH }),
     body('eventIcon').not().isEmpty(),
     body('date').not().isEmpty(),
-    body('participants').isArray()
+    body('participants').not().isEmpty().isArray()
   ],
   auth,
   EventController.createEvent

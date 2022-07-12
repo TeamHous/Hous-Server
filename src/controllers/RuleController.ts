@@ -279,6 +279,40 @@ const getRuleCreateInfo = async (
   }
 };
 
+/**
+ *  @route GET /room/:roomId/category/:categoryId:rule
+ *  @desc Get rules by category
+ *  @access Private
+ */
+const getRulesByCategoryId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId, categoryId } = req.params;
+
+  try {
+    const data = await RuleService.getRulesByCategoryId(
+      userId,
+      roomId,
+      categoryId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(
+          statusCode.OK,
+          message.READ_RULES_BY_CATEGORY_SUCCESS,
+          data
+        )
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
@@ -287,5 +321,6 @@ export default {
   createRuleCategory,
   updateRuleCategory,
   deleteRuleCategory,
-  getRuleCreateInfo
+  getRuleCreateInfo,
+  getRulesByCategoryId
 };

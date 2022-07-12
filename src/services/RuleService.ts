@@ -12,6 +12,12 @@ import {
   RuleReadInfoResponseDto
 } from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
+import {
+  KeyRules,
+  Rules,
+  RulesByCategoryResponseDto,
+  TypeColors
+} from '../interfaces/rule/RulesByCategoryResponseDto';
 import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
@@ -449,7 +455,7 @@ const updateRuleCategory = async (
   roomId: string,
   categoryId: string,
   ruleCategoryUpdateDto: RuleCategoryUpdateDto
-): Promise<RuleCategoryResponseDto | null> => {
+): Promise<RuleCategoryResponseDto> => {
   try {
     // 유저 존재 여부 확인
     const user = await RuleServiceUtils.findUserById(userId);
@@ -508,14 +514,14 @@ const deleteRuleCategory = async (
   categoryId: string
 ): Promise<void> => {
   try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
     // roomId가 ObjectId 형식인지 확인
     checkObjectIdValidation(roomId);
 
     // categoryId가 ObjectId 형식인지 확인
     checkObjectIdValidation(categoryId);
-
-    // 유저 존재 여부 확인
-    const user = await RuleServiceUtils.findUserById(userId);
 
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
@@ -555,13 +561,13 @@ const deleteRuleCategory = async (
 const getRuleCreateInfo = async (
   userId: string,
   roomId: string
-): Promise<RuleCreateInfoResponseDto | null> => {
+): Promise<RuleCreateInfoResponseDto> => {
   try {
-    // roomId가 ObjectId 형식인지 확인
-    checkObjectIdValidation(roomId);
-
     // 유저 존재 여부 확인
     const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
 
     // 방 존재 여부 확인
     const room = await RuleServiceUtils.findRoomById(roomId);
@@ -610,6 +616,136 @@ const getRuleCreateInfo = async (
     throw error;
   }
 };
+
+const getRulesByCategoryId = async (
+  userId: string,
+  roomId: string,
+  categoryId: string
+): Promise<RulesByCategoryResponseDto> => {
+  try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // categoryId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(categoryId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 규칙 카테고리 존재 여부 확인
+    const ruleCategory = await RuleServiceUtils.findRuleCategoryById(
+      categoryId
+    );
+
+    // 참가하고 있는 방의 규칙 카테고리가 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRuleCategory(
+      user.roomId,
+      ruleCategory.roomId
+    );
+
+    const tmpRules = await Rule.find({
+      roomId: roomId,
+      categoryId: categoryId
+    });
+
+    const keyRules: KeyRules[] = [];
+    const rules: Rules[] = [];
+
+    await Promise.all(
+      tmpRules.map(async (tmpRule: any) => {
+        // isKeyRules가 true라면 상단 KeyRules로 추가
+        if (tmpRule.isKeyRules === true) {
+          const keyRule: KeyRules = {
+            _id: tmpRule._id,
+            ruleName: tmpRule.ruleName,
+            ruleCreatedDate: tmpRule.createdAt
+          };
+
+          keyRules.push(keyRule);
+        } else {
+          // isKeyRules가 flase라면 상단 KeyRules로 추가
+          await tmpRule.populate(
+            'ruleMembers.userId',
+            'typeId typeUpdatedDate'
+          );
+          await tmpRule.populate('ruleMembers.userId.typeId', 'typeColor ');
+
+          const typeColorsForSort: TypeColors[] = [];
+          await Promise.all(
+            tmpRule.ruleMembers.map(async (ruleMember: any) => {
+              if (ruleMember.userId !== null) {
+                // 성향 검사 일시가 null 이 아닐 경우 -> 성향 존재한다는 것
+                if (ruleMember.userId.typeUpdateDate !== null) {
+                  typeColorsForSort.push({
+                    typeColor: ruleMember.userId.typeId.typeColor,
+                    typeUpdatedDate: ruleMember.userId.typeUpdatedDate
+                  });
+                }
+              }
+            })
+          );
+
+          // typeColors -> 성향테스트 참여한 순서대로 오름차순 정렬
+          typeColorsForSort.sort((before, current) => {
+            return (
+              +new Date(before.typeUpdatedDate) -
+              +new Date(current.typeUpdatedDate)
+            );
+          });
+
+          // const typeColors = typeColorsForSort.map(
+          //   ({ typeUpdatedDate, ...rest }) => {
+          //     return rest.typeColor;
+          //   }
+          // );
+
+          const rule: Rules = {
+            _id: tmpRule._id,
+            ruleName: tmpRule.ruleName,
+            ruleCreatedDate: tmpRule.createdAt,
+            membersCnt: tmpRule.ruleMembers.length,
+            typeColors: typeColorsForSort
+          };
+          // TODO 체크하기
+          console.log(rule);
+          rules.push(rule);
+        }
+      })
+    );
+
+    // keyRules -> keyRules 추가된 순서대로 오름차순 정렬
+    keyRules.sort((before, current) => {
+      return (
+        +new Date(before.ruleCreatedDate) - +new Date(current.ruleCreatedDate)
+      );
+    });
+
+    keyRules;
+
+    // rules -> rules 추가된 순서대로 오름차순 정렬
+    rules.sort((before, current) => {
+      return (
+        +new Date(before.ruleCreatedDate) - +new Date(current.ruleCreatedDate)
+      );
+    });
+
+    const data: RulesByCategoryResponseDto = {
+      keyRules: keyRules,
+      rules: rules
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
@@ -618,5 +754,6 @@ export default {
   createRuleCategory,
   updateRuleCategory,
   deleteRuleCategory,
-  getRuleCreateInfo
+  getRuleCreateInfo,
+  getRulesByCategoryId
 };

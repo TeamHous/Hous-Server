@@ -15,7 +15,7 @@ export interface EventsInfo extends EventResponseDto {
 export interface TodoInfo {
   isCheck: boolean;
   todo: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface HomieProfile {

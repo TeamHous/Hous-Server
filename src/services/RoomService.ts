@@ -286,6 +286,8 @@ const getRoomInfoAtHome = async (
           _id: event._id,
           eventName: event.eventName,
           eventIcon: event.eventIcon,
+          date: event.date,
+          participants: event.participantsId,
           dDay: eventDday.toString()
         };
         return result;

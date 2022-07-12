@@ -14,8 +14,10 @@ import {
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import {
   KeyRules,
+  KeyRulesWithDate,
   Rules,
   RulesByCategoryResponseDto,
+  RulesWithDate,
   TypeColors
 } from '../interfaces/rule/RulesByCategoryResponseDto';
 import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
@@ -654,20 +656,20 @@ const getRulesByCategoryId = async (
       categoryId: categoryId
     });
 
-    const keyRules: KeyRules[] = [];
-    const rules: Rules[] = [];
+    const keyRulesWithDate: KeyRulesWithDate[] = [];
+    const rulesWithDate: RulesWithDate[] = [];
 
     await Promise.all(
       tmpRules.map(async (tmpRule: any) => {
         // isKeyRules가 true라면 상단 KeyRules로 추가
         if (tmpRule.isKeyRules === true) {
-          const keyRule: KeyRules = {
+          const keyRule: KeyRulesWithDate = {
             _id: tmpRule._id,
             ruleName: tmpRule.ruleName,
             ruleCreatedDate: tmpRule.createdAt
           };
 
-          keyRules.push(keyRule);
+          keyRulesWithDate.push(keyRule);
         } else {
           // isKeyRules가 flase라면 상단 KeyRules로 추가
           await tmpRule.populate(
@@ -676,13 +678,14 @@ const getRulesByCategoryId = async (
           );
           await tmpRule.populate('ruleMembers.userId.typeId', 'typeColor ');
 
-          const typeColorsForSort: TypeColors[] = [];
+          const typeColorsWithDate: TypeColors[] = [];
+
           await Promise.all(
             tmpRule.ruleMembers.map(async (ruleMember: any) => {
               if (ruleMember.userId !== null) {
                 // 성향 검사 일시가 null 이 아닐 경우 -> 성향 존재한다는 것
                 if (ruleMember.userId.typeUpdateDate !== null) {
-                  typeColorsForSort.push({
+                  typeColorsWithDate.push({
                     typeColor: ruleMember.userId.typeId.typeColor,
                     typeUpdatedDate: ruleMember.userId.typeUpdatedDate
                   });
@@ -692,47 +695,54 @@ const getRulesByCategoryId = async (
           );
 
           // typeColors -> 성향테스트 참여한 순서대로 오름차순 정렬
-          typeColorsForSort.sort((before, current) => {
+          typeColorsWithDate.sort((before, current) => {
             return (
               +new Date(before.typeUpdatedDate) -
               +new Date(current.typeUpdatedDate)
             );
           });
 
-          // const typeColors = typeColorsForSort.map(
-          //   ({ typeUpdatedDate, ...rest }) => {
-          //     return rest.typeColor;
-          //   }
-          // );
+          const typeColors: string[] = typeColorsWithDate.map(
+            (typeColor: TypeColors) => {
+              return typeColor.typeColor;
+            }
+          );
 
-          const rule: Rules = {
+          const rule: RulesWithDate = {
             _id: tmpRule._id,
             ruleName: tmpRule.ruleName,
             ruleCreatedDate: tmpRule.createdAt,
             membersCnt: tmpRule.ruleMembers.length,
-            typeColors: typeColorsForSort
+            typeColors: typeColors
           };
-          // TODO 체크하기
-          console.log(rule);
-          rules.push(rule);
+
+          rulesWithDate.push(rule);
         }
       })
     );
 
     // keyRules -> keyRules 추가된 순서대로 오름차순 정렬
-    keyRules.sort((before, current) => {
+    keyRulesWithDate.sort((before, current) => {
       return (
         +new Date(before.ruleCreatedDate) - +new Date(current.ruleCreatedDate)
       );
     });
 
-    keyRules;
-
     // rules -> rules 추가된 순서대로 오름차순 정렬
-    rules.sort((before, current) => {
+    rulesWithDate.sort((before, current) => {
       return (
         +new Date(before.ruleCreatedDate) - +new Date(current.ruleCreatedDate)
       );
+    });
+
+    const keyRules: KeyRules[] = keyRulesWithDate.map(
+      ({ ruleCreatedDate, ...rest }) => {
+        return rest;
+      }
+    );
+
+    const rules: Rules[] = rulesWithDate.map(({ ruleCreatedDate, ...rest }) => {
+      return rest;
     });
 
     const data: RulesByCategoryResponseDto = {

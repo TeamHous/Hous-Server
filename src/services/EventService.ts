@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
 import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseDto';
+import { EventResponseDto } from '../interfaces/event/EventResponseDto';
 import { EventUpdateDto } from '../interfaces/event/EventUpdateDto';
 import { EventUpdateResponseDto } from '../interfaces/event/EventUpdateResponseDto';
 import Event from '../models/Event';
@@ -160,8 +161,54 @@ const deleteEvent = async (
   }
 };
 
+const getEvent = async (
+  userId: string,
+  roomId: string,
+  eventId: string
+): Promise<EventResponseDto> => {
+  try {
+    // 유저 확인
+    const user = await EventServiceUtils.findUserById(userId);
+
+    // roomId ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // eventId ObjectId 형식인지 확인
+    checkObjectIdValidation(eventId);
+
+    // 방 존재 여부 확인
+    const room = await EventServiceUtils.findRoomById(roomId);
+
+    // 이벤트 존재 여부 확인
+    const event = await EventServiceUtils.findEventById(eventId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await EventServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 참가하고 있는 방의 이벤트가 아니면 접근 불가능
+    await EventServiceUtils.checkForbiddenEvent(user.roomId, event.roomId);
+
+    const participants: string[] = event.participantsId.map(participant => {
+      return participant.toString();
+    });
+
+    const data: EventResponseDto = {
+      _id: event._id,
+      eventName: event.eventName,
+      eventIcon: event.eventIcon,
+      date: dayjs(event.date).format('YYYY-MM-DD'),
+      participants: participants
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createEvent,
   updateEvent,
-  deleteEvent
+  deleteEvent,
+  getEvent
 };

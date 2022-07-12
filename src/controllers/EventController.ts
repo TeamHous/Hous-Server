@@ -110,4 +110,29 @@ const deleteEvent = async (
     next(error);
   }
 };
-export default { createEvent, updateEvent, deleteEvent };
+
+/**
+ *  @route GET /room/:roomId/event/:eventId
+ *  @desc Read Event
+ *  @access private
+ */
+const getEvent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId, eventId } = req.params;
+
+  try {
+    const data = await EventService.getEvent(userId, roomId, eventId);
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.READ_EVENT_SUCCESS, data));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { createEvent, updateEvent, deleteEvent, getEvent };

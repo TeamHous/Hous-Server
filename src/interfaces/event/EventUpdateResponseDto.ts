@@ -1,6 +1,3 @@
-import { PostBaseResponseDto } from '../common/PostBaseResponseDto';
-import { EventCreateDto } from './EventCreateDto';
+import { EventResponseDto } from './EventResponseDto';
 
-export interface EventUpdateResponseDto
-  extends PostBaseResponseDto,
-    EventCreateDto {}
+export interface EventUpdateResponseDto extends EventResponseDto {}

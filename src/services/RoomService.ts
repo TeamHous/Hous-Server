@@ -263,7 +263,7 @@ const getRoomInfoAtHome = async (
     const tmpKeyRulesList = await Rule.find({
       roomId: roomId,
       isKeyRules: true
-    });
+    }).sort({ createdAt: 'asc' });
 
     const keyRulesList: string[] = await Promise.all(
       tmpKeyRulesList.map(async (keyRule: any) => {
@@ -310,40 +310,64 @@ const getRoomInfoAtHome = async (
     );
 
     // to-do 체크 여부 포함 조회
+    const today = dayjs().day();
     const tmpRuleList = await Rule.find({
       roomId: roomId,
       isKeyRules: false
-    }).sort({ createdAt: 'asc' });
+    });
 
-    const todoInfoList: TodoInfo[] = await Promise.all(
+    // 1. 고정담당자가 '나'인데 '오늘'인 경우, 규칙 목록을 체크 여부와 함께 전달
+    const todoRuleMembers: TodoInfo[] = [];
+    await Promise.all(
       tmpRuleList.map(async (rule: any) => {
-        const isCheck = await Check.findOne({
-          ruleId: rule._id,
-          userId: userId
-        });
-
-        if (!isCheck) {
-          return {
-            isCheck: false,
-            todo: rule.ruleName
-          };
-        } else {
-          const isCheckDate = dayjs(isCheck.date);
-          const check: boolean = isCheckDate.isSame(dayjs().add(9, 'hour'))
-            ? true
-            : false;
-          return {
-            isCheck: check,
-            todo: rule.ruleName
-          };
-        }
+        await Promise.all(
+          rule.ruleMembers.map(async (member: any) => {
+            if (
+              member.userId !== null &&
+              member.userId.toString() === userId &&
+              member.day.includes(today)
+            ) {
+              todoRuleMembers.push(
+                await checkTodoListForCheckStatus(rule, userId)
+              );
+            }
+          })
+        );
       })
     );
+
+    // 2. 임시 담당자가 '나'인데 '오늘'인 경우, 규칙 목록을 체크 여부와 함께 전달
+    await Promise.all(
+      tmpRuleList.map(async (rule: any) => {
+        await Promise.all(
+          rule.tmpRuleMembers.map(async (member: any) => {
+            // tmpUpdateDate가 오늘인데 userId가 있으면 나는 오늘 임시담당자
+            const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate).format(
+              'YYYY-MM-DD'
+            );
+            if (
+              member.userId !== null &&
+              member.userId.toString() === userId &&
+              tmpUpdatedDate === dayjs().format('YYYY-MM-DD')
+            ) {
+              todoRuleMembers.push(
+                await checkTodoListForCheckStatus(rule, userId)
+              );
+            }
+          })
+        );
+      })
+    );
+
+    // 규칙 리스트를 시간을 기준으로 오름차순 정렬
+    const todoList: TodoInfo[] = todoRuleMembers.sort((before, current) => {
+      return +new Date(before.createdAt) - +new Date(current.createdAt);
+    });
 
     const data: HomeResponseDto = {
       eventList: eventList,
       keyRulesList: keyRulesList,
-      todoList: todoInfoList,
+      todoList: todoList.length === 0 ? [] : todoList,
       homieProfileList: homies,
       roomCode: room.roomCode
     };
@@ -352,6 +376,33 @@ const getRoomInfoAtHome = async (
   } catch (error) {
     throw error;
   }
+};
+
+const checkTodoListForCheckStatus = async (
+  rule: any,
+  userId: string
+): Promise<TodoInfo> => {
+  let checkStatus: boolean;
+  const isCheck = await Check.findOne({
+    ruleId: rule._id,
+    userId: userId
+  });
+
+  if (!isCheck) {
+    return {
+      isCheck: false,
+      todo: rule.ruleName,
+      createdAt: rule.createdAt
+    };
+  } else {
+    const isCheckDate = dayjs(isCheck.date);
+    checkStatus = isCheckDate.isSame(dayjs().add(9, 'hour')) ? true : false;
+  }
+  return {
+    isCheck: checkStatus,
+    todo: rule.ruleName,
+    createdAt: rule.createdAt
+  };
 };
 
 export default {

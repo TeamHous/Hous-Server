@@ -274,19 +274,19 @@ const getRoomInfoAtHome = async (
     // Events 조회
     const tmpEventList = await Event.find({
       roomId: roomId,
-      date: { $gt: dayjs().subtract(9, 'hour') }
+      date: { $gt: dayjs().add(9, 'hour') }
     });
 
     const eventList: EventsInfo[] = await Promise.all(
       tmpEventList.map(async (event: any) => {
-        const nowEventDate = dayjs(event.date);
+        const nowEventDate = dayjs(event.date).add(9, 'hour');
         const todayDate = dayjs();
         const eventDday = nowEventDate.diff(todayDate, 'day');
         const result = {
           _id: event._id,
           eventName: event.eventName,
           eventIcon: event.eventIcon,
-          date: event.date,
+          date: nowEventDate.format('YYYY-MM-DD'),
           participants: event.participantsId,
           dDay: eventDday.toString()
         };
@@ -344,9 +344,9 @@ const getRoomInfoAtHome = async (
         await Promise.all(
           rule.tmpRuleMembers.map(async (member: any) => {
             // tmpUpdateDate가 오늘인데 userId가 있으면 나는 오늘 임시담당자
-            const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate).format(
-              'YYYY-MM-DD'
-            );
+            const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate)
+              .add(9, 'hour')
+              .format('YYYY-MM-DD');
             if (
               member.userId !== null &&
               member.userId.toString() === userId &&
@@ -363,7 +363,7 @@ const getRoomInfoAtHome = async (
 
     // 규칙 리스트를 시간을 기준으로 오름차순 정렬
     const todoList: TodoInfo[] = todoRuleMembers.sort((before, current) => {
-      return +new Date(before.createdAt) - +new Date(current.createdAt);
+      return dayjs(before.createdAt).isAfter(dayjs(current.createdAt)) ? 1 : -1;
     });
 
     const data: HomeResponseDto = {
@@ -394,16 +394,16 @@ const checkTodoListForCheckStatus = async (
     return {
       isCheck: false,
       todo: rule.ruleName,
-      createdAt: rule.createdAt
+      createdAt: dayjs(rule.createdAt).add(9, 'hour').format()
     };
   } else {
-    const isCheckDate = dayjs(isCheck.date);
-    checkStatus = isCheckDate.isSame(dayjs().add(9, 'hour')) ? true : false;
+    const isCheckDate = dayjs(isCheck.date).add(9, 'hour');
+    checkStatus = isCheckDate.isSame(dayjs()) ? true : false;
   }
   return {
     isCheck: checkStatus,
     todo: rule.ruleName,
-    createdAt: rule.createdAt
+    createdAt: dayjs(rule.createdAt).add(9, 'hour').format()
   };
 };
 

@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
 import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
@@ -36,7 +37,7 @@ const createUser = async (
       password: signupDto.password,
       userName: signupDto.userName,
       gender: signupDto.gender,
-      birthday: signupDto.birthday,
+      birthday: dayjs(signupDto.birthday).format('YYYY-MM-DD'),
       fcmToken: signupDto.fcmToken,
       notificationState: true
     });

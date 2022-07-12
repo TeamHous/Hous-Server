@@ -702,11 +702,12 @@ const getRulesByCategoryId = async (
             );
           });
 
-          const typeColors: string[] = typeColorsWithDate.map(
-            (typeColor: TypeColors) => {
+          // 최종 typeColors의 length를 최대 3으로 자르고 Date 지우기
+          const typeColors: string[] = typeColorsWithDate
+            .slice(0, limitNum.TYPES_AT_RULE_BY_CATEGORY_CNT)
+            .map((typeColor: TypeColors) => {
               return typeColor.typeColor;
-            }
-          );
+            });
 
           const rule: RulesWithDate = {
             _id: tmpRule._id,
@@ -735,12 +736,14 @@ const getRulesByCategoryId = async (
       );
     });
 
+    // 최종 keyRules에서 Date 지우기
     const keyRules: KeyRules[] = keyRulesWithDate.map(
       ({ ruleCreatedDate, ...rest }) => {
         return rest;
       }
     );
 
+    // 최종 rules에서 Date 지우기
     const rules: Rules[] = rulesWithDate.map(({ ruleCreatedDate, ...rest }) => {
       return rest;
     });

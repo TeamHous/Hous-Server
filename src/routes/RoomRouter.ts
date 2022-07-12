@@ -118,6 +118,7 @@ router.post(
   auth,
   EventController.createEvent
 );
+router.get('/:roomId/event/:eventId', auth, EventController.getEvent);
 router.put(
   '/:roomId/event/:eventId',
   [

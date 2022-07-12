@@ -1,3 +1,5 @@
+import { EventResponseDto } from '../event/EventResponseDto';
+
 export interface HomeResponseDto {
   eventList: EventsInfo[];
   keyRulesList: string[];
@@ -6,11 +8,8 @@ export interface HomeResponseDto {
   roomCode: string;
 }
 
-export interface EventsInfo {
-  _id: string;
+export interface EventsInfo extends EventResponseDto {
   dDay: string;
-  eventName: string;
-  eventIcon: string;
 }
 
 export interface TodoInfo {

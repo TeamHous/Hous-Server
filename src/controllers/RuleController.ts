@@ -6,6 +6,7 @@ import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponse
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RulesByCategoryResponseDto } from '../interfaces/rule/RulesByCategoryResponseDto';
 import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
+import { TmpRuleMembersUpdateResponseDto } from '../interfaces/rule/TmpRuleMembersUpdateResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
@@ -316,6 +317,51 @@ const getRulesByCategoryId = async (
   }
 };
 
+/**
+ *  @route PUT /room/:roomId/rule/:ruleId/today
+ *  @desc Update temp ruleMembers of today
+ *  @access Private
+ */
+const updateTmpRuleMembers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
+  const userId: string = req.body.user._id;
+  const tmpRuleMembersUpdateDto = req.body;
+  const { roomId, ruleId } = req.params;
+  try {
+    const data: TmpRuleMembersUpdateResponseDto =
+      await RuleService.updateTmpRuleMembers(
+        userId,
+        roomId,
+        ruleId,
+        tmpRuleMembersUpdateDto
+      );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(
+          statusCode.OK,
+          message.UPDATE_TMP_RULE_MEMBERS_SUCCESS,
+          data
+        )
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
@@ -325,5 +371,6 @@ export default {
   updateRuleCategory,
   deleteRuleCategory,
   getRuleCreateInfo,
-  getRulesByCategoryId
+  getRulesByCategoryId,
+  updateTmpRuleMembers
 };

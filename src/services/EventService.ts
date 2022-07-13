@@ -60,7 +60,7 @@ const createEvent = async (
       _id: event._id,
       eventName: event.eventName,
       eventIcon: event.eventIcon,
-      date: dayjs(event.date).add(9, 'hour').format('YYYY-MM-DD'),
+      date: dayjs(event.date).format('YYYY-MM-DD'),
       participants: participants
     };
 

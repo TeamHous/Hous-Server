@@ -3,10 +3,10 @@ import mongoose from 'mongoose';
 import errorGenerator from '../errors/errorGenerator';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import {
-  EventsInfo,
+  EventsResponseDto,
   HomeResponseDto,
-  HomieProfile,
-  TodoInfo
+  HomieProfileResponseDto,
+  TodoResponseDto
 } from '../interfaces/room/HomeResponseDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
 import { RoomJoinResponseDto } from '../interfaces/room/RoomJoinResponseDto';
@@ -274,10 +274,10 @@ const getRoomInfoAtHome = async (
     // Events 조회
     const tmpEventList = await Event.find({
       roomId: roomId,
-      date: { $gt: dayjs().add(9, 'hour') }
+      date: { $gt: dayjs().subtract(9, 'hour') }
     });
 
-    const eventList: EventsInfo[] = await Promise.all(
+    const eventList: EventsResponseDto[] = await Promise.all(
       tmpEventList.map(async (event: any) => {
         const nowEventDate = dayjs(event.date).add(9, 'hour');
         const todayDate = dayjs();
@@ -299,7 +299,7 @@ const getRoomInfoAtHome = async (
       roomId: roomId
     }).populate('typeId', 'typeName typeColor');
 
-    const homies: HomieProfile[] = await Promise.all(
+    const homies: HomieProfileResponseDto[] = await Promise.all(
       tmpHomies.map(async (homie: any) => {
         const result = {
           _id: homie._id,
@@ -319,7 +319,7 @@ const getRoomInfoAtHome = async (
     });
 
     // 1. 고정담당자가 '나'인데 '오늘'인 경우, 규칙 목록을 체크 여부와 함께 전달
-    const todoRuleMembers: TodoInfo[] = [];
+    const todoRuleMembers: TodoResponseDto[] = [];
     await Promise.all(
       tmpRuleList.map(async (rule: any) => {
         await Promise.all(
@@ -362,9 +362,13 @@ const getRoomInfoAtHome = async (
     );
 
     // 규칙 리스트를 시간을 기준으로 오름차순 정렬
-    const todoList: TodoInfo[] = todoRuleMembers.sort((before, current) => {
-      return dayjs(before.createdAt).isAfter(dayjs(current.createdAt)) ? 1 : -1;
-    });
+    const todoList: TodoResponseDto[] = todoRuleMembers.sort(
+      (before, current) => {
+        return dayjs(before.createdAt).isAfter(dayjs(current.createdAt))
+          ? 1
+          : -1;
+      }
+    );
 
     const data: HomeResponseDto = {
       eventList: eventList,
@@ -383,26 +387,26 @@ const getRoomInfoAtHome = async (
 const checkTodoListForCheckStatus = async (
   rule: any,
   userId: string
-): Promise<TodoInfo> => {
+): Promise<TodoResponseDto> => {
   let checkStatus: boolean;
-  const isCheck = await Check.findOne({
+  const existCheck = await Check.findOne({
     ruleId: rule._id,
     userId: userId
   });
 
-  if (!isCheck) {
+  if (!existCheck) {
     return {
-      isCheck: false,
-      todo: rule.ruleName,
+      existCheck: false,
+      todoName: rule.ruleName,
       createdAt: dayjs(rule.createdAt).add(9, 'hour').format()
     };
   } else {
-    const isCheckDate = dayjs(isCheck.date).add(9, 'hour');
-    checkStatus = isCheckDate.isSame(dayjs()) ? true : false;
+    const existCheckDate = dayjs(existCheck.date).add(9, 'hour');
+    checkStatus = existCheckDate.isSame(dayjs()) ? true : false;
   }
   return {
-    isCheck: checkStatus,
-    todo: rule.ruleName,
+    existCheck: checkStatus,
+    todoName: rule.ruleName,
     createdAt: dayjs(rule.createdAt).add(9, 'hour').format()
   };
 };

@@ -53,6 +53,8 @@ const message = {
   UPDATE_RULE_SUCCESS: '규칙 수정 성공입니다.',
   DELETE_RULE_SUCCESS: '규칙 삭제 성공입니다.',
 
+  UPDATE_TMP_RULE_MEMBERS_SUCCESS: '오늘의 임시 담당자 설정 성공입니다.',
+
   // 규칙 카테고리
   NOT_FOUND_RULE_CATEGORY: '존재하지 않는 규칙 카테고리입니다.',
   FORBIDDEN_RULE_CATEGORY:

@@ -286,7 +286,7 @@ const getRuleCreateInfo = async (
 };
 
 /**
- *  @route GET /room/:roomId/category/:categoryId:rule
+ *  @route GET /room/:roomId/category/:categoryId/rule
  *  @desc Get rules by category
  *  @access Private
  */

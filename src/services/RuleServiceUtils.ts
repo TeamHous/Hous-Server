@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { arrayBuffer } from 'stream/consumers';
 import errorGenerator from '../errors/errorGenerator';
 import Room from '../models/Room';
 import Rule from '../models/Rule';

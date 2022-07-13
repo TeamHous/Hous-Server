@@ -1,24 +1,24 @@
 import { EventResponseDto } from '../event/EventResponseDto';
 
 export interface HomeResponseDto {
-  eventList: EventsInfo[];
+  eventList: EventsResponseDto[];
   keyRulesList: string[];
-  todoList: TodoInfo[];
-  homieProfileList: HomieProfile[];
+  todoList: TodoResponseDto[];
+  homieProfileList: HomieProfileResponseDto[];
   roomCode: string;
 }
 
-export interface EventsInfo extends EventResponseDto {
+export interface EventsResponseDto extends EventResponseDto {
   dDay: string;
 }
 
-export interface TodoInfo {
-  isCheck: boolean;
-  todo: string;
+export interface TodoResponseDto {
+  existCheck: boolean;
+  todoName: string;
   createdAt: string;
 }
 
-export interface HomieProfile {
+export interface HomieProfileResponseDto {
   _id: string;
   userName: string;
   typeName: string;

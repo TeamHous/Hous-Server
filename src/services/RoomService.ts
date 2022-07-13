@@ -6,7 +6,8 @@ import {
   EventsResponseDto,
   HomeResponseDto,
   HomieProfileResponseDto,
-  TodoResponseDto
+  TodoResponseDto,
+  TodoWithDate
 } from '../interfaces/room/HomeResponseDto';
 import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
 import { RoomJoinResponseDto } from '../interfaces/room/RoomJoinResponseDto';
@@ -319,7 +320,7 @@ const getRoomInfoAtHome = async (
     });
 
     // 1. 고정담당자가 '나'인데 '오늘'인 경우, 규칙 목록을 체크 여부와 함께 전달
-    const todoRuleMembers: TodoResponseDto[] = [];
+    const todoRuleMembers: TodoWithDate[] = [];
     await Promise.all(
       tmpRuleList.map(async (rule: any) => {
         await Promise.all(
@@ -362,11 +363,18 @@ const getRoomInfoAtHome = async (
     );
 
     // 규칙 리스트를 시간을 기준으로 오름차순 정렬
-    const todoList: TodoResponseDto[] = todoRuleMembers.sort(
+    const todoListWithDate: TodoWithDate[] = todoRuleMembers.sort(
       (before, current) => {
         return dayjs(before.createdAt).isAfter(dayjs(current.createdAt))
           ? 1
           : -1;
+      }
+    );
+
+    // 규칙 리스트에서 시간 데이터 삭제
+    const todoList: TodoResponseDto[] = todoListWithDate.map(
+      ({ createdAt, ...rest }) => {
+        return rest;
       }
     );
 
@@ -387,7 +395,7 @@ const getRoomInfoAtHome = async (
 const checkTodoListForCheckStatus = async (
   rule: any,
   userId: string
-): Promise<TodoResponseDto> => {
+): Promise<TodoWithDate> => {
   let checkStatus: boolean;
   const existCheck = await Check.findOne({
     ruleId: rule._id,

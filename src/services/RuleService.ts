@@ -1,5 +1,10 @@
 import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
+import {
+  HomiesWithIsTmpMember,
+  HomiesWithIsTmpMemberResponseDto,
+  HomiesWithIsTmpMemberWithDate
+} from '../interfaces/rule/HomiesWithIsTmpMemberResponseDto';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import {
   Homies,
@@ -769,6 +774,92 @@ const getRulesByCategoryId = async (
   }
 };
 
+const getHomiesWithIsTmpMember = async (
+  userId: string,
+  roomId: string,
+  ruleId: string
+): Promise<HomiesWithIsTmpMemberResponseDto> => {
+  try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // ruleId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 규칙 존재 여부 확인
+    const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
+
+    const homies = await User.find({
+      roomId: roomId
+    }).populate('typeId', 'typeColor');
+
+    let homiesWithIsTmpMembersWithDate: HomiesWithIsTmpMemberWithDate[];
+
+    // tmpUpdatedDate === 오늘 -> tmpRuleMembers에 있는 유저는 isTmpMembers = true
+    // tmpUpdatedDate !== 오늘 -> 모든 유저는 isTmpMembers = false
+    if (dayjs().isSame(rule.tmpUpdatedDate, 'day')) {
+      homiesWithIsTmpMembersWithDate = await Promise.all(
+        homies.map(async homie => {
+          return {
+            _id: homie._id as string,
+            userName: homie.userName as string,
+            isTmpMember: rule.tmpRuleMembers.includes(homie._id),
+            typeColor: (homie.typeId as any).typeColor as string,
+            typeUpdatedDate: homie.typeUpdatedDate
+          };
+        })
+      );
+    } else {
+      homiesWithIsTmpMembersWithDate = await Promise.all(
+        homies.map(async homie => {
+          return {
+            _id: homie._id as string,
+            userName: homie.userName as string,
+            isTmpMember: false,
+            typeColor: (homie.typeId as any).typeColor as string,
+            typeUpdatedDate: homie.typeUpdatedDate
+          };
+        })
+      );
+    }
+
+    homiesWithIsTmpMembersWithDate.sort((before, current) => {
+      return dayjs(before.typeUpdatedDate).isAfter(
+        dayjs(current.typeUpdatedDate)
+      )
+        ? 1
+        : -1;
+    });
+
+    const homiesWithIsTmpMembers: HomiesWithIsTmpMember[] =
+      homiesWithIsTmpMembersWithDate.map(({ typeUpdatedDate, ...rest }) => {
+        return rest;
+      });
+
+    const data: HomiesWithIsTmpMemberResponseDto = {
+      _id: ruleId,
+      ruleName: rule.ruleName,
+      homies: homiesWithIsTmpMembers
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const updateTmpRuleMembers = async (
   userId: string,
   roomId: string,
@@ -811,8 +902,6 @@ const updateTmpRuleMembers = async (
       tmpUpdatedDate: dayjs().format('YYYY-MM-DD')
     });
 
-    console.log(dayjs().format('YYYY-MM-DD'));
-
     const data: TmpRuleMembersUpdateResponseDto = {
       _id: rule._id,
       ruleName: rule.ruleName,
@@ -835,5 +924,6 @@ export default {
   deleteRuleCategory,
   getRuleCreateInfo,
   getRulesByCategoryId,
+  getHomiesWithIsTmpMember,
   updateTmpRuleMembers
 };

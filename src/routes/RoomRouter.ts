@@ -70,6 +70,11 @@ router.put(
   RuleController.updateRule
 );
 router.delete('/:roomId/rule/:ruleId', auth, RuleController.deleteRule);
+router.get(
+  '/:roomId/rule/:ruleId/today',
+  auth,
+  RuleController.getHomiesWithIsTmpMember
+);
 router.put(
   '/:roomId/rule/:ruleId/today',
   auth,

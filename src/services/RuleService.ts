@@ -806,7 +806,10 @@ const updateTmpRuleMembers = async (
       })
     );
 
-    await rule.updateOne(tmpRuleMembersUpdateDto);
+    await rule.updateOne({
+      tmpRuleMembers: tmpRuleMembersUpdateDto.tmpRuleMembers,
+      tmpUpdatedDate: dayjs().format('YYYY-MM-DD')
+    });
 
     const data: TmpRuleMembersUpdateResponseDto = {
       _id: rule._id,

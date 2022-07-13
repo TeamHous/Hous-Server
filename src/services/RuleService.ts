@@ -695,11 +695,13 @@ const getRulesByCategoryId = async (
           );
 
           // typeColors -> 성향테스트 참여한 순서대로 오름차순 정렬
+          // before 값이 current 값보다 크면 양수, 작으면 음수를 return
           typeColorsWithDate.sort((before, current) => {
-            return (
-              +new Date(before.typeUpdatedDate) -
-              +new Date(current.typeUpdatedDate)
-            );
+            return dayjs(before.typeUpdatedDate).isAfter(
+              dayjs(current.typeUpdatedDate)
+            )
+              ? 1
+              : -1;
           });
 
           // 최종 typeColors의 length를 최대 3으로 자르고 Date 지우기
@@ -723,17 +725,23 @@ const getRulesByCategoryId = async (
     );
 
     // keyRules -> keyRules 추가된 순서대로 오름차순 정렬
+    // before 값이 current 값보다 크면 양수, 작으면 음수를 return
     keyRulesWithDate.sort((before, current) => {
-      return (
-        +new Date(before.ruleCreatedDate) - +new Date(current.ruleCreatedDate)
-      );
+      return dayjs(before.ruleCreatedDate).isAfter(
+        dayjs(current.ruleCreatedDate)
+      )
+        ? 1
+        : -1;
     });
 
     // rules -> rules 추가된 순서대로 오름차순 정렬
+    // before 값이 current 값보다 크면 양수, 작으면 음수를 return
     rulesWithDate.sort((before, current) => {
-      return (
-        +new Date(before.ruleCreatedDate) - +new Date(current.ruleCreatedDate)
-      );
+      return dayjs(before.ruleCreatedDate).isAfter(
+        dayjs(current.ruleCreatedDate)
+      )
+        ? 1
+        : -1;
     });
 
     // 최종 keyRules에서 Date 지우기

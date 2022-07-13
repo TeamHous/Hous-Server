@@ -1,10 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
+import { RuleCreateInfoResponseDto } from '../interfaces/rule/RuleCreateInfoResponseDto';
 import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
+import { RulesByCategoryResponseDto } from '../interfaces/rule/RulesByCategoryResponseDto';
 import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
+import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
@@ -166,7 +169,7 @@ const createRuleCategory = async (
   const { roomId } = req.params;
 
   try {
-    const data = await RuleService.createRuleCategory(
+    const data: RuleCategoryResponseDto = await RuleService.createRuleCategory(
       userId,
       roomId,
       ruleCategoryCreateDto
@@ -210,7 +213,7 @@ const updateRuleCategory = async (
   const { roomId, categoryId } = req.params;
 
   try {
-    const data = await RuleService.updateRuleCategory(
+    const data: RuleCategoryResponseDto = await RuleService.updateRuleCategory(
       userId,
       roomId,
       categoryId,
@@ -267,12 +270,46 @@ const getRuleCreateInfo = async (
   const { roomId } = req.params;
 
   try {
-    const data = await RuleService.getRuleCreateInfo(userId, roomId);
+    const data: RuleCreateInfoResponseDto = await RuleService.getRuleCreateInfo(
+      userId,
+      roomId
+    );
 
     return res
       .status(statusCode.OK)
       .send(
         util.success(statusCode.OK, message.READ_RULE_CREATE_INFO_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *  @route GET /room/:roomId/category/:categoryId/rule
+ *  @desc Get rules by category
+ *  @access Private
+ */
+const getRulesByCategoryId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId, categoryId } = req.params;
+
+  try {
+    const data: RulesByCategoryResponseDto =
+      await RuleService.getRulesByCategoryId(userId, roomId, categoryId);
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(
+          statusCode.OK,
+          message.READ_RULES_BY_CATEGORY_SUCCESS,
+          data
+        )
       );
   } catch (error) {
     next(error);
@@ -287,5 +324,6 @@ export default {
   createRuleCategory,
   updateRuleCategory,
   deleteRuleCategory,
-  getRuleCreateInfo
+  getRuleCreateInfo,
+  getRulesByCategoryId
 };

@@ -14,4 +14,5 @@ export interface UserInfo {
   fcmToken: string;
   notificationState: boolean;
   typeScore: number[];
+  typeUpdatedDate: Date;
 }

@@ -48,6 +48,11 @@ router.post(
   RuleController.createRule
 );
 router.get('/:roomId/rule/new', auth, RuleController.getRuleCreateInfo);
+router.get(
+  '/:roomId/category/:categoryId/rule',
+  auth,
+  RuleController.getRulesByCategoryId
+);
 router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
 router.put(
   '/:roomId/rule/:ruleId',

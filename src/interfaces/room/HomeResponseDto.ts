@@ -15,6 +15,9 @@ export interface EventsResponseDto extends EventResponseDto {
 export interface TodoResponseDto {
   existCheck: boolean;
   todoName: string;
+}
+
+export interface TodoWithDate extends TodoResponseDto {
   createdAt: string;
 }
 

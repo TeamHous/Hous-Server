@@ -5,7 +5,7 @@ export interface RuleInfo {
   categoryId: mongoose.Types.ObjectId;
   ruleName: string;
   ruleMembers: RuleMembers[];
-  tmpRuleMembers: RuleMembers[];
+  tmpRuleMembers: mongoose.Types.ObjectId[];
   isKeyRules: Boolean;
   notificationState: Boolean;
   tmpUpdatedDate: Date;

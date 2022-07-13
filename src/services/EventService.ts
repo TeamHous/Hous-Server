@@ -47,7 +47,7 @@ const createEvent = async (
       roomId: roomId,
       eventName: eventCreateDto.eventName,
       eventIcon: eventCreateDto.eventIcon,
-      date: dayjs(eventCreateDto.date),
+      date: dayjs(eventCreateDto.date).format('YYYY-MM-DD'),
       participantsId: eventCreateDto.participants
     });
 
@@ -110,6 +110,8 @@ const updateEvent = async (
       checkObjectIdValidation(user);
       participants.push(user.toString());
     });
+
+    eventUpdateDto.date = dayjs(eventUpdateDto.date).format('YYYY-MM-DD');
 
     await Event.findByIdAndUpdate(eventId, eventUpdateDto);
 
@@ -196,7 +198,7 @@ const getEvent = async (
       _id: event._id,
       eventName: event.eventName,
       eventIcon: event.eventIcon,
-      date: dayjs(event.date).format('YYYY-MM-DD'),
+      date: dayjs(event.date).add(9, 'hour').format('YYYY-MM-DD'),
       participants: participants
     };
 

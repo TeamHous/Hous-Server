@@ -807,27 +807,47 @@ const getHomiesWithIsTmpMember = async (
 
     let homiesWithIsTmpMembersWithDate: HomiesWithIsTmpMemberWithDate[];
 
-    // tmpUpdatedDate === 오늘 -> tmpRuleMembers에 있는 유저는 isTmpMembers = true
-    // tmpUpdatedDate !== 오늘 -> 모든 유저는 isTmpMembers = false
+    // tmpUpdatedDate === 오늘 -> tmpRuleMembers에 있는 유저는 isChecked = true
     if (dayjs().isSame(rule.tmpUpdatedDate, 'day')) {
       homiesWithIsTmpMembersWithDate = await Promise.all(
-        homies.map(async homie => {
+        homies.map(async (homie: any) => {
+          let isChecked: boolean = false;
+          for (const userId of rule.tmpRuleMembers) {
+            if (userId.equals(homie._id)) {
+              isChecked = true;
+              break;
+            }
+          }
+
           return {
             _id: homie._id as string,
             userName: homie.userName as string,
-            isTmpMember: rule.tmpRuleMembers.includes(homie._id),
+            isChecked: isChecked,
             typeColor: (homie.typeId as any).typeColor as string,
             typeUpdatedDate: homie.typeUpdatedDate
           };
         })
       );
     } else {
+      // tmpUpdatedDate !== 오늘 -> 고정 담당자 리스트에 있는 유저만 isChecked = true
       homiesWithIsTmpMembersWithDate = await Promise.all(
-        homies.map(async homie => {
+        homies.map(async (homie: any) => {
+          let isChecked: boolean = false;
+
+          for (const member of rule.ruleMembers) {
+            if (
+              member.userId.equals(homie._id) &&
+              member.day.includes(dayjs().day())
+            ) {
+              isChecked = true;
+              break;
+            }
+          }
+
           return {
             _id: homie._id as string,
             userName: homie.userName as string,
-            isTmpMember: false,
+            isChecked: isChecked,
             typeColor: (homie.typeId as any).typeColor as string,
             typeUpdatedDate: homie.typeUpdatedDate
           };
@@ -850,7 +870,6 @@ const getHomiesWithIsTmpMember = async (
 
     const data: HomiesWithIsTmpMemberResponseDto = {
       _id: ruleId,
-      ruleName: rule.ruleName,
       homies: homiesWithIsTmpMembers
     };
 

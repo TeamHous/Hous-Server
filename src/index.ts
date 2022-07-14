@@ -13,7 +13,7 @@ require('dotenv').config();
 connectDB();
 
 let morganFormat: string;
-if (process.env.NODE_ENV !== 'development') {
+if (config.env === 'production') {
   morganFormat = 'combined'; // Apache 표준
 } else {
   morganFormat = 'dev';
@@ -54,7 +54,7 @@ app
   .listen(config.port, () => {
     logger.info(`
     ########################################################
-          🛡️ [${process.env.NODE_ENV}] Server listening on port 🛡️
+          🛡️ [${config.env}] Server listening on port 🛡️
     ######################################################## 
   `);
   })

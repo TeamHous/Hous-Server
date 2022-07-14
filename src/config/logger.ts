@@ -1,4 +1,5 @@
 import winston from 'winston';
+import config from '.';
 // import winstonDaily from 'winston-daily-rotate-file'; // 로그 파일을 일별로 local에 저장할 때 사용
 
 // const logDir = 'logs'; // logs 디렉토리 하위에 로그 파일 저장
@@ -51,7 +52,7 @@ const stream = {
 };
 
 // development 환경인 경우,
-if (process.env.NODE_ENV === 'development') {
+if (config.env !== 'production') {
   logger.add(
     new winston.transports.Console({
       format: winston.format.combine(colorize({ all: true }), logFormat) //색깔 표시 및 정의한 로그 포맷 형태로

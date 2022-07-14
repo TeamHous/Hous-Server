@@ -857,7 +857,7 @@ const getMyRuleInfo = async (
           'day'
         );
 
-        let ruleMembers = [];
+        let ruleMembers = []; // ruleMembers, tmpRuleMembers를 담는 리스트
 
         if (!tmpUpdatedToday) {
           // 고정담당자를 확인해야 하는 경우
@@ -872,6 +872,7 @@ const getMyRuleInfo = async (
         if (!tmpUpdatedToday) {
           // 고정담당자를 확인해야 하는 경우
           for (const member of ruleMembers) {
+            // ruleMembers를 담는 리스트
             if (member.userId != null && member.userId.toString() == userId) {
               // 내가 포함된 경우
               if (member.day.includes(dayjs().day())) {
@@ -882,7 +883,8 @@ const getMyRuleInfo = async (
         } else {
           // 임시담당자를 확인해야 하는 경우
           for (const member of ruleMembers) {
-            if (member.userId != null && member.userId.toString() == userId) {
+            // tmpRuleMembers를 담는 리스트
+            if (member != null && member.toString() == userId) {
               // 내가 포함된 경우
               flag = true;
             }

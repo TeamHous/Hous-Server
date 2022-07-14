@@ -131,7 +131,7 @@ const createRule = async (
       tmpRuleMembers: [],
       isKeyRules: ruleCreateDto.isKeyRules,
       notificationState: ruleCreateDto.notificationState,
-      tmpUpdatedDate: dayjs().subtract(10, 'day')
+      tmpUpdatedDate: dayjs().subtract(10, 'day').format('YYYY-MM-DD')
     });
 
     await rule.save();
@@ -666,7 +666,7 @@ const getRulesByCategoryId = async (
           const keyRule: KeyRulesWithDate = {
             _id: tmpRule._id,
             ruleName: tmpRule.ruleName,
-            ruleCreatedDate: tmpRule.createdAt
+            ruleCreatedDate: tmpRule.createdAt // 정렬용으로만 사용해서 +9시간 생략
           };
 
           keyRulesWithDate.push(keyRule);
@@ -714,7 +714,7 @@ const getRulesByCategoryId = async (
           const rule: RulesWithDate = {
             _id: tmpRule._id,
             ruleName: tmpRule.ruleName,
-            ruleCreatedDate: tmpRule.createdAt,
+            ruleCreatedDate: tmpRule.createdAt, // 정렬용으로만 사용해서 +9시간 생략
             membersCnt: tmpRule.ruleMembers.length,
             typeColors: typeColors
           };

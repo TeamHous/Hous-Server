@@ -1,13 +1,14 @@
+import mongoose from 'mongoose';
+
 export interface HomiesWithIsTmpMemberResponseDto {
   _id: string;
-  ruleName: string;
   homies: HomiesWithIsTmpMember[];
 }
 
 export interface HomiesWithIsTmpMember {
   _id: string;
   userName: string;
-  isTmpMember: boolean;
+  isChecked: boolean;
   typeColor: string;
 }
 

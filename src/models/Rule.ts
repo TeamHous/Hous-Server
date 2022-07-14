@@ -32,7 +32,13 @@ const RuleSchema = new mongoose.Schema(
         ]
       }
     ],
-    tmpRuleMembers: [mongoose.Types.ObjectId],
+    tmpRuleMembers: [
+      {
+        type: mongoose.Types.ObjectId,
+        required: false,
+        ref: 'User'
+      }
+    ],
     isKeyRules: {
       type: Boolean,
       required: true

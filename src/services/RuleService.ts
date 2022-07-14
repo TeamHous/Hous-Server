@@ -11,6 +11,13 @@ import {
   RuleCategories,
   RuleCreateInfoResponseDto
 } from '../interfaces/rule/RuleCreateInfoResponseDto';
+import {
+  RuleHomeResponseDto,
+  TodayTodoRulesWithDate,
+  TodayMembersWithTypeColorWithDate,
+  TodayMembersWithTypeColor,
+  TodayTodoRules
+} from '../interfaces/rule/RuleHomeResponseDto';
 import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto';
 import {
   RuleMembers,
@@ -1036,6 +1043,152 @@ const getMyRuleInfo = async (
   }
 };
 
+const getRuleInfoAtRuleHome = async (
+  userId: string,
+  roomId: string
+): Promise<RuleHomeResponseDto> => {
+  try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    const rules = await Rule.find({
+      roomId: roomId
+    });
+
+    const todayTodoRulesWithDate: TodayTodoRulesWithDate[] = [];
+
+    await Promise.all(
+      rules.map(async (rule: any) => {
+        // 오늘의 고정 담당자 구하기
+        const originalTodayMembers: string[] = [];
+        await Promise.all(
+          rule.ruleMembers.map(async (ruleMember: any) => {
+            if (ruleMember.day.includes(dayjs().day())) {
+              originalTodayMembers.push(ruleMember.userId);
+            }
+          })
+        );
+
+        let isDiff = false;
+        const todayMembersWithTypeColorWithDate: TodayMembersWithTypeColorWithDate[] =
+          [];
+        // tmpUpdatedDate == 오늘 -> tmpRuleMembers 탐색
+        if (dayjs().isSame(rule.tmpUpdatedDate, 'day')) {
+          await rule.populate(
+            'tmpRuleMembers',
+            'userName typeId typeUpdatedDate'
+          );
+          await rule.populate('tmpRuleMembers.typeId', 'typeColor');
+
+          await Promise.all(
+            rule.tmpRuleMembers.map(async (tmpMember: any) => {
+              todayMembersWithTypeColorWithDate.push({
+                userName: tmpMember.userName,
+                typeColor: tmpMember.typeId.typeColor,
+                typeUpdatedDate: tmpMember.typeUpdatedDate
+              });
+
+              // 오늘의 임시 담당자와 고정 담당자 비교
+              if (
+                !isDiff &&
+                !originalTodayMembers.includes(tmpMember.toString())
+              ) {
+                isDiff = true;
+              }
+            })
+          );
+        } else {
+          // tmpUpdatedDate != 오늘 -> ruleMembers 탐색
+          await rule.populate(
+            'ruleMembers.userId',
+            'userName typeId typeUpdatedDate'
+          );
+          await rule.populate('ruleMembers.userId.typeId', 'typeColor');
+
+          await Promise.all(
+            rule.ruleMembers.map(async (member: any) => {
+              // 오늘 요일의 고정담당이 존재할 경우
+              if (member.userId != null && member.day.includes(dayjs().day())) {
+                todayMembersWithTypeColorWithDate.push({
+                  userName: member.userId.userName,
+                  typeColor: member.userId.typeId.typeColor,
+                  typeUpdatedDate: member.typeUpdatedDate
+                });
+              }
+              // 오늘의 임시 담당자와 고정 담당자 비교 필요 없음
+            })
+          );
+        }
+
+        todayMembersWithTypeColorWithDate.sort((before, current) => {
+          return dayjs(before.typeUpdatedDate).isAfter(
+            dayjs(current.typeUpdatedDate)
+          )
+            ? 1
+            : -1;
+        });
+
+        const todayMembersWithTypeColor: TodayMembersWithTypeColor[] =
+          todayMembersWithTypeColorWithDate.map(
+            ({ typeUpdatedDate, ...rest }) => {
+              return rest;
+            }
+          );
+
+        todayTodoRulesWithDate.push({
+          _id: rule._id,
+          ruleName: rule.ruleName,
+          todayMembersWithTypeColor: todayMembersWithTypeColor,
+          isDiff: isDiff,
+          createdAt: rule.createdAt // 정렬을 위해 사용할거라 +9 안함
+        });
+      })
+    );
+
+    todayTodoRulesWithDate.sort((before, current) => {
+      return dayjs(before.createdAt).isAfter(dayjs(current.createdAt)) ? 1 : -1;
+    });
+
+    const todayTodoRules: TodayTodoRules[] = todayTodoRulesWithDate.map(
+      ({ createdAt, ...rest }) => {
+        return rest;
+      }
+    );
+
+    const keyRules: TodayTodoRules[] = [];
+    const todoRules: TodayTodoRules[] = [];
+    await Promise.all(
+      todayTodoRules.map(async (todoRule: any) => {
+        if (todoRule.todayMembersWithTypeColor.length == 0) {
+          keyRules.push(todoRule);
+        } else {
+          todoRules.push(todoRule);
+        }
+      })
+    );
+
+    const data: RuleHomeResponseDto = {
+      ruleCategories: [],
+      todayTodoRules: keyRules.concat(todoRules)
+    };
+
+    console.log(todayTodoRules);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
@@ -1048,5 +1201,6 @@ export default {
   getRulesByCategoryId,
   getHomiesWithIsTmpMember,
   updateTmpRuleMembers,
-  getMyRuleInfo
+  getMyRuleInfo,
+  getRuleInfoAtRuleHome
 };

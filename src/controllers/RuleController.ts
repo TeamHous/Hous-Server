@@ -7,6 +7,8 @@ import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto'
 import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RulesByCategoryResponseDto } from '../interfaces/rule/RulesByCategoryResponseDto';
+import { RuleTodoCheckUpdateDto } from '../interfaces/rule/RuleTodoCheckUpdateDto';
+import { RuleTodoCheckUpdateResponseDto } from '../interfaces/rule/RuleTodoCheckUpdateResponseDto';
 import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
 import { TmpRuleMembersUpdateResponseDto } from '../interfaces/rule/TmpRuleMembersUpdateResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
@@ -425,6 +427,51 @@ const getMyRuleInfo = async (
   }
 };
 
+/**
+ *  @route PUT /room/:roomId/rules/:ruleId/check
+ *  @desc Read my rule info
+ *  @access Private
+ */
+const updateMyRuleTodoCheck = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
+  const userId: string = req.body.user._id;
+  const ruleTodoCheckUpdateDto: RuleTodoCheckUpdateDto = req.body;
+  const { roomId, ruleId } = req.params;
+
+  try {
+    const data: RuleTodoCheckUpdateResponseDto =
+      await RuleService.updateMyRuleTodoCheck(
+        userId,
+        roomId,
+        ruleId,
+        ruleTodoCheckUpdateDto
+      );
+    res
+      .status(statusCode.OK)
+      .send(
+        util.success(
+          statusCode.OK,
+          message.UPDATE_MY_RULE_TODO_CHECK_SUCCESS,
+          data
+        )
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
@@ -437,5 +484,6 @@ export default {
   getRulesByCategoryId,
   getHomiesWithIsTmpMember,
   updateTmpRuleMembers,
-  getMyRuleInfo
+  getMyRuleInfo,
+  updateMyRuleTodoCheck
 };

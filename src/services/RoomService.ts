@@ -275,12 +275,12 @@ const getRoomInfoAtHome = async (
     // Events 조회
     const tmpEventList = await Event.find({
       roomId: roomId,
-      date: { $gt: dayjs().subtract(9, 'hour') }
+      date: { $gt: dayjs() }
     });
 
     const eventList: EventsResponseDto[] = await Promise.all(
       tmpEventList.map(async (event: any) => {
-        const nowEventDate = dayjs(event.date).add(9, 'hour');
+        const nowEventDate = dayjs(event.date);
         const todayDate = dayjs();
         const eventDday = nowEventDate.diff(todayDate, 'day');
         const result = {
@@ -345,9 +345,9 @@ const getRoomInfoAtHome = async (
         await Promise.all(
           rule.tmpRuleMembers.map(async (member: any) => {
             // tmpUpdateDate가 오늘인데 userId가 있으면 나는 오늘 임시담당자
-            const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate)
-              .add(9, 'hour')
-              .format('YYYY-MM-DD');
+            const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate).format(
+              'YYYY-MM-DD'
+            );
             if (
               member.userId !== null &&
               member.userId.toString() === userId &&
@@ -409,7 +409,7 @@ const checkTodoListForCheckStatus = async (
       createdAt: dayjs(rule.createdAt).add(9, 'hour').format()
     };
   } else {
-    const existCheckDate = dayjs(existCheck.date).add(9, 'hour');
+    const existCheckDate = dayjs(existCheck.date);
     checkStatus = existCheckDate.isSame(dayjs()) ? true : false;
   }
   return {

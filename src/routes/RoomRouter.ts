@@ -70,6 +70,12 @@ router.put(
   RuleController.updateRule
 );
 router.delete('/:roomId/rule/:ruleId', auth, RuleController.deleteRule);
+router.put(
+  '/:roomId/rule/:ruleId/today',
+  auth,
+  [body('tmpRuleMembers').not().isEmpty()],
+  RuleController.updateTmpRuleMembers
+);
 
 /**
  * 규칙 카테고리

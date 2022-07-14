@@ -34,17 +34,9 @@ const RuleSchema = new mongoose.Schema(
     ],
     tmpRuleMembers: [
       {
-        userId: {
-          type: mongoose.Types.ObjectId,
-          required: false,
-          ref: 'User'
-        },
-        day: [
-          {
-            type: Number,
-            required: false
-          }
-        ]
+        type: mongoose.Types.ObjectId,
+        required: false,
+        ref: 'User'
       }
     ],
     isKeyRules: {

@@ -874,10 +874,8 @@ const getMyRuleInfo = async (
           for (const member of ruleMembers) {
             if (member.userId != null && member.userId.toString() == userId) {
               // 내가 포함된 경우
-              for (const day of member.day) {
-                if (day == dayjs().day()) {
-                  flag = true;
-                }
+              if (member.day.includes(dayjs().day())) {
+                flag = true;
               }
             }
           }

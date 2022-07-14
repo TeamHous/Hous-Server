@@ -41,11 +41,15 @@ jobs:
           echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
           cat .env
 
-      - name: build server files
+      - name: test
         working-directory: ./
         run: |
           yarn
-          yarn run build
+          yarn test
+
+      - name: build server files
+        working-directory: ./
+        run: yarn run build
 
       - name: zip file
         run: zip -r hous.zip ./dist ./scripts ./appspec.yml ./.env ./package.json

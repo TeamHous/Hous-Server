@@ -21,6 +21,8 @@ import {
   TypeColors
 } from '../interfaces/rule/RulesByCategoryResponseDto';
 import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
+import { TmpRuleMembersUpdateDto } from '../interfaces/rule/TmpRuleMembersUpdateDto';
+import { TmpRuleMembersUpdateResponseDto } from '../interfaces/rule/TmpRuleMembersUpdateResponseDto';
 import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
 import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
 import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
@@ -494,7 +496,7 @@ const updateRuleCategory = async (
     // 규칙 카테고리 아이콘 유효성 확인
     checkIconType.isRuleCategoryIconType(ruleCategoryUpdateDto.categoryIcon);
 
-    await RuleCategory.findByIdAndUpdate(categoryId, ruleCategoryUpdateDto);
+    await ruleCategory.updateOne(ruleCategoryUpdateDto);
 
     const data: RuleCategoryResponseDto = {
       _id: categoryId,
@@ -767,6 +769,60 @@ const getRulesByCategoryId = async (
   }
 };
 
+const updateTmpRuleMembers = async (
+  userId: string,
+  roomId: string,
+  ruleId: string,
+  tmpRuleMembersUpdateDto: TmpRuleMembersUpdateDto
+): Promise<TmpRuleMembersUpdateResponseDto> => {
+  try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // ruleId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 규칙 존재 여부 확인
+    const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
+
+    await Promise.all(
+      tmpRuleMembersUpdateDto.tmpRuleMembers.map(async (ruleMemberId: any) => {
+        // tmpRuleMember로 설정할 유저 존재 확인
+        const ruleMember = await RuleServiceUtils.findUserById(ruleMemberId);
+        // 방에 참가하고 있는 tmpRuleMember가 아니라면 설정 불가능
+        await RuleServiceUtils.checkForbiddenRoom(ruleMember.roomId, room._id);
+      })
+    );
+
+    await rule.updateOne({
+      tmpRuleMembers: tmpRuleMembersUpdateDto.tmpRuleMembers,
+      tmpUpdatedDate: dayjs().format('YYYY-MM-DD')
+    });
+
+    const data: TmpRuleMembersUpdateResponseDto = {
+      _id: rule._id,
+      ruleName: rule.ruleName,
+      tmpRuleMembers: tmpRuleMembersUpdateDto.tmpRuleMembers
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
@@ -776,5 +832,6 @@ export default {
   updateRuleCategory,
   deleteRuleCategory,
   getRuleCreateInfo,
-  getRulesByCategoryId
+  getRulesByCategoryId,
+  updateTmpRuleMembers
 };

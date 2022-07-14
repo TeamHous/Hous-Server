@@ -81,6 +81,7 @@ router.put(
   [body('tmpRuleMembers').not().isEmpty()],
   RuleController.updateTmpRuleMembers
 );
+router.get('/:roomId/rules/me', auth, RuleController.getMyRuleInfo);
 
 /**
  * 규칙 카테고리

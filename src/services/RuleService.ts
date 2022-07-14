@@ -6,6 +6,7 @@ import {
   RuleCategories,
   RuleCreateInfoResponseDto
 } from '../interfaces/rule/RuleCreateInfoResponseDto';
+import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto';
 import {
   RuleMembers,
   RuleReadInfo,
@@ -823,6 +824,108 @@ const updateTmpRuleMembers = async (
   }
 };
 
+const getMyRuleInfo = async (
+  userId: string,
+  roomId: string
+): Promise<RuleMyTodoResponseDto[]> => {
+  try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 방에 포함되고 keyRules가 아닌 규칙들 조회
+    const tmpRules = await Rule.find({
+      roomId: roomId,
+      isKeyRules: false
+    });
+
+    let data: RuleMyTodoResponseDto[] = [];
+
+    await Promise.all(
+      tmpRules.map(async (tmpRule: any) => {
+        // 고정담당자, 임시담당자 중 어떤 걸 확인해야하는지 결정
+        const tmpUpdatedToday: boolean = dayjs().isSame(
+          tmpRule.tmpUpdatedDate,
+          'day'
+        );
+
+        let ruleMembers = []; // ruleMembers, tmpRuleMembers를 담는 리스트
+
+        if (!tmpUpdatedToday) {
+          // 고정담당자를 확인해야 하는 경우
+          ruleMembers = tmpRule.ruleMembers;
+        } else {
+          // 임시담당자를 확인해야 하는 경우
+          ruleMembers = tmpRule.tmpRuleMembers;
+        }
+
+        // 내가 포함되고 오늘의 규칙인지 확인
+        let flag = false;
+        if (!tmpUpdatedToday) {
+          // 고정담당자를 확인해야 하는 경우
+          for (const member of ruleMembers) {
+            // ruleMembers를 담는 리스트
+            if (member.userId != null && member.userId.toString() == userId) {
+              // 내가 포함된 경우
+              if (member.day.includes(dayjs().day())) {
+                flag = true;
+              }
+            }
+          }
+        } else {
+          // 임시담당자를 확인해야 하는 경우
+          for (const member of ruleMembers) {
+            // tmpRuleMembers를 담는 리스트
+            if (member != null && member.toString() == userId) {
+              // 내가 포함된 경우
+              flag = true;
+            }
+          }
+        }
+
+        // 오늘 나의 규칙인 경우 체크 여부 확인
+        if (flag) {
+          const checks = await Check.find({
+            userId: userId,
+            ruleId: tmpRule._id
+          });
+
+          let isChecked: boolean = false;
+
+          for (const check of checks) {
+            if (dayjs().isSame(check.date, 'day')) {
+              isChecked = true;
+              break;
+            }
+          }
+
+          await tmpRule.populate('categoryId', 'categoryIcon');
+          const myToDoInfo: RuleMyTodoResponseDto = {
+            _id: tmpRule._id,
+            categoryIcon: tmpRule.categoryId.categoryIcon,
+            ruleName: tmpRule.ruleName,
+            isChecked: isChecked
+          };
+
+          data.push(myToDoInfo);
+        }
+      })
+    );
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
@@ -833,5 +936,6 @@ export default {
   deleteRuleCategory,
   getRuleCreateInfo,
   getRulesByCategoryId,
-  updateTmpRuleMembers
+  updateTmpRuleMembers,
+  getMyRuleInfo
 };

@@ -1,5 +1,10 @@
 import dayjs from 'dayjs';
 import errorGenerator from '../errors/errorGenerator';
+import {
+  HomiesWithIsTmpMember,
+  HomiesWithIsTmpMemberResponseDto,
+  HomiesWithIsTmpMemberWithDate
+} from '../interfaces/rule/HomiesWithIsTmpMemberResponseDto';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import {
   Homies,
@@ -770,6 +775,111 @@ const getRulesByCategoryId = async (
   }
 };
 
+const getHomiesWithIsTmpMember = async (
+  userId: string,
+  roomId: string,
+  ruleId: string
+): Promise<HomiesWithIsTmpMemberResponseDto> => {
+  try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // ruleId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 규칙 존재 여부 확인
+    const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
+
+    const homies = await User.find({
+      roomId: roomId
+    }).populate('typeId', 'typeColor');
+
+    let homiesWithIsTmpMembersWithDate: HomiesWithIsTmpMemberWithDate[];
+
+    // tmpUpdatedDate === 오늘 -> tmpRuleMembers에 있는 유저는 isChecked = true
+    if (dayjs().isSame(rule.tmpUpdatedDate, 'day')) {
+      homiesWithIsTmpMembersWithDate = await Promise.all(
+        homies.map(async (homie: any) => {
+          let isChecked: boolean = false;
+          for (const userId of rule.tmpRuleMembers) {
+            if (userId.equals(homie._id)) {
+              isChecked = true;
+              break;
+            }
+          }
+
+          return {
+            _id: homie._id as string,
+            userName: homie.userName as string,
+            isChecked: isChecked,
+            typeColor: (homie.typeId as any).typeColor as string,
+            typeUpdatedDate: homie.typeUpdatedDate
+          };
+        })
+      );
+    } else {
+      // tmpUpdatedDate !== 오늘 -> 고정 담당자 리스트에 있는 유저만 isChecked = true
+      homiesWithIsTmpMembersWithDate = await Promise.all(
+        homies.map(async (homie: any) => {
+          let isChecked: boolean = false;
+
+          for (const member of rule.ruleMembers) {
+            if (
+              member.userId.equals(homie._id) &&
+              member.day.includes(dayjs().day())
+            ) {
+              isChecked = true;
+              break;
+            }
+          }
+
+          return {
+            _id: homie._id as string,
+            userName: homie.userName as string,
+            isChecked: isChecked,
+            typeColor: (homie.typeId as any).typeColor as string,
+            typeUpdatedDate: homie.typeUpdatedDate
+          };
+        })
+      );
+    }
+
+    homiesWithIsTmpMembersWithDate.sort((before, current) => {
+      return dayjs(before.typeUpdatedDate).isAfter(
+        dayjs(current.typeUpdatedDate)
+      )
+        ? 1
+        : -1;
+    });
+
+    const homiesWithIsTmpMembers: HomiesWithIsTmpMember[] =
+      homiesWithIsTmpMembersWithDate.map(({ typeUpdatedDate, ...rest }) => {
+        return rest;
+      });
+
+    const data: HomiesWithIsTmpMemberResponseDto = {
+      _id: ruleId,
+      homies: homiesWithIsTmpMembers
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const updateTmpRuleMembers = async (
   userId: string,
   roomId: string,
@@ -936,6 +1046,7 @@ export default {
   deleteRuleCategory,
   getRuleCreateInfo,
   getRulesByCategoryId,
+  getHomiesWithIsTmpMember,
   updateTmpRuleMembers,
   getMyRuleInfo
 };

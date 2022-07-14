@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
+import { HomiesWithIsTmpMemberResponseDto } from '../interfaces/rule/HomiesWithIsTmpMemberResponseDto';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import { RuleCreateInfoResponseDto } from '../interfaces/rule/RuleCreateInfoResponseDto';
 import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto';
@@ -319,6 +320,37 @@ const getRulesByCategoryId = async (
 };
 
 /**
+ *  @route GET /room/:roomId/rule/:ruleId/today
+ *  @desc Read homies when set temp ruleMembers of today
+ *  @access Private
+ */
+const getHomiesWithIsTmpMember = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId, ruleId } = req.params;
+
+  try {
+    const data: HomiesWithIsTmpMemberResponseDto =
+      await RuleService.getHomiesWithIsTmpMember(userId, roomId, ruleId);
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(
+          statusCode.OK,
+          message.READ_HOMIES_WITH_IS_TMP_MEMBERS_SUCCESS,
+          data
+        )
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  *  @route PUT /room/:roomId/rule/:ruleId/today
  *  @desc Update temp ruleMembers of today
  *  @access Private
@@ -340,6 +372,7 @@ const updateTmpRuleMembers = async (
   const userId: string = req.body.user._id;
   const tmpRuleMembersUpdateDto = req.body;
   const { roomId, ruleId } = req.params;
+
   try {
     const data: TmpRuleMembersUpdateResponseDto =
       await RuleService.updateTmpRuleMembers(
@@ -402,6 +435,7 @@ export default {
   deleteRuleCategory,
   getRuleCreateInfo,
   getRulesByCategoryId,
+  getHomiesWithIsTmpMember,
   updateTmpRuleMembers,
   getMyRuleInfo
 };

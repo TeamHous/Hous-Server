@@ -3,6 +3,7 @@ import { Result, ValidationError, validationResult } from 'express-validator';
 import { HomiesWithIsTmpMemberResponseDto } from '../interfaces/rule/HomiesWithIsTmpMemberResponseDto';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import { RuleCreateInfoResponseDto } from '../interfaces/rule/RuleCreateInfoResponseDto';
+import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto';
 import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
 import { RulesByCategoryResponseDto } from '../interfaces/rule/RulesByCategoryResponseDto';
@@ -395,6 +396,35 @@ const updateTmpRuleMembers = async (
   }
 };
 
+/**
+ *  @route GET /room/:roomId/rules/me
+ *  @desc Read my rule info
+ *  @access Private
+ */
+const getMyRuleInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId } = req.params;
+
+  try {
+    const data: RuleMyTodoResponseDto[] = await RuleService.getMyRuleInfo(
+      userId,
+      roomId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.READ_MY_RULE_TO_DO_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createRule,
   getRuleByRuleId,
@@ -406,5 +436,6 @@ export default {
   getRuleCreateInfo,
   getRulesByCategoryId,
   getHomiesWithIsTmpMember,
-  updateTmpRuleMembers
+  updateTmpRuleMembers,
+  getMyRuleInfo
 };

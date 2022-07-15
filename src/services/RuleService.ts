@@ -687,13 +687,20 @@ const getRulesByCategoryId = async (
           await tmpRule.populate('ruleMembers.userId.typeId', 'typeColor ');
 
           const typeColorsWithDate: TypeColors[] = [];
+          const typeColorsWithNoDate: TypeColors[] = [];
 
           await Promise.all(
             tmpRule.ruleMembers.map(async (ruleMember: any) => {
               if (ruleMember.userId !== null) {
-                // 성향 검사 일시가 null 이 아닐 경우 -> 성향 존재한다는 것
-                if (ruleMember.userId.typeUpdateDate !== null) {
+                // 성향 검사 일시가 null 이 아닐 경우
+                if (ruleMember.userId.typeUpdatedDate !== null) {
                   typeColorsWithDate.push({
+                    typeColor: ruleMember.userId.typeId.typeColor,
+                    typeUpdatedDate: ruleMember.userId.typeUpdatedDate
+                  });
+                } else {
+                  // 성향 검사 일시가 null일 경우
+                  typeColorsWithNoDate.push({
                     typeColor: ruleMember.userId.typeId.typeColor,
                     typeUpdatedDate: ruleMember.userId.typeUpdatedDate
                   });
@@ -712,8 +719,11 @@ const getRulesByCategoryId = async (
               : -1;
           });
 
+          const typeColorsAllWithDate =
+            typeColorsWithDate.concat(typeColorsWithNoDate);
+
           // 최종 typeColors의 length를 최대 3으로 자르고 Date 지우기
-          const typeColors: string[] = typeColorsWithDate
+          const typeColors: string[] = typeColorsAllWithDate
             .slice(0, limitNum.TYPES_AT_RULE_BY_CATEGORY_CNT)
             .map((typeColor: TypeColors) => {
               return typeColor.typeColor;

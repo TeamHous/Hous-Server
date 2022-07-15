@@ -1,16 +1,30 @@
 import assert from 'assert';
+import { afterEach } from 'mocha';
 import { SignupDto } from '../src/interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../src/interfaces/common/PostBaseResponseDto';
 import { RoomJoinDto } from '../src/interfaces/room/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/RoomResponseDto';
 import connectDB from '../src/loaders/db';
+import Check from '../src/models/Check';
+import Event from '../src/models/Event';
 import Room from '../src/models/Room';
+import Rule from '../src/models/Rule';
+import RuleCategory from '../src/models/RuleCategory';
 import User from '../src/models/User';
 import RoomService from '../src/services/RoomService';
 import UserService from '../src/services/UserService';
 
 describe('RoomService Tests', () => {
   connectDB();
+  // 단위 테스트 종료될때마다 Type 컬렉션 제외한 모든 컬렉션 초기화
+  afterEach(() => {
+    Check.collection.drop();
+    Event.collection.drop();
+    Room.collection.drop();
+    Rule.collection.drop();
+    RuleCategory.collection.drop();
+    User.collection.drop();
+  });
   it('createRoom test', async () => {
     // given
     const signupDto: SignupDto = {
@@ -31,8 +45,6 @@ describe('RoomService Tests', () => {
     // then
     const user = await User.findById(userId);
     assert.equal(user!.roomId.toString(), createdRoomId);
-    await Room.findByIdAndDelete(createdRoomId);
-    await User.findByIdAndDelete(userId);
   });
   it('joinRoom test', async () => {
     // given
@@ -74,8 +86,5 @@ describe('RoomService Tests', () => {
     const user = await User.findById(userId2);
     assert.equal(user!.roomId.toString(), createdRoomId);
     assert.equal(user!.roomId.toString(), result._id.toString());
-    await Room.findByIdAndDelete(createdRoomId);
-    await User.findByIdAndDelete(userId1);
-    await User.findByIdAndDelete(userId2);
   });
 });

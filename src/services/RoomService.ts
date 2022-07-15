@@ -60,14 +60,15 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
       roomId: room._id
     });
 
-    const ruleCategory = new RuleCategory({
+    let ruleCategory = new RuleCategory({
       roomId: room._id,
       categoryName: '청소',
       categoryIcon: 'CLEAN'
     });
 
-    await ruleCategory.save();
+    ruleCategory = await ruleCategory.save();
 
+    // 가이드용 이벤트 생성
     const event = new Event({
       roomId: room._id,
       eventName: '여기에 이벤트를 추가하세요.',
@@ -77,6 +78,37 @@ const createRoom = async (userId: string): Promise<RoomResponseDto> => {
     });
 
     await event.save();
+
+    // 가이드용 규칙 생성
+    const keyRule = new Rule({
+      roomId: room._id,
+      categoryId: ruleCategory._id,
+      ruleName: '설거지는 먹고 바로하기',
+      ruleMembers: [],
+      tmpRuleMembers: [],
+      isKeyRules: true,
+      notificationState: false,
+      tmpUpdatedDate: dayjs().subtract(10, 'day').format('YYYY-MM-DD')
+    });
+
+    const rule = new Rule({
+      roomId: room._id,
+      categoryId: ruleCategory._id,
+      ruleName: '화장실 청소',
+      ruleMembers: [
+        {
+          userId: null,
+          day: [0, 1, 2, 3, 4, 5, 6]
+        }
+      ],
+      tmpRuleMembers: [],
+      isKeyRules: false,
+      notificationState: true,
+      tmpUpdatedDate: dayjs().subtract(10, 'day').format('YYYY-MM-DD')
+    });
+
+    await keyRule.save();
+    await rule.save();
 
     const data: RoomResponseDto = {
       _id: room._id,

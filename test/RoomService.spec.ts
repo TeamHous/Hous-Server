@@ -1,29 +1,29 @@
 import assert from 'assert';
 import { afterEach } from 'mocha';
+import config from '../src/config';
 import { SignupDto } from '../src/interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../src/interfaces/common/PostBaseResponseDto';
 import { RoomJoinDto } from '../src/interfaces/room/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/RoomResponseDto';
 import connectDB from '../src/loaders/db';
-import Check from '../src/models/Check';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
-import Rule from '../src/models/Rule';
 import RuleCategory from '../src/models/RuleCategory';
 import User from '../src/models/User';
 import RoomService from '../src/services/RoomService';
 import UserService from '../src/services/UserService';
 
 describe('RoomService Tests', () => {
+  if (config.env !== 'test') {
+    throw Error('test 환경이 아닙니다.');
+  }
   connectDB();
-  // 단위 테스트 종료될때마다 Type 컬렉션 제외한 모든 컬렉션 초기화
-  afterEach(() => {
-    Check.collection.drop();
-    Event.collection.drop();
-    Room.collection.drop();
-    Rule.collection.drop();
-    RuleCategory.collection.drop();
-    User.collection.drop();
+  // 단위 테스트 종료될때마다 서비스 관련 컬렉션 초기화
+  afterEach(async () => {
+    await User.collection.drop();
+    await Room.collection.drop();
+    await RuleCategory.collection.drop();
+    await Event.collection.drop();
   });
   it('createRoom test', async () => {
     // given

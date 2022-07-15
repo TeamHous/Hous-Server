@@ -5,14 +5,16 @@ import { SignupDto } from '../interfaces/auth/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
 import { HomieResponseDto } from '../interfaces/user/HomieResponseDto';
 import { UserModifyResponseDto } from '../interfaces/user/UserModifyResponseDto';
-import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDto';
-import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
-import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
-import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import {
   UserNotificationUpdateDto,
   UserNotificationUpdateResponseDto
 } from '../interfaces/user/UserNotificationStateUpdateDto';
+import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDto';
+import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
+import { UserTypeTestDto } from '../interfaces/user/UserTypeTestDto';
+import { UserTypeTestResponseDto } from '../interfaces/user/UserTypeTestResponseDto';
+import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
+import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import User from '../models/User';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
@@ -251,6 +253,43 @@ const updateUserNotificationState = async (
   }
 };
 
+const updateUserTypeScore = async (
+  userId: string,
+  userTypeTestDto: UserTypeTestDto
+): Promise<UserTypeTestResponseDto> => {
+  try {
+    const user = await UserServiceUtils.findUserById(userId);
+
+    if (userTypeTestDto.typeScore.length !== 5) {
+      throw errorGenerator({
+        statusCode: statusCode.BAD_REQUEST,
+        msg: message.BAD_REQUEST
+      });
+    }
+
+    // 각 문제 타입당 3문제씩
+    userTypeTestDto.typeScore.forEach(score => {
+      if (score > 9 || score < 3) {
+        throw errorGenerator({
+          statusCode: statusCode.BAD_REQUEST,
+          msg: message.BAD_REQUEST
+        });
+      }
+    });
+
+    await user.updateOne({ typeScore: userTypeTestDto.typeScore });
+
+    const data: UserTypeTestResponseDto = {
+      _id: user._id,
+      typeScore: userTypeTestDto.typeScore
+    };
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   createUser,
   updateUser,
@@ -258,5 +297,6 @@ export default {
   getUserAtModify,
   getUserSetting,
   getHomieProfile,
-  updateUserNotificationState
+  updateUserNotificationState,
+  updateUserTypeScore
 };

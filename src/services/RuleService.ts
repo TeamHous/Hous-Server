@@ -691,13 +691,10 @@ const getRulesByCategoryId = async (
           await Promise.all(
             tmpRule.ruleMembers.map(async (ruleMember: any) => {
               if (ruleMember.userId !== null) {
-                // 성향 검사 일시가 null 이 아닐 경우 -> 성향 존재한다는 것
-                if (ruleMember.userId.typeUpdateDate !== null) {
-                  typeColorsWithDate.push({
-                    typeColor: ruleMember.userId.typeId.typeColor,
-                    typeUpdatedDate: ruleMember.userId.typeUpdatedDate
-                  });
-                }
+                typeColorsWithDate.push({
+                  typeColor: ruleMember.userId.typeId.typeColor,
+                  typeUpdatedDate: ruleMember.userId.typeUpdatedDate
+                });
               }
             })
           );

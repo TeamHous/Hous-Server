@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { tmpdir } from 'os';
 import errorGenerator from '../errors/errorGenerator';
 import {
   HomiesWithIsTmpMember,

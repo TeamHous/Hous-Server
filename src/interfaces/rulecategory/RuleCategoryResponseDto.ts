@@ -1,9 +1,10 @@
-import mongoose from 'mongoose';
-
-export interface RuleCategoryResponseDto {
-  _id: string;
+export interface RuleCategoryResponseDto extends RuleCategoryBaseDto {
   roomId: string;
+  ruleCnt: number;
+}
+
+export interface RuleCategoryBaseDto {
+  _id: string;
   ruleCategoryName: string;
   ruleCategoryIcon: string;
-  ruleCnt: number;
 }

@@ -2,14 +2,15 @@ import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { HomieResponseDto } from '../interfaces/user/HomieResponseDto';
 import { UserModifyResponseDto } from '../interfaces/user/UserModifyResponseDto';
-import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDto';
-import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
-import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
-import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import {
   UserNotificationUpdateDto,
   UserNotificationUpdateResponseDto
 } from '../interfaces/user/UserNotificationStateUpdateDto';
+import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDto';
+import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
+import { UserTypeTestDto } from '../interfaces/user/UserTypeTestDto';
+import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
+import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -197,11 +198,50 @@ const getHomieProfile = async (
   }
 };
 
+/**
+ * @route PUT /user/type/test
+ * @desc Update user type test
+ * @access Private
+ */
+const updateUserTypeScore = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
+  const userId: string = req.body.user._id;
+  const userTypeTestDto: UserTypeTestDto = req.body;
+
+  try {
+    const data: UserTypeTestDto = await UserService.updateUserTypeScore(
+      userId,
+      userTypeTestDto
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.UPDATE_USER_TEST_TYPE_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getUserAtHome,
   getUserAtModify,
   updateUser,
   getUserSetting,
   getHomieProfile,
-  updateUserNotificationState
+  updateUserNotificationState,
+  updateUserTypeScore
 };

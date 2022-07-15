@@ -13,8 +13,8 @@ export interface EventsResponseDto extends EventResponseDto {
 }
 
 export interface TodoResponseDto {
-  existCheck: boolean;
-  todoName: string;
+  isChecked: boolean;
+  ruleName: string;
 }
 
 export interface TodoWithDate extends TodoResponseDto {

@@ -6,7 +6,10 @@ import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDt
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
-import { UserNotificationUpdateDto } from '../interfaces/user/UsuerNotificationStateUpdateDto';
+import {
+  UserNotificationUpdateDto,
+  UserNotificationUpdateResponseDto
+} from '../interfaces/user/UserNotificationStateUpdateDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
@@ -134,10 +137,24 @@ const updateUserNotificationState = async (
   res: Response,
   next: NextFunction
 ): Promise<void | Response> => {
+  const errors: Result<ValidationError> = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
+  }
+
   const userId: string = req.body.user._id;
+  const userNotificationStateUpdateDto: UserNotificationUpdateDto = req.body;
+
   try {
-    const data: UserNotificationUpdateDto =
-      await UserService.updateUserNotificationState(userId);
+    const data: UserNotificationUpdateResponseDto =
+      await UserService.updateUserNotificationState(
+        userId,
+        userNotificationStateUpdateDto
+      );
 
     return res
       .status(statusCode.OK)

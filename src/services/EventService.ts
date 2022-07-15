@@ -1,10 +1,15 @@
 import dayjs from 'dayjs';
 import { EventCreateDto } from '../interfaces/event/EventCreateDto';
 import { EventCreateResponseDto } from '../interfaces/event/EventCreateResponseDto';
-import { EventResponseDto } from '../interfaces/event/EventResponseDto';
+import {
+  EventResponseDto,
+  UserType,
+  UserTypeWithDate
+} from '../interfaces/event/EventResponseDto';
 import { EventUpdateDto } from '../interfaces/event/EventUpdateDto';
 import { EventUpdateResponseDto } from '../interfaces/event/EventUpdateResponseDto';
 import Event from '../models/Event';
+import User from '../models/User';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
 import limitNum from '../modules/limitNum';
@@ -190,9 +195,50 @@ const getEvent = async (
     // 참가하고 있는 방의 이벤트가 아니면 접근 불가능
     await EventServiceUtils.checkForbiddenEvent(user.roomId, event.roomId);
 
-    const participants: string[] = event.participantsId.map(participant => {
-      return participant.toString();
+    // 이벤트를 참여하는 모든 방의 유저 조회
+    const usersInRoom = await User.find({ roomId: roomId }).populate(
+      'typeId',
+      'typeColor'
+    );
+
+    const participantsWithDate: UserTypeWithDate[] = [];
+    const participantsNoDate: UserTypeWithDate[] = [];
+    await Promise.all(
+      usersInRoom.map(async (user: any) => {
+        if (user.tmpUpdatedDate != null) {
+          participantsWithDate.push({
+            _id: user._id,
+            userName: user.userName,
+            typeColor: user.typeId.typeColor,
+            typeUpdatedDate: user.typeUpdatedDate
+          });
+        } else {
+          participantsNoDate.push({
+            _id: user._id,
+            userName: user.userName,
+            typeColor: user.typeId.typeColor,
+            typeUpdatedDate: user.typeUpdatedDate
+          });
+        }
+      })
+    );
+
+    participantsWithDate.sort((before, current) => {
+      return dayjs(before.typeUpdatedDate).isAfter(
+        dayjs(current.typeUpdatedDate)
+      )
+        ? 1
+        : -1;
     });
+
+    const participantWithDate: UserTypeWithDate[] =
+      participantsWithDate.concat(participantsNoDate);
+
+    const participants: UserType[] = participantWithDate.map(
+      ({ typeUpdatedDate, ...rest }) => {
+        return rest;
+      }
+    );
 
     const data: EventResponseDto = {
       _id: event._id,

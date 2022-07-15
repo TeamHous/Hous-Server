@@ -285,10 +285,7 @@ const getRoomInfoAtHome = async (
         const eventDday = nowEventDate.diff(todayDate, 'day');
         const result = {
           _id: event._id,
-          eventName: event.eventName,
           eventIcon: event.eventIcon,
-          date: nowEventDate.format('YYYY-MM-DD'),
-          participants: event.participantsId,
           dDay: eventDday.toString()
         };
         return result;

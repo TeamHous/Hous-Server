@@ -1,4 +1,4 @@
-import { EventResponseDto } from '../event/EventResponseDto';
+import { PostBaseResponseDto } from '../common/PostBaseResponseDto';
 
 export interface HomeResponseDto {
   eventList: EventsResponseDto[];
@@ -8,7 +8,8 @@ export interface HomeResponseDto {
   roomCode: string;
 }
 
-export interface EventsResponseDto extends EventResponseDto {
+export interface EventsResponseDto extends PostBaseResponseDto {
+  eventIcon: string;
   dDay: string;
 }
 

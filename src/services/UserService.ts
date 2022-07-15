@@ -230,6 +230,16 @@ const updateUserNotificationState = async (
   try {
     const user = await UserServiceUtils.findUserById(userId);
 
+    if (
+      user.notificationState ===
+      userNotificationStateUpdateDto.notificationState
+    ) {
+      throw errorGenerator({
+        msg: message.BAD_REQUEST,
+        statusCode: statusCode.BAD_REQUEST
+      });
+    }
+
     await user.updateOne(userNotificationStateUpdateDto);
 
     const data: UserNotificationUpdateResponseDto = {

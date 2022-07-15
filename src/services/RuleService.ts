@@ -1116,6 +1116,14 @@ const updateMyRuleTodoCheck = async (
 
         await check.save();
 
+        // 이미 true 인데 true 요청을 받은 경우
+        if (checks.length > 0) {
+          throw errorGenerator({
+            msg: message.BAD_REQUEST,
+            statusCode: statusCode.BAD_REQUEST
+          });
+        }
+
         data = {
           isCheck: true
         };
@@ -1125,6 +1133,23 @@ const updateMyRuleTodoCheck = async (
           ruleId: ruleId,
           userId: userId
         });
+
+        let isAlreadyUnChecked: boolean = true;
+
+        for (const check of checks) {
+          if (dayjs(check.date).isSame(dayjs().format('YYYY-MM-DD'))) {
+            isAlreadyUnChecked = false;
+            break;
+          }
+        }
+
+        // 이미 false인데 false 요청을 받은 경우
+        if (isAlreadyUnChecked) {
+          throw errorGenerator({
+            msg: message.BAD_REQUEST,
+            statusCode: statusCode.BAD_REQUEST
+          });
+        }
 
         // 존재하는 check 들 모두 삭제
         for (const check of checks) {

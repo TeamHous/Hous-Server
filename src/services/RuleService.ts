@@ -35,6 +35,8 @@ import {
   RulesWithDate,
   TypeColors
 } from '../interfaces/rule/RulesByCategoryResponseDto';
+import { RuleTodoCheckUpdateDto } from '../interfaces/rule/RuleTodoCheckUpdateDto';
+import { RuleTodoCheckUpdateResponseDto } from '../interfaces/rule/RuleTodoCheckUpdateResponseDto';
 import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
 import { TmpRuleMembersUpdateDto } from '../interfaces/rule/TmpRuleMembersUpdateDto';
 import { TmpRuleMembersUpdateResponseDto } from '../interfaces/rule/TmpRuleMembersUpdateResponseDto';
@@ -1045,6 +1047,142 @@ const getMyRuleInfo = async (
   }
 };
 
+const updateMyRuleTodoCheck = async (
+  userId: string,
+  roomId: string,
+  ruleId: string,
+  ruleTodoCheckUpdateDto: RuleTodoCheckUpdateDto
+): Promise<RuleTodoCheckUpdateResponseDto> => {
+  try {
+    // 유저 존재 여부 확인
+    const user = await RuleServiceUtils.findUserById(userId);
+
+    // roomId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(roomId);
+
+    // ruleId가 ObjectId 형식인지 확인
+    checkObjectIdValidation(ruleId);
+
+    // 방 존재 여부 확인
+    const room = await RuleServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
+
+    // 규칙 존재 여부 확인
+    const rule = await RuleServiceUtils.findRuleById(ruleId);
+
+    // 참가하고 있는 방의 규칙이 아니면 접근 불가능
+    await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
+
+    // 해당 규칙의 오늘 담당자에 유저가 있는지 확인
+    let isMemberOfToday: boolean = false;
+
+    if (dayjs().isSame(rule.tmpUpdatedDate, 'day')) {
+      // tmpUpdatedDate === 오늘 -> 임시 담당자 확인
+      for (const userId of rule.tmpRuleMembers) {
+        if (userId.equals(user._id)) {
+          isMemberOfToday = true;
+          break;
+        }
+      }
+    } else {
+      // tmpUpdatedDate !== 오늘 -> 고정 담당자 확인
+      for (const member of rule.ruleMembers) {
+        if (
+          member.userId.equals(user._id) &&
+          member.day.includes(dayjs().day())
+        ) {
+          isMemberOfToday = true;
+          break;
+        }
+      }
+    }
+    let data: RuleTodoCheckUpdateResponseDto;
+
+    // 해당 규칙의 오늘 담당자에 유저가 있다면 체크 수정, 없다면
+    if (isMemberOfToday) {
+      // 체크 O로 수정
+      if (ruleTodoCheckUpdateDto.isCheck) {
+        const checks = await Check.find({
+          ruleId: ruleId,
+          userId: userId,
+          date: dayjs().format('YYYY-MM-DD')
+        });
+
+        // 1개 이상인 경우 for 문 동작
+        // 0개 일 경우 for문 건너뜀
+        for (const check of checks) {
+          await check.deleteOne();
+        }
+
+        // 오늘 날짜로 체크 생성
+        const check = new Check({
+          userId: userId,
+          ruleId: ruleId,
+          date: dayjs().format('YYYY-MM-DD')
+        });
+
+        await check.save();
+
+        // 이미 true 인데 true 요청을 받은 경우
+        if (checks.length > 0) {
+          throw errorGenerator({
+            msg: message.BAD_REQUEST,
+            statusCode: statusCode.BAD_REQUEST
+          });
+        }
+
+        data = {
+          isCheck: true
+        };
+      } else {
+        // 체크 X로 수정
+        const checks = await Check.find({
+          ruleId: ruleId,
+          userId: userId
+        });
+
+        let isAlreadyUnChecked: boolean = true;
+
+        for (const check of checks) {
+          if (dayjs(check.date).isSame(dayjs().format('YYYY-MM-DD'))) {
+            isAlreadyUnChecked = false;
+            break;
+          }
+        }
+
+        // 이미 false인데 false 요청을 받은 경우
+        if (isAlreadyUnChecked) {
+          throw errorGenerator({
+            msg: message.BAD_REQUEST,
+            statusCode: statusCode.BAD_REQUEST
+          });
+        }
+
+        // 존재하는 check 들 모두 삭제
+        for (const check of checks) {
+          await check.deleteOne();
+        }
+
+        data = {
+          isCheck: false
+        };
+      }
+    } else {
+      // 오늘의 임시 담당자 및 고정 담당자에서 유저를 찾지 못했을 경우
+      throw errorGenerator({
+        msg: message.NOT_FOUND_USER_AT_TODAY_RULE_MEMBERS,
+        statusCode: statusCode.NOT_FOUND
+      });
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getRuleInfoAtRuleHome = async (
   userId: string,
   roomId: string
@@ -1309,5 +1447,6 @@ export default {
   getHomiesWithIsTmpMember,
   updateTmpRuleMembers,
   getMyRuleInfo,
+  updateMyRuleTodoCheck,
   getRuleInfoAtRuleHome
 };

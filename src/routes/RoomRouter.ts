@@ -81,6 +81,12 @@ router.put(
   [body('tmpRuleMembers').not().isEmpty()],
   RuleController.updateTmpRuleMembers
 );
+router.put(
+  '/:roomId/rule/:ruleId/check',
+  auth,
+  [body('isCheck').not().isEmpty()],
+  RuleController.updateMyRuleTodoCheck
+);
 router.get('/:roomId/rules/me', auth, RuleController.getMyRuleInfo);
 
 /**

@@ -12,11 +12,13 @@ import {
   RuleCreateInfoResponseDto
 } from '../interfaces/rule/RuleCreateInfoResponseDto';
 import {
+  HomeRuleCategories,
+  HomeRuleCategoriesWithDate,
   RuleHomeResponseDto,
-  TodayTodoRulesWithDate,
-  TodayMembersWithTypeColorWithDate,
   TodayMembersWithTypeColor,
-  TodayTodoRules
+  TodayMembersWithTypeColorWithDate,
+  TodayTodoRules,
+  TodayTodoRulesWithDate
 } from '../interfaces/rule/RuleHomeResponseDto';
 import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto';
 import {
@@ -1060,8 +1062,34 @@ const getRuleInfoAtRuleHome = async (
     // 참가하고 있는 방이 아니면 접근 불가능
     await RuleServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
-    const rules = await Rule.find({
+    // 규칙 카테고리 조회
+    const tmpRuleCategoryList = await RuleCategory.find({
       roomId: roomId
+    });
+
+    const ruleCategoryListWithDate: HomeRuleCategoriesWithDate[] =
+      await Promise.all(
+        tmpRuleCategoryList.map((ruleCategory: any) => {
+          const result = {
+            _id: ruleCategory._id,
+            categoryIcon: ruleCategory.categoryIcon,
+            categoryName: ruleCategory.categoryName,
+            createdAt: (ruleCategory as any).createdAt
+          };
+          return result;
+        })
+      );
+
+    const ruleCategoryList: HomeRuleCategories[] = ruleCategoryListWithDate.map(
+      // 규칙 카테고리 리스트에서 시간 삭제
+      ({ createdAt, ...rest }) => {
+        return rest;
+      }
+    );
+
+    const rules = await Rule.find({
+      roomId: roomId,
+      isKeyRules: false
     });
 
     const todayTodoRulesWithDate: TodayTodoRulesWithDate[] = [];
@@ -1078,9 +1106,12 @@ const getRuleInfoAtRuleHome = async (
           })
         );
 
-        let isDiff = false;
+        let isTmpMember = false;
         const todayMembersWithTypeColorWithDate: TodayMembersWithTypeColorWithDate[] =
           [];
+        let isAllChecked: boolean = false;
+        let checkCnt: number = 0;
+
         // tmpUpdatedDate == 오늘 -> tmpRuleMembers 탐색
         if (dayjs().isSame(rule.tmpUpdatedDate, 'day')) {
           await rule.populate(
@@ -1091,6 +1122,19 @@ const getRuleInfoAtRuleHome = async (
 
           await Promise.all(
             rule.tmpRuleMembers.map(async (tmpMember: any) => {
+              const checks = await Check.find({
+                ruleId: rule._id,
+                userId: tmpMember.userId
+              });
+
+              let isChecked: boolean = false;
+              for (const check of checks) {
+                if (dayjs().isSame(check.date, 'day')) {
+                  isChecked = true;
+                  break;
+                }
+              }
+
               todayMembersWithTypeColorWithDate.push({
                 userName: tmpMember.userName,
                 typeColor: tmpMember.typeId.typeColor,
@@ -1099,13 +1143,24 @@ const getRuleInfoAtRuleHome = async (
 
               // 오늘의 임시 담당자와 고정 담당자 비교
               if (
-                !isDiff &&
+                !isTmpMember &&
                 !originalTodayMembers.includes(tmpMember.toString())
               ) {
-                isDiff = true;
+                isTmpMember = true;
+              }
+
+              if (isChecked) {
+                checkCnt++;
               }
             })
           );
+
+          // 규칙의 유저별로 체크여부 확인 ++,
+          // ++한 값 === rule.ruleMembers의 길이랑 같다면 isAllChecked = true
+          if (checkCnt === rule.tmpRuleMembers.length) {
+            isAllChecked = true;
+            checkCnt = 0; // 다시 초기화
+          }
         } else {
           // tmpUpdatedDate != 오늘 -> ruleMembers 탐색
           await rule.populate(
@@ -1123,12 +1178,37 @@ const getRuleInfoAtRuleHome = async (
                   typeColor: member.userId.typeId.typeColor,
                   typeUpdatedDate: member.typeUpdatedDate
                 });
+
+                const checks = await Check.find({
+                  ruleId: rule._id,
+                  userId: member.userId
+                });
+
+                let isChecked: boolean = false;
+                for (const check of checks) {
+                  if (dayjs().isSame(check.date, 'day')) {
+                    isChecked = true;
+                    break;
+                  }
+                }
+
+                if (isChecked) {
+                  checkCnt++;
+                }
               }
               // 오늘의 임시 담당자와 고정 담당자 비교 필요 없음
             })
           );
+
+          // 규칙의 유저별로 체크여부 확인 ++,
+          // ++한 값 === rule.ruleMembers의 길이랑 같다면 isAllChecked = true
+          if (checkCnt === rule.ruleMembers.length) {
+            isAllChecked = true;
+            checkCnt = 0; // 다시 초기화
+          }
         }
 
+        // 성향 오름차순으로 정렬
         todayMembersWithTypeColorWithDate.sort((before, current) => {
           return dayjs(before.typeUpdatedDate).isAfter(
             dayjs(current.typeUpdatedDate)
@@ -1148,7 +1228,8 @@ const getRuleInfoAtRuleHome = async (
           _id: rule._id,
           ruleName: rule.ruleName,
           todayMembersWithTypeColor: todayMembersWithTypeColor,
-          isDiff: isDiff,
+          isTmpMember: isTmpMember,
+          isAllChecked: isAllChecked,
           createdAt: rule.createdAt // 정렬을 위해 사용할거라 +9 안함
         });
       })
@@ -1177,11 +1258,9 @@ const getRuleInfoAtRuleHome = async (
     );
 
     const data: RuleHomeResponseDto = {
-      ruleCategories: [],
+      homeRuleCategories: ruleCategoryList,
       todayTodoRules: keyRules.concat(todoRules)
     };
-
-    console.log(todayTodoRules);
 
     return data;
   } catch (error) {

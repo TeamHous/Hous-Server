@@ -30,6 +30,7 @@ const message = {
 
   // 홈
   READ_ROOM_AT_HOME_SUCCESS: '홈화면 조회 성공입니다.',
+  READ_RULE_AT_RULE_HOME_SUCCESS: '규칙 홈화면 조회 성공입니다.',
 
   // 방
   NOT_FOUND_ROOM: '존재하지 않는 방입니다.',

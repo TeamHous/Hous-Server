@@ -3,6 +3,7 @@ import { Result, ValidationError, validationResult } from 'express-validator';
 import { HomiesWithIsTmpMemberResponseDto } from '../interfaces/rule/HomiesWithIsTmpMemberResponseDto';
 import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
 import { RuleCreateInfoResponseDto } from '../interfaces/rule/RuleCreateInfoResponseDto';
+import { RuleHomeResponseDto } from '../interfaces/rule/RuleHomeResponseDto';
 import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto';
 import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
@@ -429,7 +430,7 @@ const getMyRuleInfo = async (
 
 /**
  *  @route PUT /room/:roomId/rules/:ruleId/check
- *  @desc Read my rule info
+ *  @desc Update my rule todo check
  *  @access Private
  */
 const updateMyRuleTodoCheck = async (
@@ -458,12 +459,46 @@ const updateMyRuleTodoCheck = async (
         ruleId,
         ruleTodoCheckUpdateDto
       );
-    res
+
+    return res
       .status(statusCode.OK)
       .send(
         util.success(
           statusCode.OK,
           message.UPDATE_MY_RULE_TODO_CHECK_SUCCESS,
+          data
+        )
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *  @route GET /room/:roomId/rules
+ *  @desc Read rule info at rule home view
+ *  @access Private
+ */
+const getRuleInfoAtRuleHome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { roomId } = req.params;
+
+  try {
+    const data: RuleHomeResponseDto = await RuleService.getRuleInfoAtRuleHome(
+      userId,
+      roomId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(
+          statusCode.OK,
+          message.READ_RULE_AT_RULE_HOME_SUCCESS,
           data
         )
       );
@@ -485,5 +520,6 @@ export default {
   getHomiesWithIsTmpMember,
   updateTmpRuleMembers,
   getMyRuleInfo,
-  updateMyRuleTodoCheck
+  updateMyRuleTodoCheck,
+  getRuleInfoAtRuleHome
 };

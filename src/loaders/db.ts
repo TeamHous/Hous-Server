@@ -11,11 +11,19 @@ import User from '../models/User';
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(config.mongoURI);
+    let mongoURI: string;
+    if (config.env === 'production') {
+      mongoURI = config.mongoURI;
+    } else if (config.env === 'development') {
+      mongoURI = config.mongoDevURI;
+    } else {
+      mongoURI = config.mongoTestURI;
+    }
+    await mongoose.connect(mongoURI);
 
     mongoose.set('autoCreate', true);
 
-    logger.info('Mongoose Connected ...');
+    logger.info(`[${config.env}] Mongoose Connected ...`);
 
     User.createCollection().then(function (collection) {
       logger.info('User Collection is created!');

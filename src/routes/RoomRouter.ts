@@ -162,5 +162,6 @@ router.delete('/:roomId/event/:eventId', auth, EventController.deleteEvent);
  * 홈
  */
 router.get('/:roomId/home', auth, RoomController.getRoomInfoAtHome);
+router.get('/:roomId/rules', auth, RuleController.getRuleInfoAtRuleHome);
 
 export default router;

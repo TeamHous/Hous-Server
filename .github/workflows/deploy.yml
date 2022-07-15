@@ -30,21 +30,36 @@ jobs:
       - name: Check Npm -v
         run: npm -v
 
-      - name: create env file
+      - name: create test env file
         working-directory: ./
         run: |
-          pwd
           touch .env
+          echo NODE_ENV=test >> .env
           echo PORT=${{ secrets.PORT }} >> .env
           echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
+          echo MONGODB_DEV_URI=${{ secrets.MONGODB_DEV_URI }} >> .env
+          echo MONGODB_TEST_URI=${{ secrets.MONGODB_TEST_URI }} >> .env
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
           echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
-          cat .env
+
+      - name: test
+        working-directory: ./
+        run: |
+          yarn
+          yarn test
 
       - name: build server files
         working-directory: ./
         run: |
-          yarn
+          rm .env
+          touch .env
+          echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
+          echo PORT=${{ secrets.PORT }} >> .env
+          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
+          echo MONGODB_DEV_URI=${{ secrets.MONGODB_DEV_URI }} >> .env
+          echo MONGODB_TEST_URI=${{ secrets.MONGODB_TEST_URI }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
           yarn run build
 
       - name: zip file

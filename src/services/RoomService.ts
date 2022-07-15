@@ -397,25 +397,24 @@ const checkTodoListForCheckStatus = async (
   userId: string
 ): Promise<TodoWithDate> => {
   let checkStatus: boolean;
-  const existCheck = await Check.findOne({
+  const checks = await Check.find({
     ruleId: rule._id,
     userId: userId
   });
 
-  if (!existCheck) {
-    return {
-      existCheck: false,
-      todoName: rule.ruleName,
-      createdAt: dayjs(rule.createdAt).add(9, 'hour').format()
-    };
-  } else {
-    const existCheckDate = dayjs(existCheck.date);
-    checkStatus = existCheckDate.isSame(dayjs()) ? true : false;
+  let isChecked: boolean = false;
+
+  for (const check of checks) {
+    if (dayjs().isSame(check.date, 'day')) {
+      isChecked = true;
+      break;
+    }
   }
+
   return {
-    existCheck: checkStatus,
-    todoName: rule.ruleName,
-    createdAt: dayjs(rule.createdAt).add(9, 'hour').format()
+    isChecked: isChecked,
+    ruleName: rule.ruleName,
+    createdAt: rule.createdAt
   };
 };
 

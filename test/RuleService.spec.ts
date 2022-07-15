@@ -112,4 +112,43 @@ describe('RuleService Tests', () => {
     assert.equal(updatedRule.ruleName, '테스트 규칙 수정');
     assert.equal(updatedRule.isKeyRules, true);
   });
+  it('deleteRule test', async () => {
+    // given
+    const signupDto: SignupDto = {
+      email: 'test@gmail.com',
+      password: 'password',
+      userName: '테스트유저',
+      gender: '남자',
+      fcmToken: '테스트토큰'
+    };
+    const userId: string = (
+      await UserService.createUser(signupDto)
+    )._id.toString();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId);
+    const createdRoomId: string = createdRoom._id.toString();
+    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
+    const ruleCreateDto: RuleCreateDto = {
+      notificationState: false,
+      ruleName: '테스트 규칙',
+      categoryId: createdCategory[0]._id.toString(),
+      isKeyRules: true,
+      ruleMembers: []
+    };
+    const createdRule: RuleResponseDto = await RuleService.createRule(
+      userId,
+      createdRoomId,
+      ruleCreateDto
+    );
+
+    // when
+    await RuleService.deleteRule(
+      userId,
+      createdRoomId,
+      createdRule._id.toString()
+    );
+
+    // then
+    const deletedRule = await Rule.findById(createdRule._id);
+    assert.equal(deletedRule, null);
+  });
 });

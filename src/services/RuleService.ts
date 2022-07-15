@@ -20,7 +20,10 @@ import {
   TodayTodoRules,
   TodayTodoRulesWithDate
 } from '../interfaces/rule/RuleHomeResponseDto';
-import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto';
+import {
+  RuleMyTodoResponseDto,
+  RuleMyTodoWithDateResponseDto
+} from '../interfaces/rule/RuleMyTodoResponseDto';
 import {
   RuleMembers,
   RuleReadInfo,
@@ -978,7 +981,7 @@ const getMyRuleInfo = async (
       isKeyRules: false
     });
 
-    let data: RuleMyTodoResponseDto[] = [];
+    let dataWithDate: RuleMyTodoWithDateResponseDto[] = [];
 
     await Promise.all(
       tmpRules.map(async (tmpRule: any) => {
@@ -1039,16 +1042,27 @@ const getMyRuleInfo = async (
           }
 
           await tmpRule.populate('categoryId', 'categoryIcon');
-          const myToDoInfo: RuleMyTodoResponseDto = {
+          const myToDoInfo: RuleMyTodoWithDateResponseDto = {
             _id: tmpRule._id,
             categoryIcon: tmpRule.categoryId.categoryIcon,
             ruleName: tmpRule.ruleName,
-            isChecked: isChecked
+            isChecked: isChecked,
+            createdAt: tmpRule.createdAt // 정렬 목적이라 +9시간 생략
           };
 
-          data.push(myToDoInfo);
+          dataWithDate.push(myToDoInfo);
         }
       })
+    );
+
+    dataWithDate.sort((before, current) => {
+      return dayjs(before.createdAt).isAfter(dayjs(current.createdAt)) ? 1 : -1;
+    });
+
+    const data: RuleMyTodoResponseDto[] = dataWithDate.map(
+      ({ createdAt, ...rest }) => {
+        return rest;
+      }
     );
 
     return data;

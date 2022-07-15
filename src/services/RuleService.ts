@@ -1100,6 +1100,8 @@ const getRuleInfoAtRuleHome = async (
         const originalTodayMembers: string[] = [];
         await Promise.all(
           rule.ruleMembers.map(async (ruleMember: any) => {
+            console.log(ruleMember.userId);
+            console.log(ruleMember.day);
             if (ruleMember.day.includes(dayjs().day())) {
               originalTodayMembers.push(ruleMember.userId);
             }
@@ -1108,6 +1110,8 @@ const getRuleInfoAtRuleHome = async (
 
         let isTmpMember = false;
         const todayMembersWithTypeColorWithDate: TodayMembersWithTypeColorWithDate[] =
+          [];
+        const todayMembersWithTypeColorNoDate: TodayMembersWithTypeColorWithDate[] =
           [];
         let isAllChecked: boolean = false;
         let checkCnt: number = 0;
@@ -1135,11 +1139,21 @@ const getRuleInfoAtRuleHome = async (
                 }
               }
 
-              todayMembersWithTypeColorWithDate.push({
-                userName: tmpMember.userName,
-                typeColor: tmpMember.typeId.typeColor,
-                typeUpdatedDate: tmpMember.typeUpdatedDate
-              });
+              // 성향 검사 일시가 null 이 아닐 경우
+              if (tmpMember.typeUpdatedDate !== null) {
+                todayMembersWithTypeColorWithDate.push({
+                  userName: tmpMember.userName,
+                  typeColor: tmpMember.typeId.typeColor,
+                  typeUpdatedDate: tmpMember.typeUpdatedDate
+                });
+              } else {
+                // 성향 검사 일시가 null 일 경우
+                todayMembersWithTypeColorNoDate.push({
+                  userName: tmpMember.userName,
+                  typeColor: tmpMember.typeId.typeColor,
+                  typeUpdatedDate: tmpMember.typeUpdatedDate
+                });
+              }
 
               // 오늘의 임시 담당자와 고정 담당자 비교
               if (
@@ -1173,11 +1187,21 @@ const getRuleInfoAtRuleHome = async (
             rule.ruleMembers.map(async (member: any) => {
               // 오늘 요일의 고정담당이 존재할 경우
               if (member.userId != null && member.day.includes(dayjs().day())) {
-                todayMembersWithTypeColorWithDate.push({
-                  userName: member.userId.userName,
-                  typeColor: member.userId.typeId.typeColor,
-                  typeUpdatedDate: member.typeUpdatedDate
-                });
+                // 성향 검사 일시가 null 이 아닐 경우
+                if (member.userId.typeUpdatedDate !== null) {
+                  todayMembersWithTypeColorWithDate.push({
+                    userName: member.userId.userName,
+                    typeColor: member.userId.typeId.typeColor,
+                    typeUpdatedDate: member.typeUpdatedDate
+                  });
+                } else {
+                  // 성향 검사 일시가 null 일 경우
+                  todayMembersWithTypeColorNoDate.push({
+                    userName: member.userId.userName,
+                    typeColor: member.userId.typeId.typeColor,
+                    typeUpdatedDate: member.typeUpdatedDate
+                  });
+                }
 
                 const checks = await Check.find({
                   ruleId: rule._id,
@@ -1207,6 +1231,10 @@ const getRuleInfoAtRuleHome = async (
             checkCnt = 0; // 다시 초기화
           }
         }
+
+        const todayMemberAllWithDate = todayMembersWithTypeColorWithDate.concat(
+          todayMembersWithTypeColorNoDate
+        );
 
         // 성향 오름차순으로 정렬
         todayMembersWithTypeColorWithDate.sort((before, current) => {

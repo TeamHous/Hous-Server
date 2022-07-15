@@ -9,7 +9,10 @@ import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDt
 import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
 import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
 import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
-import { UserNotificationUpdateDto } from '../interfaces/user/UsuerNotificationStateUpdateDto';
+import {
+  UserNotificationUpdateDto,
+  UserNotificationUpdateResponseDto
+} from '../interfaces/user/UserNotificationStateUpdateDto';
 import User from '../models/User';
 import checkObjectIdValidation from '../modules/checkObjectIdValidation';
 import checkValidUtils from '../modules/checkValidUtils';
@@ -221,16 +224,27 @@ const getHomieProfile = async (
 };
 
 const updateUserNotificationState = async (
-  userId: string
-): Promise<UserSettingResponseDto> => {
+  userId: string,
+  userNotificationStateUpdateDto: UserNotificationUpdateDto
+): Promise<UserNotificationUpdateResponseDto> => {
   try {
     const user = await UserServiceUtils.findUserById(userId);
 
-    const data: UserNotificationUpdateDto = {
-      notificationState: !user.notificationState
-    };
-    user.updateOne(data);
+    if (
+      user.notificationState ===
+      userNotificationStateUpdateDto.notificationState
+    ) {
+      throw errorGenerator({
+        msg: message.BAD_REQUEST,
+        statusCode: statusCode.BAD_REQUEST
+      });
+    }
 
+    await user.updateOne(userNotificationStateUpdateDto);
+
+    const data: UserNotificationUpdateResponseDto = {
+      notificationState: userNotificationStateUpdateDto.notificationState
+    };
     return data;
   } catch (error) {
     throw error;

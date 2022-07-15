@@ -5,8 +5,8 @@ import { SignupDto } from '../src/interfaces/auth/SignupDto';
 import { RoomResponseDto } from '../src/interfaces/room/RoomResponseDto';
 import { RuleCreateDto } from '../src/interfaces/rule/RuleCreateDto';
 import { RuleResponseDto } from '../src/interfaces/rule/RuleResponseDto';
+import { RuleUpdateDto } from '../src/interfaces/rule/RuleUpdateDto';
 import connectDB from '../src/loaders/db';
-import Check from '../src/models/Check';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
 import Rule from '../src/models/Rule';
@@ -28,7 +28,6 @@ describe('RuleService Tests', () => {
     await RuleCategory.collection.drop();
     await Event.collection.drop();
     await Rule.collection.drop();
-    await Check.collection.drop();
   });
   it('createRule test', async () => {
     // given
@@ -64,5 +63,53 @@ describe('RuleService Tests', () => {
     assert.equal(rule.roomId.toString(), createdRoomId);
     assert.equal(rule.ruleName, '테스트 규칙');
     assert.equal(rule.isKeyRules, true);
+  });
+  it('updateRule test', async () => {
+    // given
+    const signupDto: SignupDto = {
+      email: 'test@gmail.com',
+      password: 'password',
+      userName: '테스트유저',
+      gender: '남자',
+      fcmToken: '테스트토큰'
+    };
+    const userId: string = (
+      await UserService.createUser(signupDto)
+    )._id.toString();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId);
+    const createdRoomId: string = createdRoom._id.toString();
+    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
+    const ruleCreateDto: RuleCreateDto = {
+      notificationState: false,
+      ruleName: '테스트 규칙',
+      categoryId: createdCategory[0]._id.toString(),
+      isKeyRules: true,
+      ruleMembers: []
+    };
+    const createdRule: RuleResponseDto = await RuleService.createRule(
+      userId,
+      createdRoomId,
+      ruleCreateDto
+    );
+    const ruleUpdateDto: RuleUpdateDto = {
+      notificationState: false,
+      ruleName: '테스트 규칙 수정',
+      categoryId: createdCategory[0]._id.toString(),
+      isKeyRules: true,
+      ruleMembers: []
+    };
+
+    // when
+    const updatedRule: RuleResponseDto = await RuleService.updateRule(
+      userId,
+      createdRoomId,
+      createdRule._id.toString(),
+      ruleUpdateDto
+    );
+
+    // then
+    assert.equal(updatedRule.roomId.toString(), createdRoomId);
+    assert.equal(updatedRule.ruleName, '테스트 규칙 수정');
+    assert.equal(updatedRule.isKeyRules, true);
   });
 });

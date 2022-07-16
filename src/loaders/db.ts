@@ -7,6 +7,7 @@ import Room from '../models/Room';
 import Rule from '../models/Rule';
 import RuleCategory from '../models/RuleCategory';
 import Type from '../models/Type';
+import TypeTest from '../models/TypeTest';
 import User from '../models/User';
 
 const connectDB = async () => {
@@ -28,9 +29,6 @@ const connectDB = async () => {
     User.createCollection().then(function (collection) {
       logger.info('User Collection is created!');
     });
-    Type.createCollection().then(function (collection) {
-      logger.info('Type Collection is created!');
-    });
     RuleCategory.createCollection().then(function (collection) {
       logger.info('RuleCategory Collection is created!');
     });
@@ -45,6 +43,12 @@ const connectDB = async () => {
     });
     Check.createCollection().then(function (collection) {
       logger.info('Check Collection is created!');
+    });
+    Type.createCollection().then(function (collection) {
+      logger.info('Type Collection is created!');
+    });
+    TypeTest.createCollection().then(function (collection) {
+      logger.info('TypeTest Collection is created!');
     });
   } catch (err: any) {
     logger.error(err.message);

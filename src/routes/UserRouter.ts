@@ -42,7 +42,6 @@ router.get('/:homieId', auth, UserController.getHomieProfile);
 /**
  * 성향 테스트 등록 및 수정
  */
-router.get('/type/test', auth, UserController.getTypeTestInfo);
 router.put(
   '/type/test',
   [body('typeScore').not().isEmpty().isArray()],

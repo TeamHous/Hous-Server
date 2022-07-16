@@ -7,6 +7,11 @@ import limitNum from '../modules/limitNum';
 const router: Router = Router();
 
 /**
+ * 사용자 탈퇴
+ */
+router.delete('/', auth, UserController.deleteUser);
+
+/**
  * 프로필
  */
 router.get('/profile', auth, UserController.getUserAtHome);

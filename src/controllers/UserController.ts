@@ -234,6 +234,28 @@ const updateUserTypeScore = async (
   }
 };
 
+/**
+ * @route DELETE /user
+ * @desc Delete user
+ * @access Private
+ */
+const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  try {
+    await UserService.deleteUser(userId);
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.DELETE_USER, null));
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getUserAtHome,
   getUserAtModify,
@@ -241,5 +263,6 @@ export default {
   getUserSetting,
   getHomieProfile,
   updateUserNotificationState,
-  updateUserTypeScore
+  updateUserTypeScore,
+  deleteUser
 };

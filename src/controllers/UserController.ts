@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { HomieResponseDto } from '../interfaces/user/HomieResponseDto';
-import { UserModifyResponseDto } from '../interfaces/user/UserModifyResponseDto';
+import { UserTypeTestDto } from '../interfaces/user/request/UserTypeTestDto';
+import { UserUpdateDto } from '../interfaces/user/request/UserUpdateDto';
+import { HomieResponseDto } from '../interfaces/user/response/HomieResponseDto';
+import { UserModifyResponseDto } from '../interfaces/user/response/UserModifyResponseDto';
 import {
   UserNotificationUpdateDto,
   UserNotificationUpdateResponseDto
-} from '../interfaces/user/UserNotificationStateUpdateDto';
-import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDto';
-import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
-import { UserTypeTestDto } from '../interfaces/user/UserTypeTestDto';
-import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
-import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
+} from '../interfaces/user/response/UserNotificationStateUpdateDto';
+import { UserProfileResponseDto } from '../interfaces/user/response/UserProfileResponseDto';
+import { UserSettingResponseDto } from '../interfaces/user/response/UserSettingResponseDto';
+import { UserUpdateResponseDto } from '../interfaces/user/response/UserUpdateResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';

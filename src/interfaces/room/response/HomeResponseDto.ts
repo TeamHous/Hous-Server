@@ -1,4 +1,4 @@
-import { PostBaseResponseDto } from '../common/PostBaseResponseDto';
+import { PostBaseResponseDto } from '../../common/response/PostBaseResponseDto';
 
 export interface HomeResponseDto {
   eventList: EventsResponseDto[];

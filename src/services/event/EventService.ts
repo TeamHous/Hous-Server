@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
-import { EventCreateDto } from '../../interfaces/event/EventCreateDto';
-import { EventCreateResponseDto } from '../../interfaces/event/EventCreateResponseDto';
-import { EventUpdateDto } from '../../interfaces/event/EventUpdateDto';
-import { EventUpdateResponseDto } from '../../interfaces/event/EventUpdateResponseDto';
+import { EventCreateDto } from '../../interfaces/event/request/EventCreateDto';
+import { EventUpdateDto } from '../../interfaces/event/request/EventUpdateDto';
+import { EventCreateResponseDto } from '../../interfaces/event/response/EventCreateResponseDto';
+import { EventUpdateResponseDto } from '../../interfaces/event/response/EventUpdateResponseDto';
 import Event from '../../models/Event';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
 import checkValidUtils from '../../modules/checkValidUtils';

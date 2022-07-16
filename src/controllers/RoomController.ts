@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import mongoose from 'mongoose';
-import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
-import { HomeResponseDto } from '../interfaces/room/HomeResponseDto';
-import { RoomJoinDto } from '../interfaces/room/RoomJoinDto';
-import { RoomJoinResponseDto } from '../interfaces/room/RoomJoinResponseDto';
-import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
+import { PostBaseResponseDto } from '../interfaces/common/response/PostBaseResponseDto';
+import { RoomJoinDto } from '../interfaces/room/request/RoomJoinDto';
+import { HomeResponseDto } from '../interfaces/room/response/HomeResponseDto';
+import { RoomJoinResponseDto } from '../interfaces/room/response/RoomJoinResponseDto';
+import { RoomResponseDto } from '../interfaces/room/response/RoomResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';

@@ -1,20 +1,20 @@
 import assert from 'assert';
 import { afterEach } from 'mocha';
 import config from '../src/config';
-import { SignupDto } from '../src/interfaces/auth/SignupDto';
-import { RoomResponseDto } from '../src/interfaces/room/RoomResponseDto';
-import { RuleCreateDto } from '../src/interfaces/rule/RuleCreateDto';
-import { RuleResponseDto } from '../src/interfaces/rule/RuleResponseDto';
-import { RuleUpdateDto } from '../src/interfaces/rule/RuleUpdateDto';
+import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
+import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
+import { RuleCreateDto } from '../src/interfaces/rule/request/RuleCreateDto';
+import { RuleUpdateDto } from '../src/interfaces/rule/request/RuleUpdateDto';
+import { RuleResponseDto } from '../src/interfaces/rule/response/RuleResponseDto';
 import connectDB from '../src/loaders/db';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
 import Rule from '../src/models/Rule';
 import RuleCategory from '../src/models/RuleCategory';
 import User from '../src/models/User';
-import RoomService from '../src/services/RoomService';
-import RuleService from '../src/services/RuleService';
-import UserService from '../src/services/UserService';
+import RoomService from '../src/services/room/RoomService';
+import RuleService from '../src/services/rule/RuleService';
+import UserService from '../src/services/user/UserService';
 
 describe('RuleService Tests', () => {
   if (config.env !== 'test') {

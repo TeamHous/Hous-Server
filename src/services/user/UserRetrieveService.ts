@@ -168,17 +168,17 @@ const getTypeTestInfo = async (
 };
 
 const getTypeDetail = async (
-  userId: string,
-  typeId: string
+  userId: string
 ): Promise<TypeDetailResponseDto> => {
   try {
     // ObjectId 인지 확인
     checkObjectIdValidation(userId);
-    checkObjectIdValidation(typeId);
     // 유저 존재 확인
-    await UserServiceUtils.findUserById(userId);
+    const user = await UserServiceUtils.findUserById(userId);
     // 성향 존재 확인
-    const typeDetail = await UserServiceUtils.findTypeById(typeId);
+    const typeDetail = await UserServiceUtils.findTypeById(
+      user.typeId.toString()
+    );
 
     const data: TypeDetailResponseDto = {
       typeName: typeDetail.typeName,

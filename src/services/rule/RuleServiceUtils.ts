@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import errorGenerator from '../errors/errorGenerator';
-import Room from '../models/Room';
-import Rule from '../models/Rule';
-import RuleCategory from '../models/RuleCategory';
-import User from '../models/User';
-import message from '../modules/responseMessage';
-import statusCode from '../modules/statusCode';
+import errorGenerator from '../../errors/errorGenerator';
+import Room from '../../models/Room';
+import Rule from '../../models/Rule';
+import RuleCategory from '../../models/RuleCategory';
+import User from '../../models/User';
+import message from '../../modules/responseMessage';
+import statusCode from '../../modules/statusCode';
 
 // 유저 존재 여부 확인
 const findUserById = async (userId: string) => {

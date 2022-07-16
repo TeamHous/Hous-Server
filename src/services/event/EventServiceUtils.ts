@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
-import errorGenerator from '../errors/errorGenerator';
-import Event from '../models/Event';
-import Room from '../models/Room';
-import User from '../models/User';
-import message from '../modules/responseMessage';
-import statusCode from '../modules/statusCode';
+import errorGenerator from '../../errors/errorGenerator';
+import Event from '../../models/Event';
+import Room from '../../models/Room';
+import User from '../../models/User';
+import message from '../../modules/responseMessage';
+import statusCode from '../../modules/statusCode';
 
 const findUserById = async (userId: string) => {
   const user = await User.findById(userId);

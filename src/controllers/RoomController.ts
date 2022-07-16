@@ -9,7 +9,7 @@ import { RoomResponseDto } from '../interfaces/room/RoomResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
-import { RoomService } from '../services';
+import { RoomRetrieveService, RoomService } from '../services';
 
 /**
  *  @route GET /room
@@ -24,9 +24,8 @@ const getRoom = async (
   const userId: string = req.body.user._id;
 
   try {
-    const data: mongoose.Types.ObjectId | null = await RoomService.getRoom(
-      userId
-    );
+    const data: mongoose.Types.ObjectId | null =
+      await RoomRetrieveService.getRoom(userId);
 
     return res
       .status(statusCode.OK)
@@ -85,7 +84,7 @@ const getRoomAndUserByRoomCode = async (
 
   try {
     const data: RoomJoinResponseDto =
-      await RoomService.getRoomAndUserByRoomCode(userId, roomJoinDto);
+      await RoomRetrieveService.getRoomAndUserByRoomCode(userId, roomJoinDto);
 
     return res
       .status(statusCode.OK)
@@ -171,7 +170,7 @@ const getRoomInfoAtHome = async (
   const { roomId } = req.params;
 
   try {
-    const data: HomeResponseDto = await RoomService.getRoomInfoAtHome(
+    const data: HomeResponseDto = await RoomRetrieveService.getRoomInfoAtHome(
       userId,
       roomId
     );

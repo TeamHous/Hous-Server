@@ -18,7 +18,7 @@ import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUp
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
-import { RuleService } from '../services';
+import { RuleRetrieveService, RuleService } from '../services';
 
 /**
  *  @route POST /room/:roomId/rule
@@ -74,11 +74,8 @@ const getRuleByRuleId = async (
   const { roomId, ruleId } = req.params;
 
   try {
-    const data: RuleReadInfoResponseDto = await RuleService.getRuleByRuleId(
-      userId,
-      roomId,
-      ruleId
-    );
+    const data: RuleReadInfoResponseDto =
+      await RuleRetrieveService.getRuleByRuleId(userId, roomId, ruleId);
 
     return res
       .status(statusCode.OK)
@@ -276,10 +273,8 @@ const getRuleCreateInfo = async (
   const { roomId } = req.params;
 
   try {
-    const data: RuleCreateInfoResponseDto = await RuleService.getRuleCreateInfo(
-      userId,
-      roomId
-    );
+    const data: RuleCreateInfoResponseDto =
+      await RuleRetrieveService.getRuleCreateInfo(userId, roomId);
 
     return res
       .status(statusCode.OK)
@@ -306,7 +301,11 @@ const getRulesByCategoryId = async (
 
   try {
     const data: RulesByCategoryResponseDto =
-      await RuleService.getRulesByCategoryId(userId, roomId, categoryId);
+      await RuleRetrieveService.getRulesByCategoryId(
+        userId,
+        roomId,
+        categoryId
+      );
 
     return res
       .status(statusCode.OK)
@@ -337,7 +336,11 @@ const getHomiesWithIsTmpMember = async (
 
   try {
     const data: HomiesWithIsTmpMemberResponseDto =
-      await RuleService.getHomiesWithIsTmpMember(userId, roomId, ruleId);
+      await RuleRetrieveService.getHomiesWithIsTmpMember(
+        userId,
+        roomId,
+        ruleId
+      );
 
     return res
       .status(statusCode.OK)
@@ -413,10 +416,8 @@ const getMyRuleInfo = async (
   const { roomId } = req.params;
 
   try {
-    const data: RuleMyTodoResponseDto[] = await RuleService.getMyRuleInfo(
-      userId,
-      roomId
-    );
+    const data: RuleMyTodoResponseDto[] =
+      await RuleRetrieveService.getMyRuleInfo(userId, roomId);
 
     return res
       .status(statusCode.OK)
@@ -488,10 +489,8 @@ const getRuleInfoAtRuleHome = async (
   const { roomId } = req.params;
 
   try {
-    const data: RuleHomeResponseDto = await RuleService.getRuleInfoAtRuleHome(
-      userId,
-      roomId
-    );
+    const data: RuleHomeResponseDto =
+      await RuleRetrieveService.getRuleInfoAtRuleHome(userId, roomId);
 
     return res
       .status(statusCode.OK)

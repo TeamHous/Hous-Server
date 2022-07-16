@@ -263,7 +263,7 @@ const getTypeTestInfo = async (
 
 /**
  * @route GET /user/me/type/:typeId
- * @desc Get user my type detail
+ * @desc Get my type detail
  * @access Private
  */
 const getMyTypeDetail = async (
@@ -272,11 +272,35 @@ const getMyTypeDetail = async (
   next: NextFunction
 ): Promise<void | Response> => {
   const userId: string = req.body.user._id;
-  const { typeId } = req.params;
   try {
     const data: TypeDetailResponseDto = await UserRetrieveService.getTypeDetail(
-      userId,
-      typeId
+      userId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.GET_USER_TYPE_DETAIL_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @route GET /user/:userID/type/:typeId
+ * @desc Get homie type detail
+ * @access Private
+ */
+const getHomieTypeDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const { userId } = req.params;
+  try {
+    const data: TypeDetailResponseDto = await UserRetrieveService.getTypeDetail(
+      userId
     );
 
     return res
@@ -298,5 +322,6 @@ export default {
   updateUserNotificationState,
   updateUserTypeScore,
   getTypeTestInfo,
-  getMyTypeDetail
+  getMyTypeDetail,
+  getHomieTypeDetail
 };

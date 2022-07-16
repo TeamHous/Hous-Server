@@ -1,24 +1,24 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { HomiesWithIsTmpMemberResponseDto } from '../interfaces/rule/HomiesWithIsTmpMemberResponseDto';
-import { RuleCreateDto } from '../interfaces/rule/RuleCreateDto';
-import { RuleCreateInfoResponseDto } from '../interfaces/rule/RuleCreateInfoResponseDto';
-import { RuleHomeResponseDto } from '../interfaces/rule/RuleHomeResponseDto';
-import { RuleMyTodoResponseDto } from '../interfaces/rule/RuleMyTodoResponseDto';
-import { RuleReadInfoResponseDto } from '../interfaces/rule/RuleReadInfoResponseDto';
-import { RuleResponseDto } from '../interfaces/rule/RuleResponseDto';
-import { RulesByCategoryResponseDto } from '../interfaces/rule/RulesByCategoryResponseDto';
-import { RuleTodoCheckUpdateDto } from '../interfaces/rule/RuleTodoCheckUpdateDto';
-import { RuleTodoCheckUpdateResponseDto } from '../interfaces/rule/RuleTodoCheckUpdateResponseDto';
-import { RuleUpdateDto } from '../interfaces/rule/RuleUpdateDto';
-import { TmpRuleMembersUpdateResponseDto } from '../interfaces/rule/TmpRuleMembersUpdateResponseDto';
-import { RuleCategoryCreateDto } from '../interfaces/rulecategory/RuleCategoryCreateDto';
-import { RuleCategoryResponseDto } from '../interfaces/rulecategory/RuleCategoryResponseDto';
-import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/RuleCategoryUpdateDto';
+import { RuleCreateDto } from '../interfaces/rule/request/RuleCreateDto';
+import { RuleTodoCheckUpdateDto } from '../interfaces/rule/request/RuleTodoCheckUpdateDto';
+import { RuleUpdateDto } from '../interfaces/rule/request/RuleUpdateDto';
+import { HomiesWithIsTmpMemberResponseDto } from '../interfaces/rule/response/HomiesWithIsTmpMemberResponseDto';
+import { RuleCreateInfoResponseDto } from '../interfaces/rule/response/RuleCreateInfoResponseDto';
+import { RuleHomeResponseDto } from '../interfaces/rule/response/RuleHomeResponseDto';
+import { RuleMyTodoResponseDto } from '../interfaces/rule/response/RuleMyTodoResponseDto';
+import { RuleReadInfoResponseDto } from '../interfaces/rule/response/RuleReadInfoResponseDto';
+import { RuleResponseDto } from '../interfaces/rule/response/RuleResponseDto';
+import { RulesByCategoryResponseDto } from '../interfaces/rule/response/RulesByCategoryResponseDto';
+import { RuleTodoCheckUpdateResponseDto } from '../interfaces/rule/response/RuleTodoCheckUpdateResponseDto';
+import { TmpRuleMembersUpdateResponseDto } from '../interfaces/rule/response/TmpRuleMembersUpdateResponseDto';
+import { RuleCategoryCreateDto } from '../interfaces/rulecategory/request/RuleCategoryCreateDto';
+import { RuleCategoryUpdateDto } from '../interfaces/rulecategory/request/RuleCategoryUpdateDto';
+import { RuleCategoryResponseDto } from '../interfaces/rulecategory/response/RuleCategoryResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
-import { RuleService } from '../services';
+import { RuleRetrieveService, RuleService } from '../services';
 
 /**
  *  @route POST /room/:roomId/rule
@@ -74,11 +74,8 @@ const getRuleByRuleId = async (
   const { roomId, ruleId } = req.params;
 
   try {
-    const data: RuleReadInfoResponseDto = await RuleService.getRuleByRuleId(
-      userId,
-      roomId,
-      ruleId
-    );
+    const data: RuleReadInfoResponseDto =
+      await RuleRetrieveService.getRuleByRuleId(userId, roomId, ruleId);
 
     return res
       .status(statusCode.OK)
@@ -276,10 +273,8 @@ const getRuleCreateInfo = async (
   const { roomId } = req.params;
 
   try {
-    const data: RuleCreateInfoResponseDto = await RuleService.getRuleCreateInfo(
-      userId,
-      roomId
-    );
+    const data: RuleCreateInfoResponseDto =
+      await RuleRetrieveService.getRuleCreateInfo(userId, roomId);
 
     return res
       .status(statusCode.OK)
@@ -306,7 +301,11 @@ const getRulesByCategoryId = async (
 
   try {
     const data: RulesByCategoryResponseDto =
-      await RuleService.getRulesByCategoryId(userId, roomId, categoryId);
+      await RuleRetrieveService.getRulesByCategoryId(
+        userId,
+        roomId,
+        categoryId
+      );
 
     return res
       .status(statusCode.OK)
@@ -337,7 +336,11 @@ const getHomiesWithIsTmpMember = async (
 
   try {
     const data: HomiesWithIsTmpMemberResponseDto =
-      await RuleService.getHomiesWithIsTmpMember(userId, roomId, ruleId);
+      await RuleRetrieveService.getHomiesWithIsTmpMember(
+        userId,
+        roomId,
+        ruleId
+      );
 
     return res
       .status(statusCode.OK)
@@ -413,10 +416,8 @@ const getMyRuleInfo = async (
   const { roomId } = req.params;
 
   try {
-    const data: RuleMyTodoResponseDto[] = await RuleService.getMyRuleInfo(
-      userId,
-      roomId
-    );
+    const data: RuleMyTodoResponseDto[] =
+      await RuleRetrieveService.getMyRuleInfo(userId, roomId);
 
     return res
       .status(statusCode.OK)
@@ -488,10 +489,8 @@ const getRuleInfoAtRuleHome = async (
   const { roomId } = req.params;
 
   try {
-    const data: RuleHomeResponseDto = await RuleService.getRuleInfoAtRuleHome(
-      userId,
-      roomId
-    );
+    const data: RuleHomeResponseDto =
+      await RuleRetrieveService.getRuleInfoAtRuleHome(userId, roomId);
 
     return res
       .status(statusCode.OK)

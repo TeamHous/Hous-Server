@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { LoginDto } from '../interfaces/auth/LoginDto';
-import { SignupDto } from '../interfaces/auth/SignupDto';
-import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
+import { LoginDto } from '../interfaces/auth/request/LoginDto';
+import { SignupDto } from '../interfaces/auth/request/SignupDto';
+import { PostBaseResponseDto } from '../interfaces/common/response/PostBaseResponseDto';
 import getToken from '../modules/jwtHandler';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';

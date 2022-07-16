@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import errorGenerator from '../../errors/errorGenerator';
-import { LoginDto } from '../../interfaces/auth/LoginDto';
-import { PostBaseResponseDto } from '../../interfaces/common/PostBaseResponseDto';
+import { LoginDto } from '../../interfaces/auth/request/LoginDto';
+import { PostBaseResponseDto } from '../../interfaces/common/response/PostBaseResponseDto';
 import User from '../../models/User';
 import message from '../../modules/responseMessage';
 import statusCode from '../../modules/statusCode';

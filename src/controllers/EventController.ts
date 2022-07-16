@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { EventCreateDto } from '../interfaces/event/EventCreateDto';
-import { EventUpdateDto } from '../interfaces/event/EventUpdateDto';
+import { EventCreateDto } from '../interfaces/event/request/EventCreateDto';
+import { EventUpdateDto } from '../interfaces/event/request/EventUpdateDto';
 import checkIconType from '../modules/checkIconType';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';

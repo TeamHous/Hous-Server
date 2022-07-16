@@ -3,7 +3,7 @@ import {
   EventResponseDto,
   UserType,
   UserTypeWithDate
-} from '../../interfaces/event/EventResponseDto';
+} from '../../interfaces/event/response/EventResponseDto';
 import User from '../../models/User';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
 import EventServiceUtils from './EventServiceUtils';

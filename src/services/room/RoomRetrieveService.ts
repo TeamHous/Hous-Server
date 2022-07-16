@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
 import mongoose from 'mongoose';
 import errorGenerator from '../../errors/errorGenerator';
+import { RoomJoinDto } from '../../interfaces/room/request/RoomJoinDto';
 import {
   EventsResponseDto,
   HomeResponseDto,
   HomieProfileResponseDto,
   TodoResponseDto,
   TodoWithDate
-} from '../../interfaces/room/HomeResponseDto';
-import { RoomJoinDto } from '../../interfaces/room/RoomJoinDto';
-import { RoomJoinResponseDto } from '../../interfaces/room/RoomJoinResponseDto';
+} from '../../interfaces/room/response/HomeResponseDto';
+import { RoomJoinResponseDto } from '../../interfaces/room/response/RoomJoinResponseDto';
 import Event from '../../models/Event';
 import Room from '../../models/Room';
 import Rule from '../../models/Rule';

@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import errorGenerator from '../../errors/errorGenerator';
-import { PostBaseResponseDto } from '../../interfaces/common/PostBaseResponseDto';
-import { RoomJoinDto } from '../../interfaces/room/RoomJoinDto';
-import { RoomResponseDto } from '../../interfaces/room/RoomResponseDto';
+import { PostBaseResponseDto } from '../../interfaces/common/response/PostBaseResponseDto';
+import { RoomJoinDto } from '../../interfaces/room/request/RoomJoinDto';
+import { RoomResponseDto } from '../../interfaces/room/response/RoomResponseDto';
 import Check from '../../models/Check';
 import Event from '../../models/Event';
 import Room from '../../models/Room';

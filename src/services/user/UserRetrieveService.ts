@@ -1,8 +1,8 @@
 import errorGenerator from '../../errors/errorGenerator';
-import { HomieResponseDto } from '../../interfaces/user/HomieResponseDto';
-import { UserModifyResponseDto } from '../../interfaces/user/UserModifyResponseDto';
-import { UserProfileResponseDto } from '../../interfaces/user/UserProfileResponseDto';
-import { UserSettingResponseDto } from '../../interfaces/user/UserSettingResponseDto';
+import { HomieResponseDto } from '../../interfaces/user/response/HomieResponseDto';
+import { UserModifyResponseDto } from '../../interfaces/user/response/UserModifyResponseDto';
+import { UserProfileResponseDto } from '../../interfaces/user/response/UserProfileResponseDto';
+import { UserSettingResponseDto } from '../../interfaces/user/response/UserSettingResponseDto';
 import User from '../../models/User';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
 import message from '../../modules/responseMessage';

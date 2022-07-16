@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import mongoose from 'mongoose';
 import errorGenerator from '../../errors/errorGenerator';
-import { TodoWithDate } from '../../interfaces/room/HomeResponseDto';
+import { TodoWithDate } from '../../interfaces/room/response/HomeResponseDto';
 import Check from '../../models/Check';
 import Room from '../../models/Room';
 import User from '../../models/User';

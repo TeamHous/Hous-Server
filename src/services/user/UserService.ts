@@ -1,16 +1,16 @@
 import bcrypt from 'bcryptjs';
 import dayjs from 'dayjs';
 import errorGenerator from '../../errors/errorGenerator';
-import { SignupDto } from '../../interfaces/auth/SignupDto';
-import { PostBaseResponseDto } from '../../interfaces/common/PostBaseResponseDto';
+import { SignupDto } from '../../interfaces/auth/request/SignupDto';
+import { PostBaseResponseDto } from '../../interfaces/common/response/PostBaseResponseDto';
+import { UserTypeTestDto } from '../../interfaces/user/request/UserTypeTestDto';
+import { UserUpdateDto } from '../../interfaces/user/request/UserUpdateDto';
 import {
   UserNotificationUpdateDto,
   UserNotificationUpdateResponseDto
-} from '../../interfaces/user/UserNotificationStateUpdateDto';
-import { UserTypeTestDto } from '../../interfaces/user/UserTypeTestDto';
-import { UserTypeTestResponseDto } from '../../interfaces/user/UserTypeTestResponseDto';
-import { UserUpdateDto } from '../../interfaces/user/UserUpdateDto';
-import { UserUpdateResponseDto } from '../../interfaces/user/UserUpdateResponseDto';
+} from '../../interfaces/user/response/UserNotificationStateUpdateDto';
+import { UserTypeTestResponseDto } from '../../interfaces/user/response/UserTypeTestResponseDto';
+import { UserUpdateResponseDto } from '../../interfaces/user/response/UserUpdateResponseDto';
 import User from '../../models/User';
 import checkValidUtils from '../../modules/checkValidUtils';
 import limitNum from '../../modules/limitNum';

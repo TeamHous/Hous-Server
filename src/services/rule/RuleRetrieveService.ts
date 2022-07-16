@@ -3,12 +3,12 @@ import {
   HomiesWithIsTmpMember,
   HomiesWithIsTmpMemberResponseDto,
   HomiesWithIsTmpMemberWithDate
-} from '../../interfaces/rule/HomiesWithIsTmpMemberResponseDto';
+} from '../../interfaces/rule/response/HomiesWithIsTmpMemberResponseDto';
 import {
   Homies,
   RuleCategories,
   RuleCreateInfoResponseDto
-} from '../../interfaces/rule/RuleCreateInfoResponseDto';
+} from '../../interfaces/rule/response/RuleCreateInfoResponseDto';
 import {
   HomeRuleCategories,
   HomeRuleCategoriesWithDate,
@@ -17,16 +17,16 @@ import {
   TodayMembersWithTypeColorWithDate,
   TodayTodoRules,
   TodayTodoRulesWithDate
-} from '../../interfaces/rule/RuleHomeResponseDto';
+} from '../../interfaces/rule/response/RuleHomeResponseDto';
 import {
   RuleMyTodoResponseDto,
   RuleMyTodoWithDateResponseDto
-} from '../../interfaces/rule/RuleMyTodoResponseDto';
+} from '../../interfaces/rule/response/RuleMyTodoResponseDto';
 import {
   RuleMembers,
   RuleReadInfo,
   RuleReadInfoResponseDto
-} from '../../interfaces/rule/RuleReadInfoResponseDto';
+} from '../../interfaces/rule/response/RuleReadInfoResponseDto';
 import {
   KeyRules,
   KeyRulesWithDate,
@@ -34,7 +34,7 @@ import {
   RulesByCategoryResponseDto,
   RulesWithDate,
   TypeColors
-} from '../../interfaces/rule/RulesByCategoryResponseDto';
+} from '../../interfaces/rule/response/RulesByCategoryResponseDto';
 import Check from '../../models/Check';
 import Rule from '../../models/Rule';
 import RuleCategory from '../../models/RuleCategory';

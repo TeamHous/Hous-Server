@@ -6,6 +6,7 @@ import RoomService from './room/RoomService';
 import RuleRetrieveService from './rule/RuleRetrieveService';
 import RuleService from './rule/RuleService';
 import UserService from './user/UserService';
+import TypeRetrieveService from './type/TypeRetrieveService';
 
 // service index file
 export {
@@ -16,5 +17,6 @@ export {
   RuleService,
   RuleRetrieveService,
   EventService,
-  EventRetrieveService
+  EventRetrieveService,
+  TypeRetrieveService
 };

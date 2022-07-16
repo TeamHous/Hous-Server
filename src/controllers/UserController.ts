@@ -10,7 +10,6 @@ import {
 } from '../interfaces/user/response/UserNotificationStateUpdateDto';
 import { UserProfileResponseDto } from '../interfaces/user/response/UserProfileResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/response/UserSettingResponseDto';
-import { TypeTestInfoResponseDto } from '../interfaces/type/response/TypeTestInfoResponseDto';
 import { UserUpdateResponseDto } from '../interfaces/user/response/UserUpdateResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
@@ -237,31 +236,6 @@ const updateUserTypeScore = async (
 };
 
 /**
- * @route GET /user/type/test
- * @desc Get user type test
- * @access Private
- */
-const getTypeTestInfo = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void | Response> => {
-  const userId: string = req.body.user._id;
-  try {
-    const data: TypeTestInfoResponseDto =
-      await UserRetrieveService.getTypeTestInfo(userId);
-
-    return res
-      .status(statusCode.OK)
-      .send(
-        util.success(statusCode.OK, message.GET_USER_TEST_TYPE_SUCCESS, data)
-      );
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
  * @route GET /user/me/type/:typeId
  * @desc Get my type detail
  * @access Private
@@ -321,7 +295,6 @@ export default {
   getHomieProfile,
   updateUserNotificationState,
   updateUserTypeScore,
-  getTypeTestInfo,
   getMyTypeDetail,
   getHomieTypeDetail
 };

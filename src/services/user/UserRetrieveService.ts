@@ -1,11 +1,8 @@
 import errorGenerator from '../../errors/errorGenerator';
-import { TypeTestInfo } from '../../interfaces/type/TypeTestInfo';
 import { HomieResponseDto } from '../../interfaces/user/response/HomieResponseDto';
 import { UserModifyResponseDto } from '../../interfaces/user/response/UserModifyResponseDto';
 import { UserProfileResponseDto } from '../../interfaces/user/response/UserProfileResponseDto';
 import { UserSettingResponseDto } from '../../interfaces/user/response/UserSettingResponseDto';
-import { TypeTestInfoResponseDto } from '../../interfaces/type/response/TypeTestInfoResponseDto';
-import TypeTest from '../../models/TypeTest';
 import User from '../../models/User';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
 import message from '../../modules/responseMessage';
@@ -143,30 +140,6 @@ const getHomieProfile = async (
   }
 };
 
-const getTypeTestInfo = async (
-  userId: string
-): Promise<TypeTestInfoResponseDto> => {
-  try {
-    // ObjectId 인지 확인
-    checkObjectIdValidation(userId);
-    // 유저 존재 확인
-    await UserServiceUtils.findUserById(userId);
-
-    const typeTests: TypeTestInfo[] = await TypeTest.find();
-
-    typeTests.sort((before, current) => {
-      return before.testNum - current.testNum ? 1 : -1;
-    });
-
-    const data: TypeTestInfoResponseDto = {
-      typeTests: typeTests
-    };
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
-
 const getTypeDetail = async (
   userId: string
 ): Promise<TypeDetailResponseDto> => {
@@ -203,6 +176,5 @@ export default {
   getUserAtModify,
   getUserSetting,
   getHomieProfile,
-  getTypeTestInfo,
   getTypeDetail
 };

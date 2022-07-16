@@ -3,6 +3,7 @@ import EventController from './EventController';
 import RoomController from './RoomController';
 import RuleController from './RuleController';
 import UserController from './UserController';
+import TypeController from './TypeController';
 
 // controller index file
 export {
@@ -10,5 +11,6 @@ export {
   UserController,
   RoomController,
   RuleController,
-  EventController
+  EventController,
+  TypeController
 };

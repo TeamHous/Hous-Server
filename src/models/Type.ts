@@ -36,11 +36,11 @@ const TypeSchema = new mongoose.Schema(
       }
     ],
     good: {
-      goodName: {
+      typeName: {
         type: String,
         required: true
       },
-      goodImg: [
+      typeImg: [
         {
           type: String,
           required: true
@@ -48,11 +48,11 @@ const TypeSchema = new mongoose.Schema(
       ]
     },
     bad: {
-      badName: {
+      typeName: {
         type: String,
         required: true
       },
-      badImg: [
+      typeImg: [
         {
           type: String,
           required: true

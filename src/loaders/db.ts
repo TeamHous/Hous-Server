@@ -48,7 +48,7 @@ const connectDB = async () => {
       logger.info('Type Collection is created!');
     });
     TypeTest.createCollection().then(function (collection) {
-      logger.info('Type Collection is created!');
+      logger.info('TypeTest Collection is created!');
     });
   } catch (err: any) {
     logger.error(err.message);

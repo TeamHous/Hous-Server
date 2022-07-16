@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import { TypeInfo } from '../interfaces/type/TypeInfo';
+import { TypeTestInfo } from '../interfaces/type/TypeTestInfo';
 
-const TypeSchema = new mongoose.Schema(
+const TypeTestSchema = new mongoose.Schema(
   {
     testNum: {
       type: Number,
@@ -32,4 +32,7 @@ const TypeSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model<TypeInfo & mongoose.Document>('Type', TypeSchema);
+export default mongoose.model<TypeTestInfo & mongoose.Document>(
+  'TypeTest',
+  TypeTestSchema
+);

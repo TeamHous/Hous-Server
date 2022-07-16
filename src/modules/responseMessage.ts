@@ -21,6 +21,7 @@ const message = {
   EXCEED_LENGTH: '제한 길이를 초과하였습니다.',
   INVALID_ICON: '잘못된 아이콘 값입니다.',
   INVALID_DAY: '잘못된 요일 값입니다.',
+  INVALID_TYPE_COLOR: '존재하지 않은 성향 컬러입니다.',
 
   NOT_FOUND_USER_EMAIL: '가입되지 않은 이메일입니다.',
   CONFLICT_EMAIL: '이메일 중복입니다.',

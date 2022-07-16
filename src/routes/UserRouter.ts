@@ -49,5 +49,6 @@ router.put(
   auth,
   UserController.updateUserTypeScore
 );
+router.get('/me/type/:typeId', auth, UserController.getMyTypeDetail);
 
 export default router;

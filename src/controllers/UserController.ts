@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { UserTypeTestDto } from '../interfaces/user/request/UserTypeTestDto';
+import { TypeTestDto } from '../interfaces/type/request/TypeTestDto';
 import { UserUpdateDto } from '../interfaces/user/request/UserUpdateDto';
 import { HomieResponseDto } from '../interfaces/user/response/HomieResponseDto';
 import { UserModifyResponseDto } from '../interfaces/user/response/UserModifyResponseDto';
@@ -10,13 +10,14 @@ import {
 } from '../interfaces/user/response/UserNotificationStateUpdateDto';
 import { UserProfileResponseDto } from '../interfaces/user/response/UserProfileResponseDto';
 import { UserSettingResponseDto } from '../interfaces/user/response/UserSettingResponseDto';
-import { UserTypeTestInfoResponseDto } from '../interfaces/user/response/UserTypeTestInfoResponseDto';
+import { TypeTestInfoResponseDto } from '../interfaces/type/response/TypeTestInfoResponseDto';
 import { UserUpdateResponseDto } from '../interfaces/user/response/UserUpdateResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import { UserService } from '../services';
 import UserRetrieveService from '../services/user/UserRetrieveService';
+import { TypeDetailResponseDto } from '../interfaces/type/response/TypeDetailResponseDto';
 
 /**
  * @route GET /user/profile
@@ -217,10 +218,10 @@ const updateUserTypeScore = async (
   }
 
   const userId: string = req.body.user._id;
-  const userTypeTestDto: UserTypeTestDto = req.body;
+  const userTypeTestDto: TypeTestDto = req.body;
 
   try {
-    const data: UserTypeTestDto = await UserService.updateUserTypeScore(
+    const data: TypeTestDto = await UserService.updateUserTypeScore(
       userId,
       userTypeTestDto
     );
@@ -247,13 +248,41 @@ const getTypeTestInfo = async (
 ): Promise<void | Response> => {
   const userId: string = req.body.user._id;
   try {
-    const data: UserTypeTestInfoResponseDto =
+    const data: TypeTestInfoResponseDto =
       await UserRetrieveService.getTypeTestInfo(userId);
 
     return res
       .status(statusCode.OK)
       .send(
         util.success(statusCode.OK, message.GET_USER_TEST_TYPE_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @route GET /user/me/type/:typeId
+ * @desc Get user my type detail
+ * @access Private
+ */
+const getMyTypeDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  const { typeId } = req.params;
+  try {
+    const data: TypeDetailResponseDto = await UserRetrieveService.getTypeDetail(
+      userId,
+      typeId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.GET_USER_TYPE_DETAIL_SUCCESS, data)
       );
   } catch (error) {
     next(error);
@@ -268,5 +297,6 @@ export default {
   getHomieProfile,
   updateUserNotificationState,
   updateUserTypeScore,
-  getTypeTestInfo
+  getTypeTestInfo,
+  getMyTypeDetail
 };

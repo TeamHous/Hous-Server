@@ -102,7 +102,7 @@ const getHomieProfile = async (
     checkObjectIdValidation(userId);
     checkObjectIdValidation(homieId);
 
-    // 유저 확인
+    // 유저 존재 확인
     const user = await UserServiceUtils.findUserById(userId);
     const homie = await UserServiceUtils.findUserById(homieId);
 

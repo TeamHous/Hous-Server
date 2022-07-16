@@ -1,20 +1,21 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { HomieResponseDto } from '../interfaces/user/HomieResponseDto';
-import { UserModifyResponseDto } from '../interfaces/user/UserModifyResponseDto';
+import { UserTypeTestDto } from '../interfaces/user/request/UserTypeTestDto';
+import { UserUpdateDto } from '../interfaces/user/request/UserUpdateDto';
+import { HomieResponseDto } from '../interfaces/user/response/HomieResponseDto';
+import { UserModifyResponseDto } from '../interfaces/user/response/UserModifyResponseDto';
 import {
   UserNotificationUpdateDto,
   UserNotificationUpdateResponseDto
-} from '../interfaces/user/UserNotificationStateUpdateDto';
-import { UserProfileResponseDto } from '../interfaces/user/UserProfileResponseDto';
-import { UserSettingResponseDto } from '../interfaces/user/UserSettingResponseDto';
-import { UserTypeTestDto } from '../interfaces/user/UserTypeTestDto';
-import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
-import { UserUpdateResponseDto } from '../interfaces/user/UserUpdateResponseDto';
+} from '../interfaces/user/response/UserNotificationStateUpdateDto';
+import { UserProfileResponseDto } from '../interfaces/user/response/UserProfileResponseDto';
+import { UserSettingResponseDto } from '../interfaces/user/response/UserSettingResponseDto';
+import { UserUpdateResponseDto } from '../interfaces/user/response/UserUpdateResponseDto';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import { UserService } from '../services';
+import UserRetrieveService from '../services/user/UserRetrieveService';
 
 /**
  * @route GET /user/profile
@@ -29,9 +30,8 @@ const getUserAtHome = async (
   const userId: string = req.body.user._id;
 
   try {
-    const data: UserProfileResponseDto = await UserService.getUserAtHome(
-      userId
-    );
+    const data: UserProfileResponseDto =
+      await UserRetrieveService.getUserAtHome(userId);
 
     return res
       .status(statusCode.OK)
@@ -54,9 +54,8 @@ const getUserAtModify = async (
   const userId: string = req.body.user._id;
 
   try {
-    const data: UserModifyResponseDto = await UserService.getUserAtModify(
-      userId
-    );
+    const data: UserModifyResponseDto =
+      await UserRetrieveService.getUserAtModify(userId);
 
     return res
       .status(statusCode.OK)
@@ -114,9 +113,8 @@ const getUserSetting = async (
 ): Promise<void | Response> => {
   const userId: string = req.body.user._id;
   try {
-    const data: UserSettingResponseDto = await UserService.getUserSetting(
-      userId
-    );
+    const data: UserSettingResponseDto =
+      await UserRetrieveService.getUserSetting(userId);
 
     return res
       .status(statusCode.OK)
@@ -184,7 +182,7 @@ const getHomieProfile = async (
   const userId: string = req.body.user._id;
   const { homieId } = req.params;
   try {
-    const data: HomieResponseDto = await UserService.getHomieProfile(
+    const data: HomieResponseDto = await UserRetrieveService.getHomieProfile(
       userId,
       homieId
     );

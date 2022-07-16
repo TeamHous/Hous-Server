@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { EventCreateDto } from '../interfaces/event/EventCreateDto';
-import { EventUpdateDto } from '../interfaces/event/EventUpdateDto';
+import { EventCreateDto } from '../interfaces/event/request/EventCreateDto';
+import { EventUpdateDto } from '../interfaces/event/request/EventUpdateDto';
 import checkIconType from '../modules/checkIconType';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
-import { EventService } from '../services';
+import { EventRetrieveService, EventService } from '../services';
 
 /**
  *  @route POST /room/:roomId/event
@@ -125,7 +125,7 @@ const getEvent = async (
   const { roomId, eventId } = req.params;
 
   try {
-    const data = await EventService.getEvent(userId, roomId, eventId);
+    const data = await EventRetrieveService.getEvent(userId, roomId, eventId);
 
     return res
       .status(statusCode.OK)

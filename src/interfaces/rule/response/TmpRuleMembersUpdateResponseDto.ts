@@ -1,4 +1,4 @@
-import { TmpRuleMembersUpdateDto } from './TmpRuleMembersUpdateDto';
+import { TmpRuleMembersUpdateDto } from '../request/TmpRuleMembersUpdateDto';
 
 export interface TmpRuleMembersUpdateResponseDto
   extends TmpRuleMembersUpdateDto {

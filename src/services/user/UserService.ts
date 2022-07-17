@@ -3,13 +3,13 @@ import dayjs from 'dayjs';
 import errorGenerator from '../../errors/errorGenerator';
 import { SignupDto } from '../../interfaces/auth/request/SignupDto';
 import { PostBaseResponseDto } from '../../interfaces/common/response/PostBaseResponseDto';
-import { UserTypeTestDto } from '../../interfaces/user/request/UserTypeTestDto';
+import { TypeTestDto } from '../../interfaces/type/request/TypeTestDto';
 import { UserUpdateDto } from '../../interfaces/user/request/UserUpdateDto';
 import {
   UserNotificationUpdateDto,
   UserNotificationUpdateResponseDto
 } from '../../interfaces/user/response/UserNotificationStateUpdateDto';
-import { UserTypeTestResponseDto } from '../../interfaces/user/response/UserTypeTestResponseDto';
+import { TypeTestResponseDto } from '../../interfaces/type/response/TypeTestResponseDto';
 import { UserUpdateResponseDto } from '../../interfaces/user/response/UserUpdateResponseDto';
 import User from '../../models/User';
 import checkValidUtils from '../../modules/checkValidUtils';
@@ -120,8 +120,8 @@ const updateUserNotificationState = async (
 
 const updateUserTypeScore = async (
   userId: string,
-  userTypeTestDto: UserTypeTestDto
-): Promise<UserTypeTestResponseDto> => {
+  userTypeTestDto: TypeTestDto
+): Promise<TypeTestResponseDto> => {
   try {
     const user = await UserServiceUtils.findUserById(userId);
 
@@ -144,7 +144,7 @@ const updateUserTypeScore = async (
 
     await user.updateOne({ typeScore: userTypeTestDto.typeScore });
 
-    const data: UserTypeTestResponseDto = {
+    const data: TypeTestResponseDto = {
       _id: user._id,
       typeScore: userTypeTestDto.typeScore
     };

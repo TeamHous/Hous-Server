@@ -6,7 +6,7 @@ import util from '../modules/util';
 import TypeRetrieveService from '../services/type/TypeRetrieveService';
 
 /**
- * @route GET /user/type/test
+ * @route GET /type/test
  * @desc Get user type test
  * @access Private
  */

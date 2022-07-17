@@ -22,19 +22,7 @@
     },
     {
       "name": "Room",
-      "description": "방 관련 api"
-    },
-    {
-      "name": "Rule",
-      "description": "규칙 관련 api"
-    },
-    {
-      "name": "RuleCategory",
-      "description": "규칙 카테고리 관련 api"
-    },
-    {
-      "name": "Event",
-      "description": "이벤트 관련 api"
+      "description": "방 관련 api (규칙, 규칙 카테고리, 이벤트)"
     },
     {
       "name": "Type",
@@ -55,6 +43,9 @@
   "paths": {
     "/auth/signup": {
       "post": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -62,6 +53,9 @@
     },
     "/auth/login": {
       "post": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -69,6 +63,9 @@
     },
     "/user/": {
       "delete": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -94,6 +91,9 @@
     },
     "/user/profile": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -107,6 +107,9 @@
     },
     "/user/profile/me": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -118,6 +121,9 @@
         "responses": {}
       },
       "put": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -143,6 +149,9 @@
     },
     "/user/setting": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -156,6 +165,9 @@
     },
     "/user/setting/notification": {
       "put": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -181,6 +193,9 @@
     },
     "/user/{homieId}": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -200,6 +215,9 @@
     },
     "/user/type/test": {
       "put": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -225,6 +243,9 @@
     },
     "/user/me/type": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -238,6 +259,9 @@
     },
     "/user/{userId}/type": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -257,6 +281,9 @@
     },
     "/room/": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -268,6 +295,9 @@
         "responses": {}
       },
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -293,6 +323,9 @@
     },
     "/room/in": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -306,6 +339,9 @@
     },
     "/room/{roomId}/in": {
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -338,6 +374,9 @@
     },
     "/room/{roomId}/out": {
       "delete": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -370,6 +409,9 @@
     },
     "/room/{roomId}/rule": {
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -401,6 +443,9 @@
     },
     "/room/{roomId}/rule/new": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -421,6 +466,9 @@
     },
     "/room/{roomId}/category/{categoryId}/rule": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -448,6 +496,9 @@
     },
     "/room/{roomId}/rule/{ruleId}": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -473,6 +524,9 @@
         "responses": {}
       },
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -510,6 +564,9 @@
         "responses": {}
       },
       "delete": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -549,6 +606,9 @@
     },
     "/room/{roomId}/rule/{ruleId}/today": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -574,6 +634,9 @@
         "responses": {}
       },
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -613,6 +676,9 @@
     },
     "/room/{roomId}/rule/{ruleId}/check": {
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -652,6 +718,9 @@
     },
     "/room/{roomId}/rules/me": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -672,6 +741,9 @@
     },
     "/room/{roomId}/rules/category": {
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -704,6 +776,9 @@
     },
     "/room/{roomId}/rules/category/{categoryId}": {
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -741,6 +816,9 @@
         "responses": {}
       },
       "delete": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -780,6 +858,9 @@
     },
     "/room/{roomId}/event": {
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -812,6 +893,9 @@
     },
     "/room/{roomId}/event/{eventId}": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -837,6 +921,9 @@
         "responses": {}
       },
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -877,6 +964,9 @@
         "responses": {}
       },
       "delete": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -916,6 +1006,9 @@
     },
     "/room/{roomId}/home": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -936,6 +1029,9 @@
     },
     "/room/{roomId}/rules": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -956,6 +1052,9 @@
     },
     "/type/test": {
       "get": {
+        "tags": [
+          "Type"
+        ],
         "description": "",
         "parameters": [
           {

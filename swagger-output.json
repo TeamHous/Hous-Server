@@ -95,7 +95,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/user/profile/me": {
@@ -113,7 +118,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -130,6 +140,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -161,7 +176,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/user/setting/notification": {
@@ -180,6 +200,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -219,7 +244,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/user/type/test": {
@@ -238,6 +268,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -269,7 +304,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/user/{userId}/type": {
@@ -295,7 +335,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/room/": {

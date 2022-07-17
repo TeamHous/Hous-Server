@@ -9,7 +9,12 @@ const router: Router = Router();
 /**
  * 사용자 탈퇴
  */
-router.delete('/', auth, UserController.deleteUser);
+router.delete(
+  '/',
+  auth,
+  UserController.deleteUser
+  // #swagger.requestBody = { required: false }
+);
 
 /**
  * 프로필
@@ -42,6 +47,37 @@ router.put(
   auth,
   UserController.updateUser
   // #swagger.security = [{"JWT": []}]
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "userName"
+      ],
+      properties: {
+        userName: {
+          type: "string",
+          example: "김호미"
+        },
+        job: {
+          type: "string",
+          example: "대학생"
+        },
+        introduction: {
+          type: "string",
+          example: "김호미입니다~!!!!"
+        },
+        hashTag: {
+          type: "array",
+          items: {
+            type: "string"
+          },
+          example: ["ESFJ", "호미호미"]
+        }
+      }
+    }
+  }
+  */
 );
 router.get(
   '/setting',
@@ -54,6 +90,22 @@ router.put(
   auth,
   UserController.updateUserNotificationState
   // #swagger.security = [{"JWT": []}]
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "notificationState"
+      ],
+      properties: {
+        notificationState: {
+          type: "boolean",
+          example: "true"
+        }
+      }
+    }
+  }
+  */
 );
 
 /**
@@ -75,6 +127,27 @@ router.put(
   auth,
   UserController.updateUserTypeScore
   // #swagger.security = [{"JWT": []}]
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "typeScore"
+      ],
+      properties: {
+        typeScore: {
+          type: "array",
+          items: {
+            type: "integer"
+          },
+          minItems: 5,
+          maxItems: 5,
+          example: [2, 5, 10, 4, 12]
+        }
+      }
+    }
+  }
+  */
 );
 router.get(
   '/me/type',

@@ -1,5 +1,5 @@
 #!/bin/bash
-REPOSITORY=/home/ubuntu/build
+REPOSITORY=/home/ubuntu/server
 
 cd $REPOSITORY
 

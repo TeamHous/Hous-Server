@@ -1716,7 +1716,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     }
   },

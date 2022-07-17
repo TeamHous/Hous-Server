@@ -7,10 +7,15 @@ import connectDB from './loaders/db';
 import message from './modules/responseMessage';
 import util from './modules/util';
 import routes from './routes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from '../swagger-output.json';
+
 const app = express();
 require('dotenv').config();
 
 connectDB();
+
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 let morganFormat: string;
 if (config.env === 'production') {

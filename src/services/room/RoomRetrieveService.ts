@@ -83,16 +83,11 @@ const getRoomInfoAtHome = async (
     // 존재하는 id인지 확인
     const user = await RoomServiceUtils.findUserById(userId);
 
-    // 유저의 roomId와 parameter로 받은 roomId가 일치한지 확인
-    if (!user.roomId || user.roomId.toString() !== roomId) {
-      throw errorGenerator({
-        msg: message.BAD_REQUEST,
-        statusCode: statusCode.BAD_REQUEST
-      });
-    }
-
     // 존재하는 room인지 확인
-    const room = await RoomServiceUtils.findRoomById(user.roomId.toString());
+    const room = await RoomServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RoomServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
     // KeyRules 조회
     const tmpKeyRulesList = await Rule.find({

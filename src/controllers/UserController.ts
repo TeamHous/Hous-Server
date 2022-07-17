@@ -250,7 +250,7 @@ const deleteUser = async (
 
     return res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.DELETE_USER, null));
+      .send(util.success(statusCode.OK, message.DELETE_USER_SUCCESS, null));
   } catch (error) {
     next(error);
   }

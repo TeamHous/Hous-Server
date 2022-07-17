@@ -61,7 +61,7 @@ const createRoom = async (
 };
 
 /**
- *  @route GET /room/in
+ *  @route GET /room/in?roomcode=
  *  @desc get Room and User
  *  @access Private
  */
@@ -80,11 +80,14 @@ const getRoomAndUserByRoomCode = async (
   }
 
   const userId: string = req.body.user._id;
-  const roomJoinDto: RoomJoinDto = req.body;
+  const { roomCode } = req.query;
 
   try {
     const data: RoomJoinResponseDto =
-      await RoomRetrieveService.getRoomAndUserByRoomCode(userId, roomJoinDto);
+      await RoomRetrieveService.getRoomAndUserByRoomCode(
+        userId,
+        roomCode as string
+      );
 
     return res
       .status(statusCode.OK)

@@ -15,12 +15,7 @@ const router: Router = Router();
  */
 router.get('/', auth, RoomController.getRoom);
 router.post('/', auth, RoomController.createRoom);
-router.get(
-  '/in',
-  [body('roomCode').not().isEmpty()],
-  auth,
-  RoomController.getRoomAndUserByRoomCode
-);
+router.get('/in', auth, RoomController.getRoomAndUserByRoomCode);
 router.post(
   '/:roomId/in',
   [body('roomCode').not().isEmpty()],

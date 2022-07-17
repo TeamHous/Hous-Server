@@ -81,6 +81,7 @@ const message = {
   UPDATE_USER_NOTIFICATION_STATE_SUCCESS: '사용자 알림 설정 수정 성공입니다.',
   GET_USER_TEST_TYPE_SUCCESS: '사용자 성향 테스트 조회 성공입니다.',
   UPDATE_USER_TEST_TYPE_SUCCESS: '사용자 성향 테스트 타입 수정 성공입니다.',
+  GET_USER_TYPE_DETAIL_SUCCESS: '사용자 성향 상세 조회 성공입니다.',
 
   // 이벤트
   NOT_FOUND_EVENT: '존재하지 않는 이벤트입니다.',
@@ -88,7 +89,10 @@ const message = {
   UPDATE_EVENT_SUCCESS: '이벤트 수정 성공입니다.',
   DELETE_EVENT_SUCCESS: '이벤트 삭제 성공입니다.',
   READ_EVENT_SUCCESS: '이벤트 조회 성공입니다.',
-  FORBIDDEN_EVENT: '참가하고 있지 않은 방의 이벤트입니다.'
+  FORBIDDEN_EVENT: '참가하고 있지 않은 방의 이벤트입니다.',
+
+  // 성향
+  NOT_FOUND_TYPE: '존재하지 않는 성향입니다.'
 };
 
 export default message;

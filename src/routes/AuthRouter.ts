@@ -14,6 +14,46 @@ router.post(
     body('fcmToken').not().isEmpty()
   ],
   AuthController.signup
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "email",
+        "password",
+        "userName",
+        "gender",
+        "fcmToken"
+      ],
+      properties: {
+        email: {
+          type: "hous@naver.com",
+          example: "true"
+        },
+        password: {
+          type: "string",
+          example: "password"
+        },
+        userName: {
+          type: "string",
+          example: "김호미"
+        },
+        gender: {
+          type: "string",
+          example: "여자"
+        },
+        birthday: {
+          type: "string",
+          example: "2000-01-01"
+        },
+        fcmToken: {
+          type: "string",
+          example: "afjadsjcioajvasfjaisfojasdkvjais"
+        }
+      }
+    }
+  }
+  */
 );
 router.post(
   '/login',
@@ -23,6 +63,32 @@ router.post(
     body('fcmToken').not().isEmpty()
   ],
   AuthController.login
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "email",
+        "password",
+        "fcmToken"
+      ],
+      properties: {
+        email: {
+          type: "hous@naver.com",
+          example: "true"
+        },
+        password: {
+          type: "string",
+          example: "password"
+        },
+        fcmToken: {
+          type: "string",
+          example: "afjadsjcioajvasfjaisfojasdkvjais"
+        }
+      }
+    }
+  }
+  */
 );
 
 export default router;

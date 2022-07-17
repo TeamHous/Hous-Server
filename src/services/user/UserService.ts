@@ -263,6 +263,7 @@ const deleteUser = async (userId: string): Promise<void> => {
         const otherUser = await User.findOne({
           $and: [{ roomId: room._id }, { _id: { $ne: userId } }]
         });
+
         if (room.roomOwner.toString() === userId && otherUser != null) {
           roomOwner = otherUser._id;
         } else {
@@ -276,7 +277,6 @@ const deleteUser = async (userId: string): Promise<void> => {
         });
       }
 
-      console.log(`하잉 바로 삭제해버림 ㅠ`);
       // 유저 삭제
       await user.deleteOne({ userId: userId });
     }

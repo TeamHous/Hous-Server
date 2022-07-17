@@ -82,7 +82,7 @@ const message = {
   UPDATE_USER_NOTIFICATION_STATE_SUCCESS: '사용자 알림 설정 수정 성공입니다.',
   GET_USER_TEST_TYPE_SUCCESS: '사용자 성향 테스트 조회 성공입니다.',
   UPDATE_USER_TEST_TYPE_SUCCESS: '사용자 성향 테스트 타입 수정 성공입니다.',
-  DELETE_USER: '사용자 탈퇴 성공입니다.',
+  DELETE_USER_SUCCESS: '사용자 탈퇴 성공입니다.',
 
   // 이벤트
   NOT_FOUND_EVENT: '존재하지 않는 이벤트입니다.',

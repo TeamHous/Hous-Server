@@ -1,16 +1,14 @@
 import errorGenerator from '../../errors/errorGenerator';
-import { TypeTestInfo } from '../../interfaces/type/TypeTestInfo';
 import { HomieResponseDto } from '../../interfaces/user/response/HomieResponseDto';
 import { UserModifyResponseDto } from '../../interfaces/user/response/UserModifyResponseDto';
 import { UserProfileResponseDto } from '../../interfaces/user/response/UserProfileResponseDto';
 import { UserSettingResponseDto } from '../../interfaces/user/response/UserSettingResponseDto';
-import { UserTypeTestInfoResponseDto } from '../../interfaces/user/response/UserTypeTestInfoResponseDto';
-import TypeTest from '../../models/TypeTest';
 import User from '../../models/User';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
 import message from '../../modules/responseMessage';
 import statusCode from '../../modules/statusCode';
 import UserServiceUtils from './UserServiceUtils';
+import { TypeDetailResponseDto } from '../../interfaces/type/response/TypeDetailResponseDto';
 
 const getUserAtHome = async (
   userId: string
@@ -142,24 +140,31 @@ const getHomieProfile = async (
   }
 };
 
-const getTypeTestInfo = async (
+const getTypeDetail = async (
   userId: string
-): Promise<UserTypeTestInfoResponseDto> => {
+): Promise<TypeDetailResponseDto> => {
   try {
     // ObjectId 인지 확인
     checkObjectIdValidation(userId);
     // 유저 존재 확인
-    await UserServiceUtils.findUserById(userId);
+    const user = await UserServiceUtils.findUserById(userId);
+    // 성향 존재 확인
+    const typeDetail = await UserServiceUtils.findTypeById(
+      user.typeId.toString()
+    );
 
-    const typeTests: TypeTestInfo[] = await TypeTest.find();
-
-    typeTests.sort((before, current) => {
-      return before.testNum - current.testNum ? 1 : -1;
-    });
-
-    const data: UserTypeTestInfoResponseDto = {
-      typeTests: typeTests
+    const data: TypeDetailResponseDto = {
+      typeName: typeDetail.typeName,
+      typeColor: typeDetail.typeColor,
+      typeImg: typeDetail.typeImg,
+      typeOneComment: typeDetail.typeOneComment,
+      typeDesc: typeDetail.typeDesc,
+      typeRulesTitle: typeDetail.typeRulesTitle,
+      typeRules: typeDetail.typeRules,
+      good: typeDetail.good,
+      bad: typeDetail.bad
     };
+
     return data;
   } catch (error) {
     throw error;
@@ -171,5 +176,5 @@ export default {
   getUserAtModify,
   getUserSetting,
   getHomieProfile,
-  getTypeTestInfo
+  getTypeDetail
 };

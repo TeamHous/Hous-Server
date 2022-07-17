@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { UserTypeTestDto } from '../interfaces/user/request/UserTypeTestDto';
+import { TypeTestDto } from '../interfaces/type/request/TypeTestDto';
+import { TypeDetailResponseDto } from '../interfaces/type/response/TypeDetailResponseDto';
 import { UserUpdateDto } from '../interfaces/user/request/UserUpdateDto';
 import { HomieResponseDto } from '../interfaces/user/response/HomieResponseDto';
 import { UserModifyResponseDto } from '../interfaces/user/response/UserModifyResponseDto';
@@ -216,10 +217,10 @@ const updateUserTypeScore = async (
   }
 
   const userId: string = req.body.user._id;
-  const userTypeTestDto: UserTypeTestDto = req.body;
+  const userTypeTestDto: TypeTestDto = req.body;
 
   try {
-    const data: UserTypeTestDto = await UserService.updateUserTypeScore(
+    const data: TypeTestDto = await UserService.updateUserTypeScore(
       userId,
       userTypeTestDto
     );
@@ -256,6 +257,58 @@ const deleteUser = async (
   }
 };
 
+/**
+ * @route GET /user/me/type/:typeId
+ * @desc Get my type detail
+ * @access Private
+ */
+const getMyTypeDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  try {
+    const data: TypeDetailResponseDto = await UserRetrieveService.getTypeDetail(
+      userId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.GET_USER_TYPE_DETAIL_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @route GET /user/:userId/type/:typeId
+ * @desc Get homie type detail
+ * @access Private
+ */
+const getHomieTypeDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const { userId } = req.params;
+  try {
+    const data: TypeDetailResponseDto = await UserRetrieveService.getTypeDetail(
+      userId
+    );
+
+    return res
+      .status(statusCode.OK)
+      .send(
+        util.success(statusCode.OK, message.GET_USER_TYPE_DETAIL_SUCCESS, data)
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getUserAtHome,
   getUserAtModify,
@@ -264,5 +317,7 @@ export default {
   getHomieProfile,
   updateUserNotificationState,
   updateUserTypeScore,
-  deleteUser
+  deleteUser,
+  getMyTypeDetail,
+  getHomieTypeDetail
 };

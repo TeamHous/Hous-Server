@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { body } from 'express-validator/check';
+import { body, query } from 'express-validator/check';
 import {
   EventController,
   RoomController,
@@ -15,7 +15,12 @@ const router: Router = Router();
  */
 router.get('/', auth, RoomController.getRoom);
 router.post('/', auth, RoomController.createRoom);
-router.get('/in', auth, RoomController.getRoomAndUserByRoomCode);
+router.get(
+  '/in',
+  [query('roomCode').isString().trim()],
+  auth,
+  RoomController.getRoomAndUserByRoomCode
+);
 router.post(
   '/:roomId/in',
   [body('roomCode').not().isEmpty()],

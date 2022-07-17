@@ -44,5 +44,10 @@ export default {
   /**
    * jwt Algorithm
    */
-  jwtAlgo: process.env.JWT_ALGO as string
+  jwtAlgo: process.env.JWT_ALGO as string,
+
+  /**
+   * Slack Alram
+   */
+  slackAlarm: process.env.SLACK_ALARM_URI as string
 };

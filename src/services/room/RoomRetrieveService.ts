@@ -17,7 +17,6 @@ import User from '../../models/User';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
 import message from '../../modules/responseMessage';
 import statusCode from '../../modules/statusCode';
-import RuleServiceUtils from '../rule/RuleServiceUtils';
 import RoomServiceUtils from './RoomServiceUtils';
 
 const getRoom = async (
@@ -82,10 +81,13 @@ const getRoomInfoAtHome = async (
     checkObjectIdValidation(roomId);
 
     // 존재하는 id인지 확인
-    await RuleServiceUtils.findUserById(userId);
+    const user = await RoomServiceUtils.findUserById(userId);
 
     // 존재하는 room인지 확인
     const room = await RoomServiceUtils.findRoomById(roomId);
+
+    // 참가하고 있는 방이 아니면 접근 불가능
+    await RoomServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
     // KeyRules 조회
     const tmpKeyRulesList = await Rule.find({
@@ -124,17 +126,29 @@ const getRoomInfoAtHome = async (
       roomId: roomId
     }).populate('typeId', 'typeName typeColor');
 
-    const homies: HomieProfileResponseDto[] = await Promise.all(
+    const myProfile: HomieProfileResponseDto[] = [];
+    const homieProfile: HomieProfileResponseDto[] = [];
+    await Promise.all(
       tmpHomies.map(async (homie: any) => {
-        const result = {
-          _id: homie._id,
-          userName: homie.userName,
-          typeName: homie.typeId.typeName,
-          typeColor: homie.typeId.typeColor
-        };
-        return result;
+        if (homie._id.toString() !== userId) {
+          homieProfile.push({
+            _id: homie._id,
+            userName: homie.userName,
+            typeName: homie.typeId.typeName,
+            typeColor: homie.typeId.typeColor
+          });
+        } else {
+          myProfile.push({
+            _id: homie._id,
+            userName: homie.userName,
+            typeName: homie.typeId.typeName,
+            typeColor: homie.typeId.typeColor
+          });
+        }
       })
     );
+
+    const allHomieProfile = myProfile.concat(homieProfile);
 
     // to-do 체크 여부 포함 조회
     const today = dayjs().day();
@@ -206,7 +220,7 @@ const getRoomInfoAtHome = async (
       eventList: eventList,
       keyRulesList: keyRulesList,
       todoList: todoList.length === 0 ? [] : todoList,
-      homieProfileList: homies,
+      homieProfileList: allHomieProfile,
       roomCode: room.roomCode
     };
 

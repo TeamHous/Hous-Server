@@ -21,6 +21,7 @@ const message = {
   EXCEED_LENGTH: '제한 길이를 초과하였습니다.',
   INVALID_ICON: '잘못된 아이콘 값입니다.',
   INVALID_DAY: '잘못된 요일 값입니다.',
+  INVALID_TYPE_COLOR: '존재하지 않은 성향 컬러입니다.',
 
   NOT_FOUND_USER_EMAIL: '가입되지 않은 이메일입니다.',
   CONFLICT_EMAIL: '이메일 중복입니다.',
@@ -81,6 +82,7 @@ const message = {
   UPDATE_USER_NOTIFICATION_STATE_SUCCESS: '사용자 알림 설정 수정 성공입니다.',
   GET_USER_TEST_TYPE_SUCCESS: '사용자 성향 테스트 조회 성공입니다.',
   UPDATE_USER_TEST_TYPE_SUCCESS: '사용자 성향 테스트 타입 수정 성공입니다.',
+  DELETE_USER_SUCCESS: '사용자 탈퇴 성공입니다.',
   GET_USER_TYPE_DETAIL_SUCCESS: '사용자 성향 상세 조회 성공입니다.',
 
   // 이벤트

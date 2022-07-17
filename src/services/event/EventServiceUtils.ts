@@ -43,7 +43,7 @@ const checkForbiddenEvent = async (
   userRoomId: mongoose.Types.ObjectId,
   eventRoomId: mongoose.Types.ObjectId
 ) => {
-  if (!userRoomId.equals(eventRoomId)) {
+  if (!eventRoomId.equals(userRoomId)) {
     throw errorGenerator({
       msg: message.FORBIDDEN_EVENT,
       statusCode: statusCode.FORBIDDEN
@@ -55,7 +55,7 @@ const checkForbiddenRoom = async (
   userRoomId: mongoose.Types.ObjectId,
   roomId: mongoose.Types.ObjectId
 ) => {
-  if (!userRoomId.equals(roomId)) {
+  if (!roomId.equals(userRoomId)) {
     throw errorGenerator({
       msg: message.FORBIDDEN_ROOM,
       statusCode: statusCode.FORBIDDEN

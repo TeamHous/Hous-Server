@@ -1,12 +1,10 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "title": "Hous- API",
     "description": "🥰🏠 우리 호미들 고생해써!! 뷰를 다 짜고 여기까지 온 너희는 천재야! 🏠🥰",
     "version": "1.0.0"
   },
-  "host": "http://13.125.139.188:8000",
-  "basePath": "/",
   "tags": [
     {
       "name": "User",
@@ -22,39 +20,19 @@
     },
     {
       "name": "Room",
-      "description": "방 관련 api"
-    },
-    {
-      "name": "Rule",
-      "description": "규칙 관련 api"
-    },
-    {
-      "name": "RuleCategory",
-      "description": "규칙 카테고리 관련 api"
-    },
-    {
-      "name": "Event",
-      "description": "이벤트 관련 api"
+      "description": "방 관련 api (규칙, 규칙 카테고리, 이벤트)"
     },
     {
       "name": "Type",
       "description": "성향 관련 api"
     }
   ],
-  "schemes": [
-    "http"
-  ],
-  "securityDefinitions": {
-    "bearerAuth": {
-      "type": "http",
-      "scheme": "bearer",
-      "in": "header",
-      "bearerFormat": "JWT"
-    }
-  },
   "paths": {
     "/auth/signup": {
       "post": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -62,6 +40,9 @@
     },
     "/auth/login": {
       "post": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -69,37 +50,49 @@
     },
     "/user/": {
       "delete": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/user/profile": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -107,48 +100,65 @@
     },
     "/user/profile/me": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
       },
       "put": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/user/setting": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -156,43 +166,57 @@
     },
     "/user/setting/notification": {
       "put": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/user/{homieId}": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "homieId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -200,37 +224,49 @@
     },
     "/user/type/test": {
       "put": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/user/me/type": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -238,18 +274,25 @@
     },
     "/user/{userId}/type": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -257,48 +300,70 @@
     },
     "/room/": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/in": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -306,114 +371,148 @@
     },
     "/room/{roomId}/in": {
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/out": {
       "delete": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/rule": {
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/rule/new": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -421,26 +520,35 @@
     },
     "/room/{roomId}/category/{categoryId}/rule": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "categoryId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 카테고리 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -448,223 +556,292 @@
     },
     "/room/{roomId}/rule/{ruleId}": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "ruleId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
       },
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "ruleId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       },
       "delete": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "ruleId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/rule/{ruleId}/today": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "ruleId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
       },
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "ruleId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/rule/{ruleId}/check": {
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "ruleId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/rules/me": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -672,263 +849,341 @@
     },
     "/room/{roomId}/rules/category": {
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/rules/category/{categoryId}": {
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "categoryId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 카테고리 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       },
       "delete": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "categoryId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "규칙 카테고리 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/event": {
       "post": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/event/{eventId}": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "eventId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "이벤트 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
       },
       "put": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "eventId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "이벤트 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
-                },
-                "eventIcon": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  },
+                  "eventIcon": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       },
       "delete": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "eventId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "이벤트 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "example": "any"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
-        "responses": {}
+        }
       }
     },
     "/room/{roomId}/home": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -936,19 +1191,26 @@
     },
     "/room/{roomId}/rules": {
       "get": {
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "roomId",
             "in": "path",
             "required": true,
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "방 id"
           },
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -956,15 +1218,32 @@
     },
     "/type/test": {
       "get": {
+        "tags": [
+          "Type"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "type": "http",
+        "scheme": "bearer",
+        "name": "JWT",
+        "description": "JWT를 입력해주세요.",
+        "in": "header",
+        "bearerFormat": "JWT"
       }
     }
   }

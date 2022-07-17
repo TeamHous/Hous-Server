@@ -1,6 +1,6 @@
 import config from './config';
 
-const swaggerAutogen = require('swagger-autogen')();
+const swaggerAutogen = require('swagger-autogen');
 
 const doc = {
   info: {
@@ -27,19 +27,7 @@ const doc = {
     },
     {
       name: 'Room',
-      description: '방 관련 api'
-    },
-    {
-      name: 'Rule',
-      description: '규칙 관련 api'
-    },
-    {
-      name: 'RuleCategory',
-      description: '규칙 카테고리 관련 api'
-    },
-    {
-      name: 'Event',
-      description: '이벤트 관련 api'
+      description: '방 관련 api (규칙, 규칙 카테고리, 이벤트)'
     },
     {
       name: 'Type',
@@ -47,9 +35,11 @@ const doc = {
     }
   ],
   securityDefinitions: {
-    bearerAuth: {
+    JWT: {
       type: 'http',
       scheme: 'bearer',
+      name: 'JWT',
+      description: 'JWT를 입력해주세요.',
       in: 'header',
       bearerFormat: 'JWT'
     }
@@ -59,8 +49,8 @@ const doc = {
 const outputFile = './swagger-output.json';
 const endpointsFiles = ['./src/routes/index.ts'];
 
-/* NOTE: if you use the express Router, you must pass in the 
-   'endpointsFiles' only the root file where the route starts,
-   such as index.js, app.js, routes.js, … */
-
-swaggerAutogen(outputFile, endpointsFiles, doc);
+swaggerAutogen({ openapi: '3.0.0' })(outputFile, endpointsFiles, doc).then(
+  async () => {
+    await import('./index'); // Your project's root file
+  }
+);

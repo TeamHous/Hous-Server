@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import { TypeTestDto } from '../interfaces/type/request/TypeTestDto';
+import { TypeDetailResponseDto } from '../interfaces/type/response/TypeDetailResponseDto';
 import { UserUpdateDto } from '../interfaces/user/request/UserUpdateDto';
 import { HomieResponseDto } from '../interfaces/user/response/HomieResponseDto';
 import { UserModifyResponseDto } from '../interfaces/user/response/UserModifyResponseDto';
@@ -16,7 +17,6 @@ import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import { UserService } from '../services';
 import UserRetrieveService from '../services/user/UserRetrieveService';
-import { TypeDetailResponseDto } from '../interfaces/type/response/TypeDetailResponseDto';
 
 /**
  * @route GET /user/profile
@@ -236,6 +236,28 @@ const updateUserTypeScore = async (
 };
 
 /**
+ * @route DELETE /user
+ * @desc Delete user
+ * @access Private
+ */
+const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response> => {
+  const userId: string = req.body.user._id;
+  try {
+    await UserService.deleteUser(userId);
+
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.DELETE_USER_SUCCESS, null));
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @route GET /user/me/type/:typeId
  * @desc Get my type detail
  * @access Private
@@ -295,6 +317,7 @@ export default {
   getHomieProfile,
   updateUserNotificationState,
   updateUserTypeScore,
+  deleteUser,
   getMyTypeDetail,
   getHomieTypeDetail
 };

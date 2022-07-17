@@ -1,5 +1,5 @@
 import { TypeTestInfo } from '../../type/TypeTestInfo';
 
-export interface UserTypeTestInfoResponseDto {
+export interface TypeTestInfoResponseDto {
   typeTests: TypeTestInfo[];
 }

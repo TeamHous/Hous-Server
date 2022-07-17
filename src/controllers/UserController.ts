@@ -262,7 +262,7 @@ const getMyTypeDetail = async (
 };
 
 /**
- * @route GET /user/:userID/type/:typeId
+ * @route GET /user/:userId/type/:typeId
  * @desc Get homie type detail
  * @access Private
  */

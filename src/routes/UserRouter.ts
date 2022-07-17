@@ -14,8 +14,18 @@ router.delete('/', auth, UserController.deleteUser);
 /**
  * 프로필
  */
-router.get('/profile', auth, UserController.getUserAtHome);
-router.get('/profile/me', auth, UserController.getUserAtModify);
+router.get(
+  '/profile',
+  auth,
+  UserController.getUserAtHome
+  // #swagger.security = [{"JWT": []}]
+);
+router.get(
+  '/profile/me',
+  auth,
+  UserController.getUserAtModify
+  // #swagger.security = [{"JWT": []}]
+);
 router.put(
   '/profile/me',
   [
@@ -31,18 +41,30 @@ router.put(
   ],
   auth,
   UserController.updateUser
+  // #swagger.security = [{"JWT": []}]
 );
-router.get('/setting', auth, UserController.getUserSetting);
+router.get(
+  '/setting',
+  auth,
+  UserController.getUserSetting
+  // #swagger.security = [{"JWT": []}]
+);
 router.put(
   '/setting/notification',
   auth,
   UserController.updateUserNotificationState
+  // #swagger.security = [{"JWT": []}]
 );
 
 /**
  * 룸메이트 조회 (홈화면에서 호미 클릭 시)
  */
-router.get('/:homieId', auth, UserController.getHomieProfile);
+router.get(
+  '/:homieId',
+  auth,
+  UserController.getHomieProfile
+  // #swagger.security = [{"JWT": []}]
+);
 
 /**
  * 성향 테스트 등록 및 수정
@@ -52,8 +74,19 @@ router.put(
   [body('typeScore').not().isEmpty().isArray()],
   auth,
   UserController.updateUserTypeScore
+  // #swagger.security = [{"JWT": []}]
 );
-router.get('/me/type', auth, UserController.getMyTypeDetail);
-router.get('/:userId/type', auth, UserController.getHomieTypeDetail);
+router.get(
+  '/me/type',
+  auth,
+  UserController.getMyTypeDetail
+  // #swagger.security = [{"JWT": []}]
+);
+router.get(
+  '/:userId/type',
+  auth,
+  UserController.getHomieTypeDetail
+  // #swagger.security = [{"JWT": []}]
+);
 
 export default router;

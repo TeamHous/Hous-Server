@@ -341,18 +341,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
+          "required": false
         }
       }
     },
@@ -410,13 +399,30 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "roomCode"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "isCheck": {
+                    "type": "string",
+                    "example": "505TYCMR"
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "roomCode"
+                ],
+                "properties": {
+                  "isCheck": {
+                    "type": "string",
+                    "example": "505TYCMR"
                   }
                 }
               }
@@ -456,18 +462,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
+          "required": false
         }
       }
     },
@@ -502,13 +497,112 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "notificationState",
+                  "ruleName",
+                  "categoryId",
+                  "isKeyRules",
+                  "ruleMembers",
+                  "userId",
+                  "day"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "notificationState": {
+                    "type": "boolean",
+                    "example": "true"
+                  },
+                  "ruleName": {
+                    "type": "string",
+                    "example": "방 청소하기"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "example": "62d4335e17e70062873f3d26"
+                  },
+                  "isKeyRules": {
+                    "type": "boolean",
+                    "example": "false"
+                  },
+                  "ruleMembers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "example": "62d4334c17e70062873f3d1f"
+                        },
+                        "day": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          },
+                          "example": [
+                            0,
+                            2,
+                            3
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "notificationState",
+                  "ruleName",
+                  "categoryId",
+                  "isKeyRules",
+                  "ruleMembers",
+                  "userId",
+                  "day"
+                ],
+                "properties": {
+                  "notificationState": {
+                    "type": "boolean",
+                    "example": "true"
+                  },
+                  "ruleName": {
+                    "type": "string",
+                    "example": "방 청소하기"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "example": "62d4335e17e70062873f3d26"
+                  },
+                  "isKeyRules": {
+                    "type": "boolean",
+                    "example": "false"
+                  },
+                  "ruleMembers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "example": "62d4334c17e70062873f3d1f"
+                        },
+                        "day": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          },
+                          "example": [
+                            0,
+                            2,
+                            3
+                          ]
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -669,13 +763,112 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "notificationState",
+                  "ruleName",
+                  "categoryId",
+                  "isKeyRules",
+                  "ruleMembers",
+                  "userId",
+                  "day"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "notificationState": {
+                    "type": "boolean",
+                    "example": "true"
+                  },
+                  "ruleName": {
+                    "type": "string",
+                    "example": "방 청소하기"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "example": "62d4335e17e70062873f3d26"
+                  },
+                  "isKeyRules": {
+                    "type": "boolean",
+                    "example": "false"
+                  },
+                  "ruleMembers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "example": "62d4334c17e70062873f3d1f"
+                        },
+                        "day": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          },
+                          "example": [
+                            0,
+                            2,
+                            3
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "notificationState",
+                  "ruleName",
+                  "categoryId",
+                  "isKeyRules",
+                  "ruleMembers",
+                  "userId",
+                  "day"
+                ],
+                "properties": {
+                  "notificationState": {
+                    "type": "boolean",
+                    "example": "true"
+                  },
+                  "ruleName": {
+                    "type": "string",
+                    "example": "방 청소하기"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "example": "62d4335e17e70062873f3d26"
+                  },
+                  "isKeyRules": {
+                    "type": "boolean",
+                    "example": "false"
+                  },
+                  "ruleMembers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "example": "62d4334c17e70062873f3d1f"
+                        },
+                        "day": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          },
+                          "example": [
+                            0,
+                            2,
+                            3
+                          ]
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -722,18 +915,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
+          "required": false
         }
       }
     },
@@ -816,13 +998,40 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "tmpRuleMembers"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "tmpRuleMembers": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "tmpRuleMembers"
+                ],
+                "properties": {
+                  "tmpRuleMembers": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
@@ -871,13 +1080,30 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "isCheck"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "isCheck": {
+                    "type": "boolean",
+                    "example": "false"
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "isCheck"
+                ],
+                "properties": {
+                  "isCheck": {
+                    "type": "boolean",
+                    "example": "false"
                   }
                 }
               }
@@ -949,13 +1175,40 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "categoryName",
+                  "categoryIcon"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "categoryName": {
+                    "type": "string",
+                    "example": "청소"
+                  },
+                  "categoryIcon": {
+                    "type": "string",
+                    "example": "CLEAN"
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "categoryName",
+                  "categoryIcon"
+                ],
+                "properties": {
+                  "categoryName": {
+                    "type": "string",
+                    "example": "청소"
+                  },
+                  "categoryIcon": {
+                    "type": "string",
+                    "example": "CLEAN"
                   }
                 }
               }
@@ -1004,13 +1257,40 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "categoryName",
+                  "categoryIcon"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "categoryName": {
+                    "type": "string",
+                    "example": "청소"
+                  },
+                  "categoryIcon": {
+                    "type": "string",
+                    "example": "CLEAN"
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "categoryName",
+                  "categoryIcon"
+                ],
+                "properties": {
+                  "categoryName": {
+                    "type": "string",
+                    "example": "청소"
+                  },
+                  "categoryIcon": {
+                    "type": "string",
+                    "example": "CLEAN"
                   }
                 }
               }
@@ -1057,18 +1337,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
+          "required": false
         }
       }
     },
@@ -1103,13 +1372,70 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "eventName",
+                  "eventIcon",
+                  "date",
+                  "participants"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "eventName": {
+                    "type": "string",
+                    "example": "호미 생일파티"
+                  },
+                  "eventIcon": {
+                    "type": "string",
+                    "example": "PARTY"
+                  },
+                  "date": {
+                    "type": "string",
+                    "example": "2022-07-23"
+                  },
+                  "participants": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "eventName",
+                  "eventIcon",
+                  "date",
+                  "participants"
+                ],
+                "properties": {
+                  "eventName": {
+                    "type": "string",
+                    "example": "호미 생일파티"
+                  },
+                  "eventIcon": {
+                    "type": "string",
+                    "example": "PARTY"
+                  },
+                  "date": {
+                    "type": "string",
+                    "example": "2022-07-23"
+                  },
+                  "participants": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
@@ -1197,16 +1523,70 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "eventName",
+                  "eventIcon",
+                  "date",
+                  "participants"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "eventName": {
+                    "type": "string",
+                    "example": "호미 생일파티"
                   },
                   "eventIcon": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "PARTY"
+                  },
+                  "date": {
+                    "type": "string",
+                    "example": "2022-07-23"
+                  },
+                  "participants": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "eventName",
+                  "eventIcon",
+                  "date",
+                  "participants"
+                ],
+                "properties": {
+                  "eventName": {
+                    "type": "string",
+                    "example": "호미 생일파티"
+                  },
+                  "eventIcon": {
+                    "type": "string",
+                    "example": "PARTY"
+                  },
+                  "date": {
+                    "type": "string",
+                    "example": "2022-07-23"
+                  },
+                  "participants": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
@@ -1253,18 +1633,7 @@
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
+          "required": false
         }
       }
     },

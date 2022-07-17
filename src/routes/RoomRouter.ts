@@ -24,6 +24,7 @@ router.post(
   auth,
   RoomController.createRoom
   // #swagger.security = [{"JWT": []}]
+  // #swagger.requestBody = { required: false }
 );
 router.get(
   '/in',
@@ -39,6 +40,22 @@ router.post(
   RoomController.joinRoom
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "roomCode"
+      ],
+      properties: {
+        isCheck: {
+          type: "string",
+          example: "505TYCMR"
+        }
+      }
+    }
+  }
+  */
 );
 router.delete(
   '/:roomId/out',
@@ -46,6 +63,7 @@ router.delete(
   RoomController.leaveRoom
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
+  // #swagger.requestBody = { required: false }
 );
 
 /**
@@ -67,6 +85,59 @@ router.post(
   RuleController.createRule
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "notificationState",
+        "ruleName",
+        "categoryId",
+        "isKeyRules",
+        "ruleMembers",
+        "userId",
+        "day"
+      ],
+      properties: {
+        notificationState: {
+          type: "boolean",
+          example: "true"
+        },
+        ruleName: {
+          type: "string",
+          example: "방 청소하기"
+        },
+        categoryId: {
+          type: "string",
+          example: "62d4335e17e70062873f3d26"
+        },
+        isKeyRules: {
+          type: "boolean",
+          example: "false"
+        },
+        ruleMembers: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              userId: {
+                type: "string",
+                example: "62d4334c17e70062873f3d1f"
+              },
+              day: {
+                type: "array",
+                items: {
+                  type: "integer"
+                },
+                example: [0,2,3]
+              }
+            }
+          }
+        },
+      }
+    }
+  }
+  */
 );
 router.get(
   '/:roomId/rule/new',
@@ -108,6 +179,59 @@ router.put(
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "notificationState",
+        "ruleName",
+        "categoryId",
+        "isKeyRules",
+        "ruleMembers",
+        "userId",
+        "day"
+      ],
+      properties: {
+        notificationState: {
+          type: "boolean",
+          example: "true"
+        },
+        ruleName: {
+          type: "string",
+          example: "방 청소하기"
+        },
+        categoryId: {
+          type: "string",
+          example: "62d4335e17e70062873f3d26"
+        },
+        isKeyRules: {
+          type: "boolean",
+          example: "false"
+        },
+        ruleMembers: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              userId: {
+                type: "string",
+                example: "62d4334c17e70062873f3d1f"
+              },
+              day: {
+                type: "array",
+                items: {
+                  type: "integer"
+                },
+                example: [0,2,3]
+              }
+            }
+          }
+        },
+      }
+    }
+  }
+  */
 );
 router.delete(
   '/:roomId/rule/:ruleId',
@@ -116,6 +240,7 @@ router.delete(
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
+  // #swagger.requestBody = { required: false }
 );
 router.get(
   '/:roomId/rule/:ruleId/today',
@@ -133,6 +258,25 @@ router.put(
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "tmpRuleMembers"
+      ],
+      properties: {
+        tmpRuleMembers: {
+          type: "array",
+          items: {
+            type: "string"
+          },
+          example: ["62d4334c17e70062873f3d1f"]
+        }
+      }
+    }
+  }
+  */
 );
 router.put(
   '/:roomId/rule/:ruleId/check',
@@ -142,6 +286,22 @@ router.put(
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "isCheck"
+      ],
+      properties: {
+        isCheck: {
+          type: "boolean",
+          example: "false"
+        }
+      }
+    }
+  }
+  */
 );
 router.get(
   '/:roomId/rules/me',
@@ -167,6 +327,27 @@ router.post(
   RuleController.createRuleCategory
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "categoryName",
+        "categoryIcon",
+      ],
+      properties: {
+        categoryName: {
+          type: "string",
+          example: "청소"
+        },
+        categoryIcon: {
+          type: "string",
+          example: "CLEAN"
+        }
+      }
+    }
+  }
+  */
 );
 
 router.put(
@@ -183,6 +364,27 @@ router.put(
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['categoryId'] = { description: '규칙 카테고리 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "categoryName",
+        "categoryIcon",
+      ],
+      properties: {
+        categoryName: {
+          type: "string",
+          example: "청소"
+        },
+        categoryIcon: {
+          type: "string",
+          example: "CLEAN"
+        }
+      }
+    }
+  }
+  */
 );
 
 router.delete(
@@ -192,6 +394,7 @@ router.delete(
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['categoryId'] = { description: '규칙 카테고리 id' };
+  // #swagger.requestBody = { required: false }
 );
 
 /**
@@ -212,6 +415,40 @@ router.post(
   EventController.createEvent
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "eventName",
+        "eventIcon",
+        "date",
+        "participants"
+      ],
+      properties: {
+        eventName: {
+          type: "string",
+          example: "호미 생일파티"
+        },
+        eventIcon: {
+          type: "string",
+          example: "PARTY"
+        },
+        date: {
+          type: "string",
+          example: "2022-07-23"
+        },
+        participants: {
+          type: "array",
+          items: {
+            type: "string"
+          },
+          example: ["62d4334c17e70062873f3d1f"]
+        }
+      }
+    }
+  }
+  */
 );
 router.get(
   '/:roomId/event/:eventId',
@@ -237,6 +474,40 @@ router.put(
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['eventId'] = { description: '이벤트 id' };
+  /*
+  #swagger.requestBody = {
+    required: true,
+    schema: {
+      required: [
+        "eventName",
+        "eventIcon",
+        "date",
+        "participants"
+      ],
+      properties: {
+        eventName: {
+          type: "string",
+          example: "호미 생일파티"
+        },
+        eventIcon: {
+          type: "string",
+          example: "PARTY"
+        },
+        date: {
+          type: "string",
+          example: "2022-07-23"
+        },
+        participants: {
+          type: "array",
+          items: {
+            type: "string"
+          },
+          example: ["62d4334c17e70062873f3d1f"]
+        }
+      }
+    }
+  }
+  */
 );
 router.delete(
   '/:roomId/event/:eventId',
@@ -245,6 +516,7 @@ router.delete(
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['eventId'] = { description: '이벤트 id' };
+  // #swagger.requestBody = { required: false }
 );
 
 /**

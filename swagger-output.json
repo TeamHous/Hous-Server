@@ -65,18 +65,7 @@
         ],
         "responses": {},
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "user": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
+          "required": false
         }
       }
     },
@@ -146,13 +135,66 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "userName"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "userName": {
+                    "type": "string",
+                    "example": "김호미"
+                  },
+                  "job": {
+                    "type": "string",
+                    "example": "대학생"
+                  },
+                  "introduction": {
+                    "type": "string",
+                    "example": "김호미입니다~!!!!"
+                  },
+                  "hashTag": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "ESFJ",
+                      "호미호미"
+                    ]
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "userName"
+                ],
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "example": "김호미"
+                  },
+                  "job": {
+                    "type": "string",
+                    "example": "대학생"
+                  },
+                  "introduction": {
+                    "type": "string",
+                    "example": "김호미입니다~!!!!"
+                  },
+                  "hashTag": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "ESFJ",
+                      "호미호미"
+                    ]
                   }
                 }
               }
@@ -206,13 +248,30 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "notificationState"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "notificationState": {
+                    "type": "boolean",
+                    "example": "true"
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "notificationState"
+                ],
+                "properties": {
+                  "notificationState": {
+                    "type": "boolean",
+                    "example": "true"
                   }
                 }
               }
@@ -274,13 +333,52 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "required": [
+                  "typeScore"
+                ],
                 "properties": {
-                  "user": {
-                    "example": "any"
+                  "typeScore": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 5,
+                    "maxItems": 5,
+                    "example": [
+                      2,
+                      5,
+                      10,
+                      4,
+                      12
+                    ]
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "required": [
+                  "typeScore"
+                ],
+                "properties": {
+                  "typeScore": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 5,
+                    "maxItems": 5,
+                    "example": [
+                      2,
+                      5,
+                      10,
+                      4,
+                      12
+                    ]
                   }
                 }
               }

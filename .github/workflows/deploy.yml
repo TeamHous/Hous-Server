@@ -61,6 +61,8 @@ jobs:
           echo MONGODB_TEST_URI=${{ secrets.MONGODB_TEST_URI }} >> .env
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
           echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
+          echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
+
           yarn run build
 
       - name: zip file

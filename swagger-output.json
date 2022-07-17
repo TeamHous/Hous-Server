@@ -335,6 +335,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -366,7 +371,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/room/{roomId}/in": {
@@ -394,6 +404,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -435,6 +450,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -464,7 +484,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "방 id"
           },
           {
             "name": "authorization",
@@ -475,6 +496,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -515,7 +541,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/room/{roomId}/category/{categoryId}/rule": {
@@ -551,7 +582,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/room/{roomId}/rule/{ruleId}": {
@@ -587,7 +623,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -622,6 +663,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -670,6 +716,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -719,7 +770,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -754,6 +810,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -804,6 +865,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -844,7 +910,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/room/{roomId}/rules/category": {
@@ -872,6 +943,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -922,6 +998,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -970,6 +1051,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1011,6 +1097,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1060,7 +1151,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -1095,6 +1191,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1146,6 +1247,11 @@
           }
         ],
         "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1186,7 +1292,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/room/{roomId}/rules": {
@@ -1213,7 +1324,12 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/type/test": {

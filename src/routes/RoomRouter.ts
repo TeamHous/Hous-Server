@@ -26,8 +26,14 @@ router.post(
   [body('roomCode').not().isEmpty()],
   auth,
   RoomController.joinRoom
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
 );
-router.delete('/:roomId/out', auth, RoomController.leaveRoom);
+router.delete(
+  '/:roomId/out',
+  auth,
+  RoomController.leaveRoom
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+);
 
 /**
  * 규칙
@@ -46,14 +52,28 @@ router.post(
   ],
   auth,
   RuleController.createRule
+  //  #swagger.parameters['roomId'] = { description: '방 id };
 );
-router.get('/:roomId/rule/new', auth, RuleController.getRuleCreateInfo);
+router.get(
+  '/:roomId/rule/new',
+  auth,
+  RuleController.getRuleCreateInfo
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+);
 router.get(
   '/:roomId/category/:categoryId/rule',
   auth,
   RuleController.getRulesByCategoryId
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['categoryId'] = { description: '규칙 카테고리 id' };
 );
-router.get('/:roomId/rule/:ruleId', auth, RuleController.getRuleByRuleId);
+router.get(
+  '/:roomId/rule/:ruleId',
+  auth,
+  RuleController.getRuleByRuleId
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['ruleId'] = { description: '규칙 id' };
+);
 router.put(
   '/:roomId/rule/:ruleId',
   [
@@ -68,26 +88,45 @@ router.put(
   ],
   auth,
   RuleController.updateRule
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['ruleId'] = { description: '규칙 id' };
 );
-router.delete('/:roomId/rule/:ruleId', auth, RuleController.deleteRule);
+router.delete(
+  '/:roomId/rule/:ruleId',
+  auth,
+  RuleController.deleteRule
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['ruleId'] = { description: '규칙 id' };
+);
 router.get(
   '/:roomId/rule/:ruleId/today',
   auth,
   RuleController.getHomiesWithIsTmpMember
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['ruleId'] = { description: '규칙 id' };
 );
 router.put(
   '/:roomId/rule/:ruleId/today',
   auth,
   [body('tmpRuleMembers').not().isEmpty()],
   RuleController.updateTmpRuleMembers
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['ruleId'] = { description: '규칙 id' };
 );
 router.put(
   '/:roomId/rule/:ruleId/check',
   auth,
   [body('isCheck').not().isEmpty()],
   RuleController.updateMyRuleTodoCheck
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['ruleId'] = { description: '규칙 id' };
 );
-router.get('/:roomId/rules/me', auth, RuleController.getMyRuleInfo);
+router.get(
+  '/:roomId/rules/me',
+  auth,
+  RuleController.getMyRuleInfo
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+);
 
 /**
  * 규칙 카테고리
@@ -103,6 +142,7 @@ router.post(
   ],
   auth,
   RuleController.createRuleCategory
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
 );
 
 router.put(
@@ -116,12 +156,16 @@ router.put(
   ],
   auth,
   RuleController.updateRuleCategory
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['categoryId'] = { description: '규칙 카테고리 id' };
 );
 
 router.delete(
   '/:roomId/rules/category/:categoryId',
   auth,
   RuleController.deleteRuleCategory
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['categoryId'] = { description: '규칙 카테고리 id' };
 );
 
 /**
@@ -140,8 +184,15 @@ router.post(
   ],
   auth,
   EventController.createEvent
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
 );
-router.get('/:roomId/event/:eventId', auth, EventController.getEvent);
+router.get(
+  '/:roomId/event/:eventId',
+  auth,
+  EventController.getEvent
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['eventId'] = { description: '이벤트 id' };
+);
 router.put(
   '/:roomId/event/:eventId',
   [
@@ -155,13 +206,31 @@ router.put(
   ],
   auth,
   EventController.updateEvent
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['eventId'] = { description: '이벤트 id' };
 );
-router.delete('/:roomId/event/:eventId', auth, EventController.deleteEvent);
+router.delete(
+  '/:roomId/event/:eventId',
+  auth,
+  EventController.deleteEvent
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+  //  #swagger.parameters['eventId'] = { description: '이벤트 id' };
+);
 
 /**
  * 홈
  */
-router.get('/:roomId/home', auth, RoomController.getRoomInfoAtHome);
-router.get('/:roomId/rules', auth, RuleController.getRuleInfoAtRuleHome);
+router.get(
+  '/:roomId/home',
+  auth,
+  RoomController.getRoomInfoAtHome
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+);
+router.get(
+  '/:roomId/rules',
+  auth,
+  RuleController.getRuleInfoAtRuleHome
+  //  #swagger.parameters['roomId'] = { description: '방 id' };
+);
 
 export default router;

@@ -6,8 +6,8 @@ export interface TypeInfo {
   typeDesc: string;
   typeRulesTitle: string;
   typeRules: string[];
-  good: Compatibility[];
-  bad: Compatibility[];
+  good: Compatibility;
+  bad: Compatibility;
 }
 
 interface Compatibility {

@@ -40,24 +40,20 @@ const TypeSchema = new mongoose.Schema(
         type: String,
         required: true
       },
-      typeImg: [
-        {
-          type: String,
-          required: true
-        }
-      ]
+      typeImg: {
+        type: String,
+        required: true
+      }
     },
     bad: {
       typeName: {
         type: String,
         required: true
       },
-      typeImg: [
-        {
-          type: String,
-          required: true
-        }
-      ]
+      typeImg: {
+        type: String,
+        required: true
+      }
     }
   },
   {

@@ -763,10 +763,6 @@ const getRuleInfoAtRuleHome = async (
           }
         }
 
-        const todayMemberAllWithDate = todayMembersWithTypeColorWithDate.concat(
-          todayMembersWithTypeColorNoDate
-        );
-
         // 성향 오름차순으로 정렬
         todayMembersWithTypeColorWithDate.sort((before, current) => {
           return dayjs(before.typeUpdatedDate).isAfter(
@@ -776,12 +772,15 @@ const getRuleInfoAtRuleHome = async (
             : -1;
         });
 
+        // 규칙 리스트 : 성향 테스트한 사람(시간 기준, 오름차순 정렬) + 성향 테스트를 안한 사람
+        const todayMemberAllWithDate = todayMembersWithTypeColorWithDate.concat(
+          todayMembersWithTypeColorNoDate
+        );
+
         const todayMembersWithTypeColor: TodayMembersWithTypeColor[] =
-          todayMembersWithTypeColorWithDate.map(
-            ({ typeUpdatedDate, ...rest }) => {
-              return rest;
-            }
-          );
+          todayMemberAllWithDate.map(({ typeUpdatedDate, ...rest }) => {
+            return rest;
+          });
 
         todayTodoRulesWithDate.push({
           _id: rule._id,

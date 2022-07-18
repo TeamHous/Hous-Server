@@ -13,6 +13,7 @@ router.delete(
   '/',
   auth,
   UserController.deleteUser
+  // #swagger.summary = '탈퇴하기'
   // #swagger.requestBody = { required: false }
 );
 
@@ -23,12 +24,14 @@ router.get(
   '/profile',
   auth,
   UserController.getUserAtHome
+  // #swagger.summary = '프로필 홈화면 조회하기'
   // #swagger.security = [{"JWT": []}]
 );
 router.get(
   '/profile/me',
   auth,
   UserController.getUserAtModify
+  // #swagger.summary = '나의 프로필 수정 시 정보 조회하기'
   // #swagger.security = [{"JWT": []}]
 );
 router.put(
@@ -46,6 +49,7 @@ router.put(
   ],
   auth,
   UserController.updateUser
+  // #swagger.summary = '나의 프로필 수정하기'
   // #swagger.security = [{"JWT": []}]
   /*
   #swagger.requestBody = {
@@ -83,12 +87,14 @@ router.get(
   '/setting',
   auth,
   UserController.getUserSetting
+  // #swagger.summary = '설정 조회하기'
   // #swagger.security = [{"JWT": []}]
 );
 router.put(
   '/setting/notification',
   auth,
   UserController.updateUserNotificationState
+  // #swagger.summary = '설정 - 알림 여부 수정하기'
   // #swagger.security = [{"JWT": []}]
   /*
   #swagger.requestBody = {
@@ -115,8 +121,9 @@ router.get(
   '/:homieId',
   auth,
   UserController.getHomieProfile
+  // #swagger.summary = '호미(룸메이트) 조회하기'
   // #swagger.security = [{"JWT": []}]
-  // #swagger.parameters['homieId'] = { description: '호미의 유저 id' };
+  // #swagger.parameters['homieId'] = { description: '호미(룸메이트)의 유저 id' };
 );
 
 /**
@@ -127,6 +134,7 @@ router.put(
   [body('typeScore').not().isEmpty().isArray()],
   auth,
   UserController.updateUserTypeScore
+  // #swagger.summary = '성향 테스트 점수 등록 및 수정'
   // #swagger.security = [{"JWT": []}]
   /*
   #swagger.requestBody = {
@@ -154,12 +162,14 @@ router.get(
   '/me/type',
   auth,
   UserController.getMyTypeDetail
+  // #swagger.summary = '나의 성향 자세히보기'
   // #swagger.security = [{"JWT": []}]
 );
 router.get(
   '/:userId/type',
   auth,
   UserController.getHomieTypeDetail
+  // #swagger.summary = '룸메이트의 성향 자세히보기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['userId'] = { description: '유저 id' };
 );

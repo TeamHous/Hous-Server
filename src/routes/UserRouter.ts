@@ -116,6 +116,7 @@ router.get(
   auth,
   UserController.getHomieProfile
   // #swagger.security = [{"JWT": []}]
+  // #swagger.parameters['homieId'] = { description: '호미의 유저 id' };
 );
 
 /**
@@ -160,6 +161,7 @@ router.get(
   auth,
   UserController.getHomieTypeDetail
   // #swagger.security = [{"JWT": []}]
+  // #swagger.parameters['userId'] = { description: '유저 id' };
 );
 
 export default router;

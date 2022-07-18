@@ -383,7 +383,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "호미의 유저 id"
           },
           {
             "name": "authorization",
@@ -491,7 +492,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "유저 id"
           },
           {
             "name": "authorization",

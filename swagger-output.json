@@ -7,10 +7,6 @@
   },
   "tags": [
     {
-      "name": "User",
-      "description": "유저 관련 api"
-    },
-    {
       "name": "Auth",
       "description": "인증 관련 api"
     },
@@ -30,7 +26,10 @@
   "paths": {
     "/auth/signup": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
+        "summary": "회원가입",
         "description": "",
         "parameters": [],
         "responses": {},
@@ -117,7 +116,10 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
+        "summary": "로그인",
         "description": "",
         "parameters": [],
         "responses": {},
@@ -126,7 +128,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["email", "password", "fcmToken"],
+                "required": [
+                  "email",
+                  "password",
+                  "fcmToken"
+                ],
                 "properties": {
                   "email": {
                     "type": "hous@naver.com",
@@ -145,7 +151,11 @@
             },
             "application/xml": {
               "schema": {
-                "required": ["email", "password", "fcmToken"],
+                "required": [
+                  "email",
+                  "password",
+                  "fcmToken"
+                ],
                 "properties": {
                   "email": {
                     "type": "hous@naver.com",
@@ -168,7 +178,9 @@
     },
     "/user/": {
       "delete": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -187,7 +199,9 @@
     },
     "/user/profile": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -208,7 +222,9 @@
     },
     "/user/profile/me": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -227,7 +243,9 @@
         ]
       },
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -249,7 +267,9 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["userName"],
+                "required": [
+                  "userName"
+                ],
                 "properties": {
                   "userName": {
                     "type": "string",
@@ -268,14 +288,19 @@
                     "items": {
                       "type": "string"
                     },
-                    "example": ["ESFJ", "호미호미"]
+                    "example": [
+                      "ESFJ",
+                      "호미호미"
+                    ]
                   }
                 }
               }
             },
             "application/xml": {
               "schema": {
-                "required": ["userName"],
+                "required": [
+                  "userName"
+                ],
                 "properties": {
                   "userName": {
                     "type": "string",
@@ -294,7 +319,10 @@
                     "items": {
                       "type": "string"
                     },
-                    "example": ["ESFJ", "호미호미"]
+                    "example": [
+                      "ESFJ",
+                      "호미호미"
+                    ]
                   }
                 }
               }
@@ -305,7 +333,9 @@
     },
     "/user/setting": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -326,7 +356,9 @@
     },
     "/user/setting/notification": {
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -348,7 +380,9 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["notificationState"],
+                "required": [
+                  "notificationState"
+                ],
                 "properties": {
                   "notificationState": {
                     "type": "boolean",
@@ -359,7 +393,9 @@
             },
             "application/xml": {
               "schema": {
-                "required": ["notificationState"],
+                "required": [
+                  "notificationState"
+                ],
                 "properties": {
                   "notificationState": {
                     "type": "boolean",
@@ -374,7 +410,9 @@
     },
     "/user/{homieId}": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -404,7 +442,9 @@
     },
     "/user/type/test": {
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -426,7 +466,9 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["typeScore"],
+                "required": [
+                  "typeScore"
+                ],
                 "properties": {
                   "typeScore": {
                     "type": "array",
@@ -435,14 +477,22 @@
                     },
                     "minItems": 5,
                     "maxItems": 5,
-                    "example": [2, 5, 10, 4, 12]
+                    "example": [
+                      2,
+                      5,
+                      10,
+                      4,
+                      12
+                    ]
                   }
                 }
               }
             },
             "application/xml": {
               "schema": {
-                "required": ["typeScore"],
+                "required": [
+                  "typeScore"
+                ],
                 "properties": {
                   "typeScore": {
                     "type": "array",
@@ -451,7 +501,13 @@
                     },
                     "minItems": 5,
                     "maxItems": 5,
-                    "example": [2, 5, 10, 4, 12]
+                    "example": [
+                      2,
+                      5,
+                      10,
+                      4,
+                      12
+                    ]
                   }
                 }
               }
@@ -462,7 +518,9 @@
     },
     "/user/me/type": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -483,7 +541,9 @@
     },
     "/user/{userId}/type": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -513,7 +573,9 @@
     },
     "/room/": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -532,7 +594,9 @@
         ]
       },
       "post": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -556,7 +620,9 @@
     },
     "/room/in": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -577,7 +643,9 @@
     },
     "/room/{roomId}/in": {
       "post": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -608,7 +676,9 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["roomCode"],
+                "required": [
+                  "roomCode"
+                ],
                 "properties": {
                   "isCheck": {
                     "type": "string",
@@ -619,7 +689,9 @@
             },
             "application/xml": {
               "schema": {
-                "required": ["roomCode"],
+                "required": [
+                  "roomCode"
+                ],
                 "properties": {
                   "isCheck": {
                     "type": "string",
@@ -634,7 +706,9 @@
     },
     "/room/{roomId}/out": {
       "delete": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -667,7 +741,9 @@
     },
     "/room/{roomId}/rule": {
       "post": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -738,7 +814,11 @@
                           "items": {
                             "type": "integer"
                           },
-                          "example": [0, 2, 3]
+                          "example": [
+                            0,
+                            2,
+                            3
+                          ]
                         }
                       }
                     }
@@ -788,7 +868,11 @@
                           "items": {
                             "type": "integer"
                           },
-                          "example": [0, 2, 3]
+                          "example": [
+                            0,
+                            2,
+                            3
+                          ]
                         }
                       }
                     }
@@ -802,7 +886,9 @@
     },
     "/room/{roomId}/rule/new": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -832,7 +918,9 @@
     },
     "/room/{roomId}/category/{categoryId}/rule": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -871,7 +959,9 @@
     },
     "/room/{roomId}/rule/{ruleId}": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -908,7 +998,9 @@
         ]
       },
       "put": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -988,7 +1080,11 @@
                           "items": {
                             "type": "integer"
                           },
-                          "example": [0, 2, 3]
+                          "example": [
+                            0,
+                            2,
+                            3
+                          ]
                         }
                       }
                     }
@@ -1038,7 +1134,11 @@
                           "items": {
                             "type": "integer"
                           },
-                          "example": [0, 2, 3]
+                          "example": [
+                            0,
+                            2,
+                            3
+                          ]
                         }
                       }
                     }
@@ -1050,7 +1150,9 @@
         }
       },
       "delete": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1092,7 +1194,9 @@
     },
     "/room/{roomId}/rule/{ruleId}/today": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1129,7 +1233,9 @@
         ]
       },
       "put": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1169,28 +1275,36 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["tmpRuleMembers"],
+                "required": [
+                  "tmpRuleMembers"
+                ],
                 "properties": {
                   "tmpRuleMembers": {
                     "type": "array",
                     "items": {
                       "type": "string"
                     },
-                    "example": ["62d4334c17e70062873f3d1f"]
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
             },
             "application/xml": {
               "schema": {
-                "required": ["tmpRuleMembers"],
+                "required": [
+                  "tmpRuleMembers"
+                ],
                 "properties": {
                   "tmpRuleMembers": {
                     "type": "array",
                     "items": {
                       "type": "string"
                     },
-                    "example": ["62d4334c17e70062873f3d1f"]
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
@@ -1201,7 +1315,9 @@
     },
     "/room/{roomId}/rule/{ruleId}/check": {
       "put": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1241,7 +1357,9 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["isCheck"],
+                "required": [
+                  "isCheck"
+                ],
                 "properties": {
                   "isCheck": {
                     "type": "boolean",
@@ -1252,7 +1370,9 @@
             },
             "application/xml": {
               "schema": {
-                "required": ["isCheck"],
+                "required": [
+                  "isCheck"
+                ],
                 "properties": {
                   "isCheck": {
                     "type": "boolean",
@@ -1267,7 +1387,9 @@
     },
     "/room/{roomId}/rules/me": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1297,7 +1419,9 @@
     },
     "/room/{roomId}/rules/category": {
       "post": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1328,7 +1452,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["categoryName", "categoryIcon"],
+                "required": [
+                  "categoryName",
+                  "categoryIcon"
+                ],
                 "properties": {
                   "categoryName": {
                     "type": "string",
@@ -1343,7 +1470,10 @@
             },
             "application/xml": {
               "schema": {
-                "required": ["categoryName", "categoryIcon"],
+                "required": [
+                  "categoryName",
+                  "categoryIcon"
+                ],
                 "properties": {
                   "categoryName": {
                     "type": "string",
@@ -1362,7 +1492,9 @@
     },
     "/room/{roomId}/rules/category/{categoryId}": {
       "put": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1402,7 +1534,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["categoryName", "categoryIcon"],
+                "required": [
+                  "categoryName",
+                  "categoryIcon"
+                ],
                 "properties": {
                   "categoryName": {
                     "type": "string",
@@ -1417,7 +1552,10 @@
             },
             "application/xml": {
               "schema": {
-                "required": ["categoryName", "categoryIcon"],
+                "required": [
+                  "categoryName",
+                  "categoryIcon"
+                ],
                 "properties": {
                   "categoryName": {
                     "type": "string",
@@ -1434,7 +1572,9 @@
         }
       },
       "delete": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1476,7 +1616,9 @@
     },
     "/room/{roomId}/event": {
       "post": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1507,7 +1649,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["eventName", "eventIcon", "date", "participants"],
+                "required": [
+                  "eventName",
+                  "eventIcon",
+                  "date",
+                  "participants"
+                ],
                 "properties": {
                   "eventName": {
                     "type": "string",
@@ -1526,14 +1673,21 @@
                     "items": {
                       "type": "string"
                     },
-                    "example": ["62d4334c17e70062873f3d1f"]
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
             },
             "application/xml": {
               "schema": {
-                "required": ["eventName", "eventIcon", "date", "participants"],
+                "required": [
+                  "eventName",
+                  "eventIcon",
+                  "date",
+                  "participants"
+                ],
                 "properties": {
                   "eventName": {
                     "type": "string",
@@ -1552,7 +1706,9 @@
                     "items": {
                       "type": "string"
                     },
-                    "example": ["62d4334c17e70062873f3d1f"]
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
@@ -1563,7 +1719,9 @@
     },
     "/room/{roomId}/event/{eventId}": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1600,7 +1758,9 @@
         ]
       },
       "put": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1640,7 +1800,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["eventName", "eventIcon", "date", "participants"],
+                "required": [
+                  "eventName",
+                  "eventIcon",
+                  "date",
+                  "participants"
+                ],
                 "properties": {
                   "eventName": {
                     "type": "string",
@@ -1659,14 +1824,21 @@
                     "items": {
                       "type": "string"
                     },
-                    "example": ["62d4334c17e70062873f3d1f"]
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
             },
             "application/xml": {
               "schema": {
-                "required": ["eventName", "eventIcon", "date", "participants"],
+                "required": [
+                  "eventName",
+                  "eventIcon",
+                  "date",
+                  "participants"
+                ],
                 "properties": {
                   "eventName": {
                     "type": "string",
@@ -1685,7 +1857,9 @@
                     "items": {
                       "type": "string"
                     },
-                    "example": ["62d4334c17e70062873f3d1f"]
+                    "example": [
+                      "62d4334c17e70062873f3d1f"
+                    ]
                   }
                 }
               }
@@ -1694,7 +1868,9 @@
         }
       },
       "delete": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1736,7 +1912,9 @@
     },
     "/room/{roomId}/home": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1766,7 +1944,9 @@
     },
     "/room/{roomId}/rules": {
       "get": {
-        "tags": ["Room"],
+        "tags": [
+          "Room"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1796,7 +1976,9 @@
     },
     "/type/test": {
       "get": {
-        "tags": ["Type"],
+        "tags": [
+          "Type"
+        ],
         "description": "",
         "parameters": [
           {

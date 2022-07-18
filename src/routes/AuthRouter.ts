@@ -14,6 +14,7 @@ router.post(
     body('fcmToken').not().isEmpty()
   ],
   AuthController.signup
+  // #swagger.summary = '회원가입'
   /*
   #swagger.requestBody = {
     required: true,
@@ -63,6 +64,7 @@ router.post(
     body('fcmToken').not().isEmpty()
   ],
   AuthController.login
+  // #swagger.summary = '로그인'
   /*
   #swagger.requestBody = {
     required: true,

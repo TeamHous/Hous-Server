@@ -576,6 +576,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "들어간 방 id 조회하기",
         "description": "",
         "parameters": [
           {
@@ -597,6 +598,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "방 생성하기",
         "description": "",
         "parameters": [
           {
@@ -623,6 +625,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "방 입장하기 초대코드 입력 시 방 조회",
         "description": "",
         "parameters": [
           {
@@ -646,6 +649,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "방 입장하기",
         "description": "",
         "parameters": [
           {
@@ -709,6 +713,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "방 퇴사하기",
         "description": "",
         "parameters": [
           {
@@ -744,6 +749,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 1개 추가하기",
         "description": "",
         "parameters": [
           {
@@ -889,6 +895,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 생성 시 조회 (규칙 카테고리, 호미 리스트)",
         "description": "",
         "parameters": [
           {
@@ -921,6 +928,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "카테고리 별 규칙 리스트 조회",
         "description": "",
         "parameters": [
           {
@@ -962,6 +970,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 1개 조회하기",
         "description": "",
         "parameters": [
           {
@@ -1001,6 +1010,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 1개 수정하기",
         "description": "",
         "parameters": [
           {
@@ -1153,6 +1163,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 1개 삭제하기",
         "description": "",
         "parameters": [
           {
@@ -1197,6 +1208,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "오늘의 임시 담당자 설정 시 룸메이트 리스트 조회하기",
         "description": "",
         "parameters": [
           {
@@ -1236,6 +1248,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "오늘의 임시 담당자 설정하기",
         "description": "",
         "parameters": [
           {
@@ -1318,6 +1331,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "오늘 나의 to-do 체크 상태 변경하기",
         "description": "",
         "parameters": [
           {
@@ -1390,6 +1404,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 홈화면 조회하기 (나의 to-do)",
         "description": "",
         "parameters": [
           {
@@ -1422,6 +1437,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 카테고리 추가하기",
         "description": "",
         "parameters": [
           {
@@ -1495,6 +1511,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 카테고리 수정하기",
         "description": "",
         "parameters": [
           {
@@ -1575,6 +1592,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 카테고리 삭제하기",
         "description": "",
         "parameters": [
           {
@@ -1619,6 +1637,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "이벤트 추가하기",
         "description": "",
         "parameters": [
           {
@@ -1722,6 +1741,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "이벤트 조회하기",
         "description": "",
         "parameters": [
           {
@@ -1761,6 +1781,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "이벤트 수정하기",
         "description": "",
         "parameters": [
           {
@@ -1871,6 +1892,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "이벤트 삭제하기",
         "description": "",
         "parameters": [
           {
@@ -1915,6 +1937,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "홈화면 조회하기",
         "description": "",
         "parameters": [
           {
@@ -1947,6 +1970,7 @@
         "tags": [
           "Room"
         ],
+        "summary": "규칙 홈화면 조회하기 (오늘의 to-do)",
         "description": "",
         "parameters": [
           {

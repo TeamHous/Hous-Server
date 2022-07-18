@@ -633,8 +633,6 @@ const getRuleInfoAtRuleHome = async (
         const originalTodayMembers: string[] = [];
         await Promise.all(
           rule.ruleMembers.map(async (ruleMember: any) => {
-            console.log(ruleMember.userId);
-            console.log(ruleMember.day);
             if (ruleMember.day.includes(dayjs().day())) {
               originalTodayMembers.push(ruleMember.userId);
             }

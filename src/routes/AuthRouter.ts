@@ -55,6 +55,16 @@ router.post(
     }
   }
   */
+  /*
+  #swagger.responses[201] = {
+    schema: {
+      status: 201,
+      success: true,
+      message: '회원가입 성공입니다.',
+      data: 'jwt'
+    }
+  }
+  */
 );
 router.post(
   '/login',
@@ -88,6 +98,16 @@ router.post(
           example: "afjadsjcioajvasfjaisfojasdkvjais"
         }
       }
+    }
+  }
+  */
+  /*
+  #swagger.responses[200] = {
+    schema: {
+      status: 200,
+      success: true,
+      message: '로그인 성공입니다.',
+      data: 'jwt'
     }
   }
   */

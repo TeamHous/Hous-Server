@@ -1,11 +1,9 @@
 import assert from 'assert';
 import { afterEach } from 'mocha';
-import config from '../src/config';
 import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
 import { PostBaseResponseDto } from '../src/interfaces/common/response/PostBaseResponseDto';
 import { RoomJoinDto } from '../src/interfaces/room/request/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
-import connectDB from '../src/loaders/db';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
 import RuleCategory from '../src/models/RuleCategory';
@@ -14,10 +12,6 @@ import RoomService from '../src/services/room/RoomService';
 import UserService from '../src/services/user/UserService';
 
 describe('RoomService Tests', () => {
-  if (config.env !== 'test') {
-    throw Error('test 환경이 아닙니다.');
-  }
-  connectDB();
   // 단위 테스트 종료될때마다 서비스 관련 컬렉션 초기화
   afterEach(async () => {
     await User.collection.drop();

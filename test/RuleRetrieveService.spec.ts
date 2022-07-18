@@ -8,6 +8,7 @@ import { RuleReadInfoResponseDto } from '../src/interfaces/rule/response/RuleRea
 import { RuleResponseDto } from '../src/interfaces/rule/response/RuleResponseDto';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
+import Rule from '../src/models/Rule';
 import RuleCategory from '../src/models/RuleCategory';
 import User from '../src/models/User';
 import RoomService from '../src/services/room/RoomService';
@@ -22,6 +23,7 @@ describe('RuleRetrieveService Tests', () => {
     await Room.collection.drop();
     await RuleCategory.collection.drop();
     await Event.collection.drop();
+    await Rule.collection.drop();
   });
   it('getRuleByRuleId test', async () => {
     // given

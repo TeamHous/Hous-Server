@@ -154,6 +154,7 @@ const getTypeDetail = async (
     );
 
     const data: TypeDetailResponseDto = {
+      userName: user.userName,
       typeName: typeDetail.typeName,
       typeColor: typeDetail.typeColor,
       typeImg: typeDetail.typeImg,

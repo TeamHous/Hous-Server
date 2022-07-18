@@ -10,6 +10,7 @@ export interface EventResponseDto extends PostBaseResponseDto {
 export interface UserType extends PostBaseResponseDto {
   userName: string;
   typeColor: string;
+  isChecked: boolean;
 }
 export interface UserTypeWithDate extends UserType {
   typeUpdatedDate: Date;

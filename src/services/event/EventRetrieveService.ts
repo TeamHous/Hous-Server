@@ -45,10 +45,16 @@ const getEvent = async (
     const participantsNoDate: UserTypeWithDate[] = [];
     await Promise.all(
       usersInRoom.map(async (user: any) => {
+        let isChecked: boolean = event.participantsId.includes(
+          user._id.toString()
+        )
+          ? true
+          : false;
         if (user.tmpUpdatedDate != null) {
           participantsWithDate.push({
             _id: user._id,
             userName: user.userName,
+            isChecked: isChecked,
             typeColor: user.typeId.typeColor,
             typeUpdatedDate: user.typeUpdatedDate
           });
@@ -56,6 +62,7 @@ const getEvent = async (
           participantsNoDate.push({
             _id: user._id,
             userName: user.userName,
+            isChecked: isChecked,
             typeColor: user.typeId.typeColor,
             typeUpdatedDate: user.typeUpdatedDate
           });

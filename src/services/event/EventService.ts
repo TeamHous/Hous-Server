@@ -110,9 +110,12 @@ const updateEvent = async (
       participants.push(user.toString());
     });
 
-    eventUpdateDto.date = dayjs(eventUpdateDto.date).format('YYYY-MM-DD');
-
-    await Event.findByIdAndUpdate(eventId, eventUpdateDto);
+    await Event.findByIdAndUpdate(eventId, {
+      eventName: eventUpdateDto.eventName,
+      eventIcon: eventUpdateDto.eventIcon,
+      date: dayjs(eventUpdateDto.date).format('YYYY-MM-DD'),
+      participantsId: participants
+    });
 
     const data: EventUpdateResponseDto = {
       _id: event._id,

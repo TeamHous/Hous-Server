@@ -1,17 +1,18 @@
 import assert from 'assert';
 import { afterEach } from 'mocha';
+import mongoose from 'mongoose';
 import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
-import { PostBaseResponseDto } from '../src/interfaces/common/response/PostBaseResponseDto';
-import { RoomJoinDto } from '../src/interfaces/room/request/RoomJoinDto';
+import { RoomJoinResponseDto } from '../src/interfaces/room/response/RoomJoinResponseDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
 import RuleCategory from '../src/models/RuleCategory';
 import User from '../src/models/User';
+import RoomRetrieveService from '../src/services/room/RoomRetrieveService';
 import RoomService from '../src/services/room/RoomService';
 import UserService from '../src/services/user/UserService';
 
-describe('RoomService Tests', () => {
+describe('RoomRetrieveService Tests', () => {
   // 단위 테스트 종료될때마다 서비스 관련 컬렉션 초기화
   afterEach(async () => {
     await User.collection.drop();
@@ -19,28 +20,29 @@ describe('RoomService Tests', () => {
     await RuleCategory.collection.drop();
     await Event.collection.drop();
   });
-  it('createRoom test', async () => {
+  it('getRoom test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
+    const signupDto1: SignupDto = {
+      email: 'test1@gmail.com',
       password: 'password',
       userName: '테스트유저',
       gender: '남자',
       fcmToken: '테스트토큰'
     };
-    const userId: string = (
-      await UserService.createUser(signupDto)
+    const userId1: string = (
+      await UserService.createUser(signupDto1)
     )._id.toString();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
+    const createdRoomId: string = createdRoom._id.toString();
 
     // when
-    const result: RoomResponseDto = await RoomService.createRoom(userId);
-    const createdRoomId: string = result._id.toString();
+    const response: mongoose.Types.ObjectId | null =
+      await RoomRetrieveService.getRoom(userId1);
 
     // then
-    const user = await User.findById(userId);
-    assert.equal(user!.roomId.toString(), createdRoomId);
+    assert.equal(response!.toString(), createdRoomId);
   });
-  it('joinRoom test', async () => {
+  it('getRoomAndUserByRoomCode test', async () => {
     // given
     const signupDto1: SignupDto = {
       email: 'test1@gmail.com',
@@ -65,42 +67,18 @@ describe('RoomService Tests', () => {
     const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
     const createdRoomId: string = createdRoom._id.toString();
     const createdRoomCode: string = createdRoom.roomCode;
-    const roomJoinDto: RoomJoinDto = {
-      roomCode: createdRoomCode
-    };
 
     // when
-    const result: PostBaseResponseDto = await RoomService.joinRoom(
-      userId2,
-      createdRoomId,
-      roomJoinDto
-    );
+    const response: RoomJoinResponseDto =
+      await RoomRetrieveService.getRoomAndUserByRoomCode(
+        userId2,
+        createdRoomCode
+      );
 
     // then
-    const user = await User.findById(userId2);
-    assert.equal(user!.roomId.toString(), createdRoomId);
-    assert.equal(user!.roomId.toString(), result._id.toString());
-  });
-  it('leaveRoom test', async () => {
-    // given
-    const signupDto1: SignupDto = {
-      email: 'test1@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId1: string = (
-      await UserService.createUser(signupDto1)
-    )._id.toString();
-    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
-    const createdRoomId: string = createdRoom._id.toString();
-
-    // when
-    await RoomService.leaveRoom(userId1, createdRoomId);
-
-    // then
-    const user = await User.findById(userId1);
-    assert.equal(user!.roomId, null);
+    assert.equal(response._id.toString(), createdRoomId);
+    assert.equal(response.typeColor, 'GRAY');
+    assert.equal(response.userName, '테스트유저');
+    assert.equal(response.introduction, '');
   });
 });

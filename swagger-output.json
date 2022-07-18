@@ -2003,6 +2003,7 @@
         "tags": [
           "Type"
         ],
+        "summary": "성향 테스트 문제 조회",
         "description": "",
         "parameters": [
           {

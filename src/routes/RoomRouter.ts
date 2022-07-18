@@ -17,12 +17,14 @@ router.get(
   '/',
   auth,
   RoomController.getRoom
+  // #swagger.summary = '들어간 방 id 조회하기'
   // #swagger.security = [{"JWT": []}]
 );
 router.post(
   '/',
   auth,
   RoomController.createRoom
+  // #swagger.summary = '방 생성하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.requestBody = { required: false }
 );
@@ -31,6 +33,7 @@ router.get(
   [body('roomCode').not().isEmpty()],
   auth,
   RoomController.getRoomAndUserByRoomCode
+  // #swagger.summary = '방 입장하기 초대코드 입력 시 방 조회'
   // #swagger.security = [{"JWT": []}]
 );
 router.post(
@@ -38,6 +41,7 @@ router.post(
   [body('roomCode').not().isEmpty()],
   auth,
   RoomController.joinRoom
+  // #swagger.summary = '방 입장하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   /*
@@ -61,6 +65,7 @@ router.delete(
   '/:roomId/out',
   auth,
   RoomController.leaveRoom
+  // #swagger.summary = '방 퇴사하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.requestBody = { required: false }
@@ -83,6 +88,7 @@ router.post(
   ],
   auth,
   RuleController.createRule
+  // #swagger.summary = '규칙 1개 추가하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   /*
@@ -143,6 +149,7 @@ router.get(
   '/:roomId/rule/new',
   auth,
   RuleController.getRuleCreateInfo
+  // #swagger.summary = '규칙 생성 시 조회 (규칙 카테고리, 호미 리스트)'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
 );
@@ -150,6 +157,7 @@ router.get(
   '/:roomId/category/:categoryId/rule',
   auth,
   RuleController.getRulesByCategoryId
+  // #swagger.summary = '카테고리 별 규칙 리스트 조회'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['categoryId'] = { description: '규칙 카테고리 id' };
@@ -158,6 +166,7 @@ router.get(
   '/:roomId/rule/:ruleId',
   auth,
   RuleController.getRuleByRuleId
+  // #swagger.summary = '규칙 1개 조회하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
@@ -176,6 +185,7 @@ router.put(
   ],
   auth,
   RuleController.updateRule
+  // #swagger.summary = '규칙 1개 수정하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
@@ -237,6 +247,7 @@ router.delete(
   '/:roomId/rule/:ruleId',
   auth,
   RuleController.deleteRule
+  // #swagger.summary = '규칙 1개 삭제하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
@@ -246,6 +257,7 @@ router.get(
   '/:roomId/rule/:ruleId/today',
   auth,
   RuleController.getHomiesWithIsTmpMember
+  // #swagger.summary = '오늘의 임시 담당자 설정 시 룸메이트 리스트 조회하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
@@ -255,6 +267,7 @@ router.put(
   auth,
   [body('tmpRuleMembers').not().isEmpty()],
   RuleController.updateTmpRuleMembers
+  // #swagger.summary = '오늘의 임시 담당자 설정하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
@@ -283,6 +296,7 @@ router.put(
   auth,
   [body('isCheck').not().isEmpty()],
   RuleController.updateMyRuleTodoCheck
+  // #swagger.summary = '오늘 나의 to-do 체크 상태 변경하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['ruleId'] = { description: '규칙 id' };
@@ -307,6 +321,7 @@ router.get(
   '/:roomId/rules/me',
   auth,
   RuleController.getMyRuleInfo
+  // #swagger.summary = '규칙 홈화면 조회하기 (나의 to-do)'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
 );
@@ -325,6 +340,7 @@ router.post(
   ],
   auth,
   RuleController.createRuleCategory
+  // #swagger.summary = '규칙 카테고리 추가하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   /*
@@ -361,6 +377,7 @@ router.put(
   ],
   auth,
   RuleController.updateRuleCategory
+  // #swagger.summary = '규칙 카테고리 수정하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['categoryId'] = { description: '규칙 카테고리 id' };
@@ -391,6 +408,7 @@ router.delete(
   '/:roomId/rules/category/:categoryId',
   auth,
   RuleController.deleteRuleCategory
+  // #swagger.summary = '규칙 카테고리 삭제하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['categoryId'] = { description: '규칙 카테고리 id' };
@@ -413,6 +431,7 @@ router.post(
   ],
   auth,
   EventController.createEvent
+  // #swagger.summary = '이벤트 추가하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   /*
@@ -454,6 +473,7 @@ router.get(
   '/:roomId/event/:eventId',
   auth,
   EventController.getEvent
+  // #swagger.summary = '이벤트 조회하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['eventId'] = { description: '이벤트 id' };
@@ -471,6 +491,7 @@ router.put(
   ],
   auth,
   EventController.updateEvent
+  // #swagger.summary = '이벤트 수정하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['eventId'] = { description: '이벤트 id' };
@@ -513,6 +534,7 @@ router.delete(
   '/:roomId/event/:eventId',
   auth,
   EventController.deleteEvent
+  // #swagger.summary = '이벤트 삭제하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
   // #swagger.parameters['eventId'] = { description: '이벤트 id' };
@@ -526,6 +548,7 @@ router.get(
   '/:roomId/home',
   auth,
   RoomController.getRoomInfoAtHome
+  // #swagger.summary = '홈화면 조회하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
 );
@@ -533,6 +556,7 @@ router.get(
   '/:roomId/rules',
   auth,
   RuleController.getRuleInfoAtRuleHome
+  // #swagger.summary = '규칙 홈화면 조회하기 (오늘의 to-do)'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
 );

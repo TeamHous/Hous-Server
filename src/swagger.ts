@@ -14,10 +14,6 @@ const doc = {
   produces: [],
   tags: [
     {
-      name: 'User',
-      description: '유저 관련 api'
-    },
-    {
       name: 'Auth',
       description: '인증 관련 api'
     },

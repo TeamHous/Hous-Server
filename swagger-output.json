@@ -181,6 +181,7 @@
         "tags": [
           "User"
         ],
+        "summary": "탈퇴하기",
         "description": "",
         "parameters": [
           {
@@ -202,6 +203,7 @@
         "tags": [
           "User"
         ],
+        "summary": "프로필 홈화면 조회하기",
         "description": "",
         "parameters": [
           {
@@ -225,6 +227,7 @@
         "tags": [
           "User"
         ],
+        "summary": "나의 프로필 수정 시 정보 조회하기",
         "description": "",
         "parameters": [
           {
@@ -246,6 +249,7 @@
         "tags": [
           "User"
         ],
+        "summary": "나의 프로필 수정하기",
         "description": "",
         "parameters": [
           {
@@ -336,6 +340,7 @@
         "tags": [
           "User"
         ],
+        "summary": "설정 조회하기",
         "description": "",
         "parameters": [
           {
@@ -359,6 +364,7 @@
         "tags": [
           "User"
         ],
+        "summary": "설정 - 알림 여부 수정하기",
         "description": "",
         "parameters": [
           {
@@ -413,6 +419,7 @@
         "tags": [
           "User"
         ],
+        "summary": "호미(룸메이트) 조회하기",
         "description": "",
         "parameters": [
           {
@@ -422,7 +429,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "호미의 유저 id"
+            "description": "호미(룸메이트)의 유저 id"
           },
           {
             "name": "authorization",
@@ -445,6 +452,7 @@
         "tags": [
           "User"
         ],
+        "summary": "성향 테스트 점수 등록 및 수정",
         "description": "",
         "parameters": [
           {
@@ -521,6 +529,7 @@
         "tags": [
           "User"
         ],
+        "summary": "나의 성향 자세히보기",
         "description": "",
         "parameters": [
           {
@@ -544,6 +553,7 @@
         "tags": [
           "User"
         ],
+        "summary": "룸메이트의 성향 자세히보기",
         "description": "",
         "parameters": [
           {

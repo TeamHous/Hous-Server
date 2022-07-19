@@ -109,8 +109,8 @@ const getRoomInfoAtHome = async (
     const eventList: EventsResponseDto[] = await Promise.all(
       tmpEventList.map(async (event: any) => {
         const nowEventDate = dayjs(event.date);
-        const todayDate = dayjs();
-        const eventDday = nowEventDate.diff(todayDate, 'day');
+        const todayDate = dayjs().format('YYYY-MM-DD');
+        const eventDday = nowEventDate.diff(dayjs(todayDate), 'day');
         const result = {
           _id: event._id,
           eventIcon: event.eventIcon,

@@ -331,7 +331,169 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 정보 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "김호미"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "곧 졸업 대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세여~!! 저는 김호미입니다~!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "typeId": {
+                          "type": "string",
+                          "example": "62d28636cc1d0ea0fc0c4b31"
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "임시 디폴트"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            5,
+                            2,
+                            2,
+                            4,
+                            5
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 정보 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "김호미"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "곧 졸업 대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세여~!! 저는 김호미입니다~!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "typeId": {
+                          "type": "string",
+                          "example": "62d28636cc1d0ea0fc0c4b31"
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "임시 디폴트"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            5,
+                            2,
+                            2,
+                            4,
+                            5
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []

@@ -38,7 +38,7 @@ router.get(
         introduction: "안녕하세여~!! 저는 김호미입니다~!!",
         hashTag: [ 
           "ESFJ", "집순이"
-        ],,
+        ],
         typeId: "62d28636cc1d0ea0fc0c4b31",
         typeName: "임시 디폴트",
         typeColor: "GRAY",

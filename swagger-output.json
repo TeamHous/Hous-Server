@@ -1871,7 +1871,65 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "62cac03afa32959ed64ae000 or null"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "62cac03afa32959ed64ae000 or null"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -1893,7 +1951,83 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 생성 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c8685d3aba521ff9d4b8a8"
+                        },
+                        "roomCode": {
+                          "type": "string",
+                          "example": "LZ7MW23D"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 생성 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c8685d3aba521ff9d4b8a8"
+                        },
+                        "roomCode": {
+                          "type": "string",
+                          "example": "LZ7MW23D"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -1920,7 +2054,99 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c871509bfca489f95f6a15"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "userName": {
+                          "type": "string",
+                          "example": " 고구마"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c871509bfca489f95f6a15"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "userName": {
+                          "type": "string",
+                          "example": " 고구마"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -1953,7 +2179,65 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 참가 성공입니다."
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "62c871509bfca489f95f6a15"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 참가 성공입니다."
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "62c871509bfca489f95f6a15"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2017,7 +2301,59 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 퇴사 성공입니다."
+                    },
+                    "data": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "방 퇴사 성공입니다."
+                    },
+                    "data": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2053,7 +2389,203 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 생성 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae000"
+                        },
+                        "categoryId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae003"
+                        },
+                        "ruleName": {
+                          "type": "string",
+                          "example": "규칙"
+                        },
+                        "ruleMembers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {},
+                              "day": {
+                                "type": "array",
+                                "example": [
+                                  1,
+                                  3
+                                ],
+                                "items": {
+                                  "type": "number"
+                                }
+                              },
+                              "_id": {
+                                "type": "string",
+                                "example": "62caf76391f814e6272256d0"
+                              }
+                            }
+                          }
+                        },
+                        "tmpRuleMembers": {
+                          "type": "array",
+                          "example": [],
+                          "items": {}
+                        },
+                        "isKeyRules": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "tmpUpdatedDate": {
+                          "type": "string",
+                          "example": "2022-06-30T15:59:31.990Z"
+                        },
+                        "_id": {
+                          "type": "string",
+                          "example": "62caf76391f814e6272256cf"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-07-10T15:59:32.006Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2022-07-10T15:59:32.006Z"
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 생성 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "roomId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae000"
+                        },
+                        "categoryId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae003"
+                        },
+                        "ruleName": {
+                          "type": "string",
+                          "example": "규칙"
+                        },
+                        "ruleMembers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {},
+                              "day": {
+                                "type": "array",
+                                "example": [
+                                  1,
+                                  3
+                                ],
+                                "items": {
+                                  "type": "number"
+                                }
+                              },
+                              "_id": {
+                                "type": "string",
+                                "example": "62caf76391f814e6272256d0"
+                              }
+                            }
+                          }
+                        },
+                        "tmpRuleMembers": {
+                          "type": "array",
+                          "example": [],
+                          "items": {}
+                        },
+                        "isKeyRules": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "tmpUpdatedDate": {
+                          "type": "string",
+                          "example": "2022-06-30T15:59:31.990Z"
+                        },
+                        "_id": {
+                          "type": "string",
+                          "example": "62caf76391f814e6272256cf"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-07-10T15:59:32.006Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2022-07-10T15:59:32.006Z"
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2199,7 +2731,139 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 생성 시 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "ruleCategories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cac03afa32959ed64ae003"
+                              },
+                              "categoryName": {
+                                "type": "string",
+                                "example": "청소"
+                              }
+                            }
+                          }
+                        },
+                        "homies": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cabf1435a2e50fb7265d9e"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": " 고구마1"
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 생성 시 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "ruleCategories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cac03afa32959ed64ae003"
+                              },
+                              "categoryName": {
+                                "type": "string",
+                                "example": "청소"
+                              }
+                            }
+                          }
+                        },
+                        "homies": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cabf1435a2e50fb7265d9e"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": " 고구마1"
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2241,7 +2905,161 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "카테고리 별 규칙 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "keyRules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc81ac1a034f0287c5c6ec"
+                              },
+                              "ruleName": {
+                                "type": "string",
+                                "example": " 상단규칙"
+                              }
+                            }
+                          }
+                        },
+                        "rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc7d1d39f8cdcfa720900f"
+                              },
+                              "ruleName": {
+                                "type": "string",
+                                "example": "청소하기"
+                              },
+                              "membersCnt": {
+                                "type": "number",
+                                "example": 4
+                              },
+                              "typeColors": {
+                                "type": "array",
+                                "example": [
+                                  "GRAY",
+                                  "GREEN",
+                                  "RED"
+                                ],
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "카테고리 별 규칙 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "keyRules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc81ac1a034f0287c5c6ec"
+                              },
+                              "ruleName": {
+                                "type": "string",
+                                "example": " 상단규칙"
+                              }
+                            }
+                          }
+                        },
+                        "rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc7d1d39f8cdcfa720900f"
+                              },
+                              "ruleName": {
+                                "type": "string",
+                                "example": "청소하기"
+                              },
+                              "membersCnt": {
+                                "type": "number",
+                                "example": 4
+                              },
+                              "typeColors": {
+                                "type": "array",
+                                "example": [
+                                  "GRAY",
+                                  "GREEN",
+                                  "RED"
+                                ],
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2283,7 +3101,277 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "rule": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "62cb2b6c9321affd2a5da2c0"
+                            },
+                            "notificationState": {
+                              "type": "boolean",
+                              "example": false
+                            },
+                            "ruleName": {
+                              "type": "string",
+                              "example": "15자를넘을경우에러입니다"
+                            },
+                            "ruleCategory": {
+                              "type": "object",
+                              "properties": {
+                                "_id": {
+                                  "type": "string",
+                                  "example": "62cac03afa32959ed64ae003"
+                                },
+                                "categoryName": {
+                                  "type": "string",
+                                  "example": "청소"
+                                }
+                              }
+                            },
+                            "isKeyRules": {
+                              "type": "boolean",
+                              "example": false
+                            },
+                            "ruleMembers": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "homie": {
+                                    "type": "object",
+                                    "properties": {
+                                      "_id": {
+                                        "type": "string",
+                                        "example": "62cabf1435a2e50fb7265d9e"
+                                      },
+                                      "name": {
+                                        "type": "string",
+                                        "example": " 고구마1"
+                                      },
+                                      "typeColor": {
+                                        "type": "string",
+                                        "example": "GRAY"
+                                      }
+                                    }
+                                  },
+                                  "day": {
+                                    "type": "array",
+                                    "example": [
+                                      1,
+                                      3
+                                    ],
+                                    "items": {
+                                      "type": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "ruleCategories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cac03afa32959ed64ae003"
+                              },
+                              "categoryName": {
+                                "type": "string",
+                                "example": "청소"
+                              }
+                            }
+                          }
+                        },
+                        "homies": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cabf1435a2e50fb7265d9e"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": " 고구마1"
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "rule": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "62cb2b6c9321affd2a5da2c0"
+                            },
+                            "notificationState": {
+                              "type": "boolean",
+                              "example": false
+                            },
+                            "ruleName": {
+                              "type": "string",
+                              "example": "15자를넘을경우에러입니다"
+                            },
+                            "ruleCategory": {
+                              "type": "object",
+                              "properties": {
+                                "_id": {
+                                  "type": "string",
+                                  "example": "62cac03afa32959ed64ae003"
+                                },
+                                "categoryName": {
+                                  "type": "string",
+                                  "example": "청소"
+                                }
+                              }
+                            },
+                            "isKeyRules": {
+                              "type": "boolean",
+                              "example": false
+                            },
+                            "ruleMembers": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "homie": {
+                                    "type": "object",
+                                    "properties": {
+                                      "_id": {
+                                        "type": "string",
+                                        "example": "62cabf1435a2e50fb7265d9e"
+                                      },
+                                      "name": {
+                                        "type": "string",
+                                        "example": " 고구마1"
+                                      },
+                                      "typeColor": {
+                                        "type": "string",
+                                        "example": "GRAY"
+                                      }
+                                    }
+                                  },
+                                  "day": {
+                                    "type": "array",
+                                    "example": [
+                                      1,
+                                      3
+                                    ],
+                                    "items": {
+                                      "type": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "ruleCategories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cac03afa32959ed64ae003"
+                              },
+                              "categoryName": {
+                                "type": "string",
+                                "example": "청소"
+                              }
+                            }
+                          }
+                        },
+                        "homies": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cabf1435a2e50fb7265d9e"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": " 고구마1"
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2323,7 +3411,211 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cbd8b5647a6c0c44d65ed1"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae000"
+                        },
+                        "categoryId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae003"
+                        },
+                        "ruleName": {
+                          "type": "string",
+                          "example": "중복체크gggg"
+                        },
+                        "ruleMembers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "string",
+                                "example": "62cabf1435a2e50fb7265d9e"
+                              },
+                              "day": {
+                                "type": "array",
+                                "example": [
+                                  1,
+                                  5,
+                                  6
+                                ],
+                                "items": {
+                                  "type": "number"
+                                }
+                              },
+                              "_id": {
+                                "type": "string",
+                                "example": "62cbda4af5472cb0cdf50ef6"
+                              }
+                            }
+                          }
+                        },
+                        "tmpRuleMembers": {
+                          "type": "array",
+                          "example": [],
+                          "items": {}
+                        },
+                        "isKeyRules": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "tmpUpdatedDate": {
+                          "type": "string",
+                          "example": "2022-07-01T08:00:53.125Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-07-11T08:00:53.144Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2022-07-11T08:07:38.472Z"
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cbd8b5647a6c0c44d65ed1"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae000"
+                        },
+                        "categoryId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae003"
+                        },
+                        "ruleName": {
+                          "type": "string",
+                          "example": "중복체크gggg"
+                        },
+                        "ruleMembers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "userId": {
+                                "type": "string",
+                                "example": "62cabf1435a2e50fb7265d9e"
+                              },
+                              "day": {
+                                "type": "array",
+                                "example": [
+                                  1,
+                                  5,
+                                  6
+                                ],
+                                "items": {
+                                  "type": "number"
+                                }
+                              },
+                              "_id": {
+                                "type": "string",
+                                "example": "62cbda4af5472cb0cdf50ef6"
+                              }
+                            }
+                          }
+                        },
+                        "tmpRuleMembers": {
+                          "type": "array",
+                          "example": [],
+                          "items": {}
+                        },
+                        "isKeyRules": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "tmpUpdatedDate": {
+                          "type": "string",
+                          "example": "2022-07-01T08:00:53.125Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-07-11T08:00:53.144Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2022-07-11T08:07:38.472Z"
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2476,7 +3768,59 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 삭제 성공입니다."
+                    },
+                    "data": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 삭제 성공입니다."
+                    },
+                    "data": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2521,7 +3865,123 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "오늘의 임시 담당자 여부를 포함한 호미 리스트 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cef1fd5742e5b90c586d7d"
+                        },
+                        "homies": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc7409c7db06c46adf652f"
+                              },
+                              "userName": {
+                                "type": "string",
+                                "example": " 감자2"
+                              },
+                              "isChecked": {
+                                "type": "boolean",
+                                "example": true
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "오늘의 임시 담당자 여부를 포함한 호미 리스트 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cef1fd5742e5b90c586d7d"
+                        },
+                        "homies": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc7409c7db06c46adf652f"
+                              },
+                              "userName": {
+                                "type": "string",
+                                "example": " 감자2"
+                              },
+                              "isChecked": {
+                                "type": "boolean",
+                                "example": true
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2561,7 +4021,103 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "오늘의 임시 담당자 설정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cd4e8342b3d0a3ee7b48c4"
+                        },
+                        "ruleName": {
+                          "type": "string",
+                          "example": " 임시 담당자 규칙"
+                        },
+                        "tmpRuleMembers": {
+                          "type": "array",
+                          "example": [
+                            "62cc7409c7db06c46adf652f",
+                            "62cc7420d7868591384e4eb0"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "오늘의 임시 담당자 설정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cd4e8342b3d0a3ee7b48c4"
+                        },
+                        "ruleName": {
+                          "type": "string",
+                          "example": " 임시 담당자 규칙"
+                        },
+                        "tmpRuleMembers": {
+                          "type": "array",
+                          "example": [
+                            "62cc7409c7db06c46adf652f",
+                            "62cc7420d7868591384e4eb0"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2644,7 +4200,75 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "나의 to-do 체크 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "isCheck": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "나의 to-do 체크 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "isCheck": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2708,7 +4332,105 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "나의 to-do 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "62cef1fd5742e5b90c586d7d"
+                          },
+                          "categoryIcon": {
+                            "type": "string",
+                            "example": "CLEAN"
+                          },
+                          "ruleName": {
+                            "type": "string",
+                            "example": " 임시 담당자 설정 테스트"
+                          },
+                          "isChecked": {
+                            "type": "boolean",
+                            "example": false
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "나의 to-do 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "62cef1fd5742e5b90c586d7d"
+                          },
+                          "categoryIcon": {
+                            "type": "string",
+                            "example": "CLEAN"
+                          },
+                          "ruleName": {
+                            "type": "string",
+                            "example": " 임시 담당자 설정 테스트"
+                          },
+                          "isChecked": {
+                            "type": "boolean",
+                            "example": false
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2824,7 +4546,107 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 카테고리 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cc47f27cc4ea6b4b4ca830"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae000"
+                        },
+                        "ruleCategoryName": {
+                          "type": "string",
+                          "example": "분리수거"
+                        },
+                        "ruleCategoryIcon": {
+                          "type": "string",
+                          "example": "TRASH"
+                        },
+                        "ruleCnt": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 카테고리 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cc47f27cc4ea6b4b4ca830"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "62cac03afa32959ed64ae000"
+                        },
+                        "ruleCategoryName": {
+                          "type": "string",
+                          "example": "분리수거"
+                        },
+                        "ruleCategoryIcon": {
+                          "type": "string",
+                          "example": "TRASH"
+                        },
+                        "ruleCnt": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2905,7 +4727,59 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 카테고리 삭제 성공입니다."
+                    },
+                    "data": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 카테고리 삭제 성공입니다."
+                    },
+                    "data": {}
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -2941,7 +4815,119 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이벤트 생성 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c940dfa940516bebb8c668"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "혜정이 생파"
+                        },
+                        "eventIcon": {
+                          "type": "string",
+                          "example": "PARTY"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2023-03-04T00:00:00.000Z"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "example": [
+                            "62c871289bfca489f95f6a0a",
+                            "62c8712b9bfca489f95f6a0d"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이벤트 생성 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c940dfa940516bebb8c668"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "혜정이 생파"
+                        },
+                        "eventIcon": {
+                          "type": "string",
+                          "example": "PARTY"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2023-03-04T00:00:00.000Z"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "example": [
+                            "62c871289bfca489f95f6a0a",
+                            "62c8712b9bfca489f95f6a0d"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -3054,7 +5040,147 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이벤트 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62d4335e17e70062873f3d28"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "여기에 이벤트를 추가하세요."
+                        },
+                        "eventIcon": {
+                          "type": "string",
+                          "example": "PARTY"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2022-07-28"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62d4334c17e70062873f3d1f"
+                              },
+                              "userName": {
+                                "type": "string",
+                                "example": "워뇽이"
+                              },
+                              "isChecked": {
+                                "type": "boolean",
+                                "example": true
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이벤트 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62d4335e17e70062873f3d28"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "여기에 이벤트를 추가하세요."
+                        },
+                        "eventIcon": {
+                          "type": "string",
+                          "example": "PARTY"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2022-07-28"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62d4334c17e70062873f3d1f"
+                              },
+                              "userName": {
+                                "type": "string",
+                                "example": "워뇽이"
+                              },
+                              "isChecked": {
+                                "type": "boolean",
+                                "example": true
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -3094,7 +5220,117 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이벤트 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c9acb1409b9566407fe299"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "이벤트 수정"
+                        },
+                        "eventIcon": {
+                          "type": "string",
+                          "example": "CLEAN"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2023-03-04"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "example": [
+                            "62c871289bfca489f95f6a0a"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이벤트 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c9acb1409b9566407fe299"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "이벤트 수정"
+                        },
+                        "eventIcon": {
+                          "type": "string",
+                          "example": "CLEAN"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2023-03-04"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "example": [
+                            "62c871289bfca489f95f6a0a"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -3205,7 +5441,117 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이벤트 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c9acb1409b9566407fe299"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "이벤트 수정"
+                        },
+                        "eventIcon": {
+                          "type": "string",
+                          "example": "CLEAN"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2023-03-04"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "example": [
+                            "62c871289bfca489f95f6a0a"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "이벤트 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c9acb1409b9566407fe299"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "이벤트 수정"
+                        },
+                        "eventIcon": {
+                          "type": "string",
+                          "example": "CLEAN"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2023-03-04"
+                        },
+                        "participants": {
+                          "type": "array",
+                          "example": [
+                            "62c871289bfca489f95f6a0a"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -3274,7 +5620,187 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 홈화면 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "homeRuleCategories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc7440d7868591384e4ebb"
+                              },
+                              "categoryIcon": {
+                                "type": "string",
+                                "example": "CLEAN"
+                              },
+                              "categoryName": {
+                                "type": "string",
+                                "example": "청소"
+                              }
+                            }
+                          }
+                        },
+                        "todayTodoRules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc814a1a034f0287c5c6d4"
+                              },
+                              "ruleName": {
+                                "type": "string",
+                                "example": " nn 구분"
+                              },
+                              "todayMembersWithTypeColor": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "userName": {
+                                      "type": "string",
+                                      "example": "김혜정테스"
+                                    },
+                                    "typeColor": {
+                                      "type": "string",
+                                      "example": "GREEN"
+                                    }
+                                  }
+                                }
+                              },
+                              "isTmpMember": {
+                                "type": "boolean",
+                                "example": false
+                              },
+                              "isAllChecked": {
+                                "type": "boolean",
+                                "example": false
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 홈화면 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "homeRuleCategories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc7440d7868591384e4ebb"
+                              },
+                              "categoryIcon": {
+                                "type": "string",
+                                "example": "CLEAN"
+                              },
+                              "categoryName": {
+                                "type": "string",
+                                "example": "청소"
+                              }
+                            }
+                          }
+                        },
+                        "todayTodoRules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62cc814a1a034f0287c5c6d4"
+                              },
+                              "ruleName": {
+                                "type": "string",
+                                "example": " nn 구분"
+                              },
+                              "todayMembersWithTypeColor": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "userName": {
+                                      "type": "string",
+                                      "example": "김혜정테스"
+                                    },
+                                    "typeColor": {
+                                      "type": "string",
+                                      "example": "GREEN"
+                                    }
+                                  }
+                                }
+                              },
+                              "isTmpMember": {
+                                "type": "boolean",
+                                "example": false
+                              },
+                              "isAllChecked": {
+                                "type": "boolean",
+                                "example": false
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []

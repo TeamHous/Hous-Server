@@ -135,7 +135,7 @@ router.post(
       .isEmpty()
       .isLength({ min: 1, max: limitNum.EVENT_NAME_MAX_LENGTH }),
     body('eventIcon').not().isEmpty(),
-    body('date').not().isEmpty(),
+    body('date').not().isEmpty().isDate({ format: 'YYYY-MM-DD' }),
     body('participants').not().isEmpty().isArray()
   ],
   auth,
@@ -150,7 +150,7 @@ router.put(
       .isEmpty()
       .isLength({ min: 1, max: limitNum.EVENT_NAME_MAX_LENGTH }),
     body('eventIcon').not().isEmpty(),
-    body('date').not().isEmpty(),
+    body('date').not().isEmpty().isDate({ format: 'YYYY-MM-DD' }),
     body('participants').not().isEmpty().isArray()
   ],
   auth,

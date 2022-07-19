@@ -103,7 +103,7 @@ const getRoomInfoAtHome = async (
     // Events 조회
     const tmpEventList = await Event.find({
       roomId: roomId,
-      date: { $gt: dayjs() }
+      date: { $gte: dayjs(dayjs().format('YYYY-MM-DD')) }
     });
 
     const eventList: EventsResponseDto[] = await Promise.all(

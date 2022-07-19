@@ -5,6 +5,7 @@
     "description": "🥰🏠 우리 호미들 고생해써!! 뷰를 다 짜고 여기까지 온 너희는 천재야! 🏠🥰",
     "version": "1.0.0"
   },
+  "host": "",
   "tags": [
     {
       "name": "Auth",
@@ -4463,7 +4464,107 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 카테고리 생성 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c7c2ab6ee3cb1b3ec79fb9"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "62c7c258818c969cd434da01"
+                        },
+                        "ruleCategoryName": {
+                          "type": "string",
+                          "example": "청소"
+                        },
+                        "ruleCategoryIcon": {
+                          "type": "string",
+                          "example": "CLEAN"
+                        },
+                        "ruleCnt": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "규칙 카테고리 생성 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62c7c2ab6ee3cb1b3ec79fb9"
+                        },
+                        "roomId": {
+                          "type": "string",
+                          "example": "62c7c258818c969cd434da01"
+                        },
+                        "ruleCategoryName": {
+                          "type": "string",
+                          "example": "청소"
+                        },
+                        "ruleCategoryIcon": {
+                          "type": "string",
+                          "example": "CLEAN"
+                        },
+                        "ruleCnt": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []

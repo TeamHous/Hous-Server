@@ -8,7 +8,7 @@ const doc = {
     description:
       '🥰🏠 우리 호미들 고생해써!! 뷰를 다 짜고 여기까지 온 너희는 천재야! 🏠🥰'
   },
-  host: `http://${config.hostUri}:${config.port}`,
+  host: '',
   schemes: ['http'],
   consumes: [],
   produces: [],

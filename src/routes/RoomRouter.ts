@@ -656,12 +656,12 @@ router.post(
       "success": true,
       "message": "규칙 카테고리 생성 성공입니다.",
       "data": {
-        "_id": "62c7c2ab6ee3cb1b3ec79fb9",2
+        "_id": "62c7c2ab6ee3cb1b3ec79fb9",
         "roomId": "62c7c258818c969cd434da01",
         "ruleCategoryName": "청소",
-        "ruleCategoryIcon": "CLEAN"
+        "ruleCategoryIcon": "CLEAN",
         "ruleCnt": 0
-    }
+      }
     }
   }
   */

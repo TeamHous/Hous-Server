@@ -5,12 +5,12 @@ import errorGenerator from '../../errors/errorGenerator';
 import { SignupDto } from '../../interfaces/auth/request/SignupDto';
 import { PostBaseResponseDto } from '../../interfaces/common/response/PostBaseResponseDto';
 import { TypeTestDto } from '../../interfaces/type/request/TypeTestDto';
+import { TypeTestResponseDto } from '../../interfaces/type/response/TypeTestResponseDto';
 import { UserUpdateDto } from '../../interfaces/user/request/UserUpdateDto';
 import {
   UserNotificationUpdateDto,
   UserNotificationUpdateResponseDto
 } from '../../interfaces/user/response/UserNotificationStateUpdateDto';
-import { TypeTestResponseDto } from '../../interfaces/type/response/TypeTestResponseDto';
 import { UserUpdateResponseDto } from '../../interfaces/user/response/UserUpdateResponseDto';
 import Check from '../../models/Check';
 import Event from '../../models/Event';
@@ -148,20 +148,32 @@ const updateUserTypeScore = async (
       });
     }
 
-    // 각 문제 타입당 3문제씩
+    let totalTypeScore: number = 0;
     userTypeTestDto.typeScore.forEach(score => {
+      // 각 문제 타입당 3문제씩 최대 3점
       if (score > 9 || score < 3) {
         throw errorGenerator({
           statusCode: statusCode.BAD_REQUEST,
           msg: message.BAD_REQUEST
         });
+      } else {
+        totalTypeScore += score;
       }
     });
 
-    await user.updateOne({ typeScore: userTypeTestDto.typeScore });
+    const typeId = await UserServiceUtils.getTypeIdByTotalTypeScore(
+      totalTypeScore
+    );
+    console.log(typeId);
+
+    await user.updateOne({
+      typeId: typeId,
+      typeScore: userTypeTestDto.typeScore
+    });
 
     const data: TypeTestResponseDto = {
       _id: user._id,
+      typeId: user.typeId,
       typeScore: userTypeTestDto.typeScore
     };
 

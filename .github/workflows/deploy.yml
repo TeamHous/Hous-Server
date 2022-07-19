@@ -64,7 +64,7 @@ jobs:
           yarn run build
 
       - name: zip file
-        run: zip -r hous.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+        run: zip -r hous.zip ./dist ./scripts ./appspec.yml ./.env ./package.json ./swagger-output.json
 
       - name: AWS configure credentials
         uses: aws-actions/configure-aws-credentials@v1

@@ -49,5 +49,10 @@ export default {
   /**
    * Host Uri
    */
-  hostUri: process.env.HOST_URI as string
+  hostUri: process.env.HOST_URI as string,
+
+  /**
+   * Slack Alram
+   */
+  slackAlarm: process.env.SLACK_ALARM_URI as string
 };

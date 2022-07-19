@@ -598,7 +598,7 @@ const updateMyRuleTodoCheck = async (
         let isAlreadyUnChecked: boolean = true;
 
         for (const check of checks) {
-          if (dayjs(check.date).isSame(dayjs().format('YYYY-MM-DD'))) {
+          if (dayjs(check.date).isSame(dayjs().format('YYYY-MM-DD'), 'day')) {
             isAlreadyUnChecked = false;
             break;
           }

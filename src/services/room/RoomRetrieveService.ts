@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import mongoose from 'mongoose';
 import errorGenerator from '../../errors/errorGenerator';
-import { RoomJoinDto } from '../../interfaces/room/request/RoomJoinDto';
 import {
   EventsResponseDto,
   HomeResponseDto,
@@ -40,7 +39,7 @@ const getRoom = async (
 
 const getRoomAndUserByRoomCode = async (
   userId: string,
-  roomJoinDto: RoomJoinDto
+  roomCode: string
 ): Promise<RoomJoinResponseDto> => {
   try {
     let user = await RoomServiceUtils.findUserById(userId);
@@ -50,7 +49,7 @@ const getRoomAndUserByRoomCode = async (
     RoomServiceUtils.checkJoinedRoomId(user.roomId);
 
     const room = await Room.findOne({
-      roomCode: roomJoinDto.roomCode
+      roomCode: roomCode
     });
     if (!room) {
       throw errorGenerator({
@@ -104,14 +103,14 @@ const getRoomInfoAtHome = async (
     // Events 조회
     const tmpEventList = await Event.find({
       roomId: roomId,
-      date: { $gt: dayjs() }
+      date: { $gte: dayjs(dayjs().format('YYYY-MM-DD')) }
     });
 
     const eventList: EventsResponseDto[] = await Promise.all(
       tmpEventList.map(async (event: any) => {
         const nowEventDate = dayjs(event.date);
-        const todayDate = dayjs();
-        const eventDday = nowEventDate.diff(todayDate, 'day');
+        const todayDate = dayjs().format('YYYY-MM-DD');
+        const eventDday = nowEventDate.diff(dayjs(todayDate), 'day');
         const result = {
           _id: event._id,
           eventIcon: event.eventIcon,

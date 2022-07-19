@@ -15,7 +15,7 @@ require('dotenv').config();
 
 connectDB();
 
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 let morganFormat: string;
 if (config.env === 'production') {

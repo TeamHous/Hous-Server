@@ -3298,7 +3298,145 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 성향 테스트 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "typeTests": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62d298e3cc1d0ea0fc0c4b57"
+                              },
+                              "testNum": {
+                                "type": "number",
+                                "example": 1
+                              },
+                              "question": {
+                                "type": "string",
+                                "example": "알람 소리에 눈을 뜬 당신\n방 안은 어떤가요?"
+                              },
+                              "questionType": {
+                                "type": "string",
+                                "example": "LIGHT"
+                              },
+                              "answers": {
+                                "type": "array",
+                                "example": [
+                                  "스탠드를 키고 자 방이 매우 밝다",
+                                  "햇빛이 비춰 자연스럽게 방을 밝힌다",
+                                  "암막 커튼이 쳐져있어, 완전히 어둡다"
+                                ],
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "questionImg": {
+                                "type": "string",
+                                "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/test/type_test_1.png"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 성향 테스트 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "typeTests": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62d298e3cc1d0ea0fc0c4b57"
+                              },
+                              "testNum": {
+                                "type": "number",
+                                "example": 1
+                              },
+                              "question": {
+                                "type": "string",
+                                "example": "알람 소리에 눈을 뜬 당신\n방 안은 어떤가요?"
+                              },
+                              "questionType": {
+                                "type": "string",
+                                "example": "LIGHT"
+                              },
+                              "answers": {
+                                "type": "array",
+                                "example": [
+                                  "스탠드를 키고 자 방이 매우 밝다",
+                                  "햇빛이 비춰 자연스럽게 방을 밝힌다",
+                                  "암막 커튼이 쳐져있어, 완전히 어둡다"
+                                ],
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "questionImg": {
+                                "type": "string",
+                                "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/test/type_test_1.png"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []

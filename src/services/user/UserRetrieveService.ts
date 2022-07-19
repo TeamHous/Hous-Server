@@ -1,4 +1,5 @@
 import errorGenerator from '../../errors/errorGenerator';
+import { TypeDetailResponseDto } from '../../interfaces/type/response/TypeDetailResponseDto';
 import { HomieResponseDto } from '../../interfaces/user/response/HomieResponseDto';
 import { UserModifyResponseDto } from '../../interfaces/user/response/UserModifyResponseDto';
 import { UserProfileResponseDto } from '../../interfaces/user/response/UserProfileResponseDto';
@@ -8,7 +9,6 @@ import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
 import message from '../../modules/responseMessage';
 import statusCode from '../../modules/statusCode';
 import UserServiceUtils from './UserServiceUtils';
-import { TypeDetailResponseDto } from '../../interfaces/type/response/TypeDetailResponseDto';
 
 const getUserAtHome = async (
   userId: string
@@ -33,6 +33,7 @@ const getUserAtHome = async (
       job: userInfo.job,
       introduction: userInfo.introduction,
       hashTag: userInfo.hashTag,
+      typeId: (userInfo.typeId as any)._id,
       typeName: (userInfo.typeId as any).typeName,
       typeColor: (userInfo.typeId as any).typeColor,
       typeScore: userInfo.typeScore,
@@ -130,6 +131,7 @@ const getHomieProfile = async (
       job: homieInfo.job,
       introduction: homieInfo.introduction,
       hashTag: homieInfo.hashTag,
+      typeId: (homieInfo.typeId as any)._id,
       typeName: (homieInfo.typeId as any).typeName,
       typeColor: (homieInfo.typeId as any).typeColor,
       typeScore: homieInfo.typeScore

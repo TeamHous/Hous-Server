@@ -5,4 +5,6 @@ cd $REPOSITORY
 
 sudo /usr/bin/yarn
 
-sudo /usr/bin/pm2 start dist
+cd dist
+
+sudo /usr/bin/pm2 start src

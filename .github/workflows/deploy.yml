@@ -28,29 +28,9 @@ jobs:
       - name: Check Npm -v
         run: npm -v
 
-      - name: create test env file
-        working-directory: ./
-        run: |
-          touch .env
-          echo NODE_ENV=test >> .env
-          echo PORT=${{ secrets.PORT }} >> .env
-          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
-          echo MONGODB_DEV_URI=${{ secrets.MONGODB_DEV_URI }} >> .env
-          echo MONGODB_TEST_URI=${{ secrets.MONGODB_TEST_URI }} >> .env
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-          echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
-          echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
-
-      - name: test
-        working-directory: ./
-        run: |
-          yarn
-          yarn test
-
       - name: build server files
         working-directory: ./
         run: |
-          rm .env
           touch .env
           echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
           echo PORT=${{ secrets.PORT }} >> .env
@@ -61,10 +41,13 @@ jobs:
           echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
           echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
 
+          yarn
           yarn run build
 
       - name: zip file
-        run: zip -r hous.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+        run: |
+          mv ./.env ./dist
+          zip -r hous.zip ./dist ./scripts ./appspec.yml ./package.json
 
       - name: AWS configure credentials
         uses: aws-actions/configure-aws-credentials@v1

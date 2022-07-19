@@ -76,7 +76,7 @@ const message = {
   READ_USER_SUCCESS: '사용자 정보 조회 성공입니다.',
   UPDATE_USER_SUCCESS: '사용자 정보 수정 성공입니다.',
   NOT_FOUND_USER: '조회할 사용자 정보가 없습니다.',
-  READ_HOMIE_PROFILE_SUCCESS: '호미 프로필 조회를 성공입니다.',
+  READ_HOMIE_PROFILE_SUCCESS: '호미 프로필 조회 성공입니다.',
   FORBIDDEN_HOMIE: '참가하고 있지 않은 방의 호미입니다.',
   READ_USER_SETTING_SUCCESS: '사용자 설정 조회 성공입니다.',
   UPDATE_USER_NOTIFICATION_STATE_SUCCESS: '사용자 알림 설정 수정 성공입니다.',

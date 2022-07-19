@@ -7,9 +7,25 @@ import TypeRouter from './TypeRouter';
 
 const router: Router = Router();
 
-router.use('/auth', AuthRouter);
-router.use('/user', UserRouter);
-router.use('/room', RoomRouter);
-router.use('/type', TypeRouter);
+router.use(
+  '/auth',
+  AuthRouter
+  // #swagger.tags = ['Auth']
+);
+router.use(
+  '/user',
+  UserRouter
+  // #swagger.tags = ['User']
+);
+router.use(
+  '/room',
+  RoomRouter
+  // #swagger.tags = ['Room']
+);
+router.use(
+  '/type',
+  TypeRouter
+  // #swagger.tags = ['Type']
+);
 
 export default router;

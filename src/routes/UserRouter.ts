@@ -38,7 +38,8 @@ router.get(
         introduction: "안녕하세여~!! 저는 김호미입니다~!!",
         hashTag: [ 
           "ESFJ", "집순이"
-        ],
+        ],,
+        typeId: "62d28636cc1d0ea0fc0c4b31",
         typeName: "임시 디폴트",
         typeColor: "GRAY",
         typeScore: [
@@ -222,6 +223,7 @@ router.get(
         job: "대학생",
         introduction: "안녕하세요~!! 고구마 입니다!!",
         hashTag: [ "ESFJ", "집순이"],
+        typeId: "62d28636cc1d0ea0fc0c4b31",
         typeName: "임시 디폴트",
         typeColor: "GRAY",
         typeScore: [ 2, 5, 4, 3, 4]
@@ -270,6 +272,7 @@ router.put(
       message: '호미 프로필 조회 성공입니다.',
       data:  {
         _id: "62cc7428d7868591384e4eb3",
+        typeId: "62d28636cc1d0ea0fc0c4b31",
         typeScore: [ 2, 5, 4, 3, 4]
       }
     }

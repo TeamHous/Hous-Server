@@ -28,8 +28,8 @@ router.post(
       ],
       properties: {
         email: {
-          type: "hous@naver.com",
-          example: "true"
+          type: "string",
+          example: "hous@naver.com"
         },
         password: {
           type: "string",

@@ -956,6 +956,42 @@ router.get(
   // #swagger.summary = '홈화면 조회하기'
   // #swagger.security = [{"JWT": []}]
   // #swagger.parameters['roomId'] = { description: '방 id' };
+  /*
+  #swagger.responses[200] = {
+    schema: {
+      "status": 200,
+      "success": true,
+      "message": "홈화면 조회 성공입니다.",
+      "data": {
+        "eventList": [
+          {
+            "_id": "62d4335e17e70062873f3d28",
+            "eventIcon": "PARTY",
+            "dDay": "9"
+          }
+        ],
+        "keyRulesList": [
+          "설거지는 먹고 바로하기"
+        ],
+        "todoList": [
+          {
+            "isChecked": false,
+            "ruleName": "규칙 테스트1"
+          }
+        ],
+        "homieProfileList": [
+          {
+            "_id": "62d52147579fd88859ba700f",
+            "userName": "민재",
+            "typeName": "임시 디폴트",
+            "typeColor": "GRAY"
+          }
+        ],
+        "roomCode": "505TYCMR"
+      }
+    }
+  }
+  */
 );
 router.get(
   '/:roomId/rules',

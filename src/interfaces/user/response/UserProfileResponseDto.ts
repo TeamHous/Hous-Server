@@ -1,4 +1,7 @@
+import mongoose from 'mongoose';
+
 export interface UserProfileResponseDto extends UserBaseResponseDto, TypeDto {
+  typeId: mongoose.Types.ObjectId;
   notificationState: boolean;
 }
 

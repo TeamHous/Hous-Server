@@ -376,6 +376,10 @@
                             "type": "string"
                           }
                         },
+                        "typeId": {
+                          "type": "string",
+                          "example": "62d28636cc1d0ea0fc0c4b31"
+                        },
                         "typeName": {
                           "type": "string",
                           "example": "임시 디폴트"
@@ -449,6 +453,10 @@
                           "items": {
                             "type": "string"
                           }
+                        },
+                        "typeId": {
+                          "type": "string",
+                          "example": "62d28636cc1d0ea0fc0c4b31"
                         },
                         "typeName": {
                           "type": "string",
@@ -1143,6 +1151,10 @@
                             "type": "string"
                           }
                         },
+                        "typeId": {
+                          "type": "string",
+                          "example": "62d28636cc1d0ea0fc0c4b31"
+                        },
                         "typeName": {
                           "type": "string",
                           "example": "임시 디폴트"
@@ -1212,6 +1224,10 @@
                           "items": {
                             "type": "string"
                           }
+                        },
+                        "typeId": {
+                          "type": "string",
+                          "example": "62d28636cc1d0ea0fc0c4b31"
                         },
                         "typeName": {
                           "type": "string",
@@ -1295,6 +1311,10 @@
                           "type": "string",
                           "example": "62cc7428d7868591384e4eb3"
                         },
+                        "typeId": {
+                          "type": "string",
+                          "example": "62d28636cc1d0ea0fc0c4b31"
+                        },
                         "typeScore": {
                           "type": "array",
                           "example": [
@@ -1338,6 +1358,10 @@
                         "_id": {
                           "type": "string",
                           "example": "62cc7428d7868591384e4eb3"
+                        },
+                        "typeId": {
+                          "type": "string",
+                          "example": "62d28636cc1d0ea0fc0c4b31"
                         },
                         "typeScore": {
                           "type": "array",
@@ -5688,7 +5712,213 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "홈화면 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "eventList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62d4335e17e70062873f3d28"
+                              },
+                              "eventIcon": {
+                                "type": "string",
+                                "example": "PARTY"
+                              },
+                              "dDay": {
+                                "type": "string",
+                                "example": "9"
+                              }
+                            }
+                          }
+                        },
+                        "keyRulesList": {
+                          "type": "array",
+                          "example": [
+                            "설거지는 먹고 바로하기"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "todoList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "isChecked": {
+                                "type": "boolean",
+                                "example": false
+                              },
+                              "ruleName": {
+                                "type": "string",
+                                "example": "규칙 테스트1"
+                              }
+                            }
+                          }
+                        },
+                        "homieProfileList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62d52147579fd88859ba700f"
+                              },
+                              "userName": {
+                                "type": "string",
+                                "example": "민재"
+                              },
+                              "typeName": {
+                                "type": "string",
+                                "example": "임시 디폴트"
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        },
+                        "roomCode": {
+                          "type": "string",
+                          "example": "505TYCMR"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "홈화면 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "eventList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62d4335e17e70062873f3d28"
+                              },
+                              "eventIcon": {
+                                "type": "string",
+                                "example": "PARTY"
+                              },
+                              "dDay": {
+                                "type": "string",
+                                "example": "9"
+                              }
+                            }
+                          }
+                        },
+                        "keyRulesList": {
+                          "type": "array",
+                          "example": [
+                            "설거지는 먹고 바로하기"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "todoList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "isChecked": {
+                                "type": "boolean",
+                                "example": false
+                              },
+                              "ruleName": {
+                                "type": "string",
+                                "example": "규칙 테스트1"
+                              }
+                            }
+                          }
+                        },
+                        "homieProfileList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "62d52147579fd88859ba700f"
+                              },
+                              "userName": {
+                                "type": "string",
+                                "example": "민재"
+                              },
+                              "typeName": {
+                                "type": "string",
+                                "example": "임시 디폴트"
+                              },
+                              "typeColor": {
+                                "type": "string",
+                                "example": "GRAY"
+                              }
+                            }
+                          }
+                        },
+                        "roomCode": {
+                          "type": "string",
+                          "example": "505TYCMR"
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []

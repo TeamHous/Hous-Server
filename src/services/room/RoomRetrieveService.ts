@@ -120,6 +120,10 @@ const getRoomInfoAtHome = async (
       })
     );
 
+    eventList.sort((before, current) => {
+      return before.dDay < current.dDay ? 1 : -1;
+    });
+
     // Homie 조회
     const tmpHomies = await User.find({
       roomId: roomId

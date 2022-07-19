@@ -105,8 +105,8 @@
                 ],
                 "properties": {
                   "email": {
-                    "type": "hous@naver.com",
-                    "example": "true"
+                    "type": "string",
+                    "example": "hous@naver.com"
                   },
                   "password": {
                     "type": "string",
@@ -142,8 +142,8 @@
                 ],
                 "properties": {
                   "email": {
-                    "type": "hous@naver.com",
-                    "example": "true"
+                    "type": "string",
+                    "example": "hous@naver.com"
                   },
                   "password": {
                     "type": "string",
@@ -330,7 +330,161 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 정보 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "김호미"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "곧 졸업 대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세여~!! 저는 김호미입니다~!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "임시 디폴트"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            5,
+                            2,
+                            2,
+                            4,
+                            5
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 정보 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "김호미"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "곧 졸업 대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세여~!! 저는 김호미입니다~!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "임시 디폴트"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            5,
+                            2,
+                            2,
+                            4,
+                            5
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -354,7 +508,153 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 정보 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "김호미"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "곧 졸업 대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세여~!! 저는 김호미입니다~!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "임시 디폴트"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            5,
+                            2,
+                            2,
+                            4,
+                            5
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 정보 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "김호미"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "곧 졸업 대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세여~!! 저는 김호미입니다~!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "임시 디폴트"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            5,
+                            2,
+                            2,
+                            4,
+                            5
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -376,7 +676,111 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 정보 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "김호미"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "곧 졸업 대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세여~!! 저는 김호미입니다~!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 정보 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "김호미"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "곧 졸업 대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세여~!! 저는 김호미입니다~!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -408,6 +812,7 @@
                     "items": {
                       "type": "string"
                     },
+                    "maxItems": 3,
                     "example": [
                       "ESFJ",
                       "호미호미"
@@ -439,6 +844,7 @@
                     "items": {
                       "type": "string"
                     },
+                    "maxItems": 3,
                     "example": [
                       "ESFJ",
                       "호미호미"
@@ -467,7 +873,75 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 설정 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 설정 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -491,7 +965,75 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 알림 설정 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 알림 설정 수정 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "notificationState": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -555,7 +1097,153 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "호미 프로필 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": " 고구마"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세요~!! 고구마 입니다!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "임시 디폴트"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            2,
+                            5,
+                            4,
+                            3,
+                            4
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "호미 프로필 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": " 고구마"
+                        },
+                        "job": {
+                          "type": "string",
+                          "example": "대학생"
+                        },
+                        "introduction": {
+                          "type": "string",
+                          "example": "안녕하세요~!! 고구마 입니다!!"
+                        },
+                        "hashTag": {
+                          "type": "array",
+                          "example": [
+                            "ESFJ",
+                            "집순이"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "임시 디폴트"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "GRAY"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            2,
+                            5,
+                            4,
+                            3,
+                            4
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -579,7 +1267,101 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "호미 프로필 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cc7428d7868591384e4eb3"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            2,
+                            5,
+                            4,
+                            3,
+                            4
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "호미 프로필 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "62cc7428d7868591384e4eb3"
+                        },
+                        "typeScore": {
+                          "type": "array",
+                          "example": [
+                            2,
+                            5,
+                            4,
+                            3,
+                            4
+                          ],
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -656,7 +1438,195 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 성향 상세 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "동글동글"
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "늘 행복한 동글이"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "YELLOW"
+                        },
+                        "typeImg": {
+                          "type": "string",
+                          "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_yellow.png"
+                        },
+                        "typeOneComment": {
+                          "type": "string",
+                          "example": "어떤 상황에서도 Happy -"
+                        },
+                        "typeDesc": {
+                          "type": "string",
+                          "example": "둥글둥글한 사람이에요. 민감하게 생각하는 영역이\n거의 없어 공동생활에 쉽게 적응할 수 있어요.\n동글이님과 함께 생활하는 룸메이트는\n조금 더 세심한 배려가 필요한 영역이 있다면\n동글이님과 직접 얘기해보는 것도 좋을 거예요."
+                        },
+                        "typeRulesTitle": {
+                          "type": "string",
+                          "example": "동글이와 함께 정하면 좋은 Rule!"
+                        },
+                        "typeRules": {
+                          "type": "array",
+                          "example": [
+                            "밥 먹고 바로 설거지하기",
+                            "샤워 후 머리카락 치우기"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "good": {
+                          "type": "object",
+                          "properties": {
+                            "typeName": {
+                              "type": "string",
+                              "example": "슈퍼 팔로워 셋돌이"
+                            },
+                            "typeImg": {
+                              "type": "string",
+                              "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_red.png"
+                            }
+                          }
+                        },
+                        "bad": {
+                          "type": "object",
+                          "properties": {
+                            "typeName": {
+                              "type": "string",
+                              "example": "룰 세터 육각이"
+                            },
+                            "typeImg": {
+                              "type": "string",
+                              "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_green.png"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 성향 상세 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "동글동글"
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "늘 행복한 동글이"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "YELLOW"
+                        },
+                        "typeImg": {
+                          "type": "string",
+                          "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_yellow.png"
+                        },
+                        "typeOneComment": {
+                          "type": "string",
+                          "example": "어떤 상황에서도 Happy -"
+                        },
+                        "typeDesc": {
+                          "type": "string",
+                          "example": "둥글둥글한 사람이에요. 민감하게 생각하는 영역이\n거의 없어 공동생활에 쉽게 적응할 수 있어요.\n동글이님과 함께 생활하는 룸메이트는\n조금 더 세심한 배려가 필요한 영역이 있다면\n동글이님과 직접 얘기해보는 것도 좋을 거예요."
+                        },
+                        "typeRulesTitle": {
+                          "type": "string",
+                          "example": "동글이와 함께 정하면 좋은 Rule!"
+                        },
+                        "typeRules": {
+                          "type": "array",
+                          "example": [
+                            "밥 먹고 바로 설거지하기",
+                            "샤워 후 머리카락 치우기"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "good": {
+                          "type": "object",
+                          "properties": {
+                            "typeName": {
+                              "type": "string",
+                              "example": "슈퍼 팔로워 셋돌이"
+                            },
+                            "typeImg": {
+                              "type": "string",
+                              "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_red.png"
+                            }
+                          }
+                        },
+                        "bad": {
+                          "type": "object",
+                          "properties": {
+                            "typeName": {
+                              "type": "string",
+                              "example": "룰 세터 육각이"
+                            },
+                            "typeImg": {
+                              "type": "string",
+                              "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_green.png"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []
@@ -689,7 +1659,195 @@
             }
           }
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 성향 상세 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "동글동글"
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "늘 행복한 동글이"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "YELLOW"
+                        },
+                        "typeImg": {
+                          "type": "string",
+                          "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_yellow.png"
+                        },
+                        "typeOneComment": {
+                          "type": "string",
+                          "example": "어떤 상황에서도 Happy -"
+                        },
+                        "typeDesc": {
+                          "type": "string",
+                          "example": "둥글둥글한 사람이에요. 민감하게 생각하는 영역이\n거의 없어 공동생활에 쉽게 적응할 수 있어요.\n동글이님과 함께 생활하는 룸메이트는\n조금 더 세심한 배려가 필요한 영역이 있다면\n동글이님과 직접 얘기해보는 것도 좋을 거예요."
+                        },
+                        "typeRulesTitle": {
+                          "type": "string",
+                          "example": "동글이와 함께 정하면 좋은 Rule!"
+                        },
+                        "typeRules": {
+                          "type": "array",
+                          "example": [
+                            "밥 먹고 바로 설거지하기",
+                            "샤워 후 머리카락 치우기"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "good": {
+                          "type": "object",
+                          "properties": {
+                            "typeName": {
+                              "type": "string",
+                              "example": "슈퍼 팔로워 셋돌이"
+                            },
+                            "typeImg": {
+                              "type": "string",
+                              "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_red.png"
+                            }
+                          }
+                        },
+                        "bad": {
+                          "type": "object",
+                          "properties": {
+                            "typeName": {
+                              "type": "string",
+                              "example": "룰 세터 육각이"
+                            },
+                            "typeImg": {
+                              "type": "string",
+                              "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_green.png"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "사용자 성향 상세 조회 성공입니다."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userName": {
+                          "type": "string",
+                          "example": "동글동글"
+                        },
+                        "typeName": {
+                          "type": "string",
+                          "example": "늘 행복한 동글이"
+                        },
+                        "typeColor": {
+                          "type": "string",
+                          "example": "YELLOW"
+                        },
+                        "typeImg": {
+                          "type": "string",
+                          "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_yellow.png"
+                        },
+                        "typeOneComment": {
+                          "type": "string",
+                          "example": "어떤 상황에서도 Happy -"
+                        },
+                        "typeDesc": {
+                          "type": "string",
+                          "example": "둥글둥글한 사람이에요. 민감하게 생각하는 영역이\n거의 없어 공동생활에 쉽게 적응할 수 있어요.\n동글이님과 함께 생활하는 룸메이트는\n조금 더 세심한 배려가 필요한 영역이 있다면\n동글이님과 직접 얘기해보는 것도 좋을 거예요."
+                        },
+                        "typeRulesTitle": {
+                          "type": "string",
+                          "example": "동글이와 함께 정하면 좋은 Rule!"
+                        },
+                        "typeRules": {
+                          "type": "array",
+                          "example": [
+                            "밥 먹고 바로 설거지하기",
+                            "샤워 후 머리카락 치우기"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "good": {
+                          "type": "object",
+                          "properties": {
+                            "typeName": {
+                              "type": "string",
+                              "example": "슈퍼 팔로워 셋돌이"
+                            },
+                            "typeImg": {
+                              "type": "string",
+                              "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_red.png"
+                            }
+                          }
+                        },
+                        "bad": {
+                          "type": "object",
+                          "properties": {
+                            "typeName": {
+                              "type": "string",
+                              "example": "룰 세터 육각이"
+                            },
+                            "typeImg": {
+                              "type": "string",
+                              "example": "https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_green.png"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "JWT": []

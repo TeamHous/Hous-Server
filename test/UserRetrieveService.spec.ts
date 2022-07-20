@@ -18,7 +18,7 @@ describe('UserRetrieveService Tests', () => {
   afterEach(async () => {
     await User.collection.drop();
   });
-  it('getUserAtHome', async () => {
+  it('getUserAtHome test', async () => {
     // given
     const signupDto: SignupDto = {
       email: 'test@gmail.com',
@@ -47,7 +47,7 @@ describe('UserRetrieveService Tests', () => {
     assert.equal(result.notificationState, true);
   });
 
-  it('getUserAtModify', async () => {
+  it('getUserAtModify test', async () => {
     // given
     const signupDto: SignupDto = {
       email: 'test@gmail.com',
@@ -73,7 +73,7 @@ describe('UserRetrieveService Tests', () => {
     assert.equal(result.typeColor, 'GRAY');
   });
 
-  it('getHomieProfile', async () => {
+  it('getHomieProfile test', async () => {
     // given
     const signupDto1: SignupDto = {
       email: 'test1@gmail.com',

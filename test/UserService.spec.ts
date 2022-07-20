@@ -71,7 +71,7 @@ describe('UserService Tests', () => {
     }
   });
 
-  it('updateUserTypeScore', async () => {
+  it('updateUserTypeScore test', async () => {
     // given
     const signupDto: SignupDto = {
       email: 'test@gmail.com',
@@ -100,5 +100,25 @@ describe('UserService Tests', () => {
     for (let i = 0; i < result.typeScore!.length; i++) {
       assert.equal(result!.typeScore[i], userTypeTestDto.typeScore![i]);
     }
+  });
+
+  it('deleteUser test', async () => {
+    // given
+    const signupDto: SignupDto = {
+      email: 'test@gmail.com',
+      password: 'password',
+      userName: '테스트유저',
+      gender: '남자',
+      fcmToken: '테스트토큰'
+    };
+    const userId: string = (
+      await UserService.createUser(signupDto)
+    )._id.toString();
+
+    // when
+    const deletedUser = await UserService.deleteUser(userId);
+
+    // then
+    assert.equal(deletedUser, null);
   });
 });

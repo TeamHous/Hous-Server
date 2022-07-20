@@ -6,6 +6,7 @@ import {
 } from '../../interfaces/rule/response/HomiesWithIsTmpMemberResponseDto';
 import {
   Homies,
+  HomiesWithDate,
   RuleCategories,
   RuleCreateInfoResponseDto
 } from '../../interfaces/rule/response/RuleCreateInfoResponseDto';
@@ -177,19 +178,37 @@ const getRuleCreateInfo = async (
 
     const tmpHomies = await User.find({
       roomId: roomId
-    }).populate('typeId', 'typeColor');
+    })
+      .populate('typeId', 'typeColor')
+      .sort({ typeUpdatedDate: 1 });
 
-    const homies: Homies[] = await Promise.all(
+    const homiesWithDate: HomiesWithDate[] = [];
+    const homiesWithNullDate: HomiesWithDate[] = [];
+    await Promise.all(
       tmpHomies.map(async (homie: any) => {
-        const result = {
-          _id: homie._id,
-          userName: homie.userName,
-          typeColor: homie.typeId.typeColor
-        };
-
-        return result;
+        if (homie.typeUpdatedDate != null) {
+          homiesWithDate.push({
+            _id: homie._id,
+            userName: homie.userName,
+            typeColor: homie.typeId.typeColor,
+            typeUpdatedDate: homie.typeUpdatedDate
+          });
+        } else {
+          homiesWithNullDate.push({
+            _id: homie._id,
+            userName: homie.userName,
+            typeColor: homie.typeId.typeColor,
+            typeUpdatedDate: homie.typeUpdatedDate
+          });
+        }
       })
     );
+
+    const homies: Homies[] = homiesWithDate
+      .concat(homiesWithNullDate)
+      .map(({ typeUpdatedDate, ...rest }) => {
+        return rest;
+      });
 
     const data: RuleCreateInfoResponseDto = {
       ruleCategories: ruleCategories,
@@ -387,16 +406,18 @@ const getHomiesWithIsTmpMember = async (
     // 참가하고 있는 방의 규칙이 아니면 접근 불가능
     await RuleServiceUtils.checkForbiddenRule(user.roomId, rule.roomId);
 
-    const homies = await User.find({
+    const tmpHomies = await User.find({
       roomId: roomId
-    }).populate('typeId', 'typeColor');
+    })
+      .populate('typeId', 'typeColor')
+      .sort({ typeUpdatedDate: 1 });
 
     let homiesWithIsTmpMembersWithDate: HomiesWithIsTmpMemberWithDate[];
 
     // tmpUpdatedDate === 오늘 -> tmpRuleMembers에 있는 유저는 isChecked = true
     if (dayjs().isSame(rule.tmpUpdatedDate, 'day')) {
       homiesWithIsTmpMembersWithDate = await Promise.all(
-        homies.map(async (homie: any) => {
+        tmpHomies.map(async (homie: any) => {
           let isChecked: boolean = false;
           for (const userId of rule.tmpRuleMembers) {
             if (userId.equals(homie._id)) {
@@ -409,7 +430,7 @@ const getHomiesWithIsTmpMember = async (
             _id: homie._id as string,
             userName: homie.userName as string,
             isChecked: isChecked,
-            typeColor: (homie.typeId as any).typeColor as string,
+            typeColor: homie.typeId.typeColor as string,
             typeUpdatedDate: homie.typeUpdatedDate
           };
         })
@@ -417,7 +438,7 @@ const getHomiesWithIsTmpMember = async (
     } else {
       // tmpUpdatedDate !== 오늘 -> 고정 담당자 리스트에 있는 유저만 isChecked = true
       homiesWithIsTmpMembersWithDate = await Promise.all(
-        homies.map(async (homie: any) => {
+        tmpHomies.map(async (homie: any) => {
           let isChecked: boolean = false;
 
           for (const member of rule.ruleMembers) {
@@ -434,29 +455,46 @@ const getHomiesWithIsTmpMember = async (
             _id: homie._id as string,
             userName: homie.userName as string,
             isChecked: isChecked,
-            typeColor: (homie.typeId as any).typeColor as string,
+            typeColor: homie.typeId.typeColor as string,
             typeUpdatedDate: homie.typeUpdatedDate
           };
         })
       );
     }
 
-    homiesWithIsTmpMembersWithDate.sort((before, current) => {
-      return dayjs(before.typeUpdatedDate).isAfter(
-        dayjs(current.typeUpdatedDate)
-      )
-        ? 1
-        : -1;
-    });
+    const homiesWithIsCheckedWithDate: HomiesWithIsTmpMemberWithDate[] = [];
+    const homiesWithIsCheckedWithNullDate: HomiesWithIsTmpMemberWithDate[] = [];
+    await Promise.all(
+      homiesWithIsTmpMembersWithDate.map(async (homie: any) => {
+        if (homie.typeUpdatedDate != null) {
+          homiesWithIsCheckedWithDate.push({
+            _id: homie._id,
+            userName: homie.userName,
+            isChecked: homie.isChecked,
+            typeColor: homie.typeColor,
+            typeUpdatedDate: homie.typeUpdatedDate
+          });
+        } else {
+          homiesWithIsCheckedWithNullDate.push({
+            _id: homie._id,
+            userName: homie.userName,
+            isChecked: homie.isChecked,
+            typeColor: homie.typeColor,
+            typeUpdatedDate: homie.typeUpdatedDate
+          });
+        }
+      })
+    );
 
-    const homiesWithIsTmpMembers: HomiesWithIsTmpMember[] =
-      homiesWithIsTmpMembersWithDate.map(({ typeUpdatedDate, ...rest }) => {
+    const homies: HomiesWithIsTmpMember[] = homiesWithIsCheckedWithDate
+      .concat(homiesWithIsCheckedWithNullDate)
+      .map(({ typeUpdatedDate, ...rest }) => {
         return rest;
       });
 
     const data: HomiesWithIsTmpMemberResponseDto = {
       _id: ruleId,
-      homies: homiesWithIsTmpMembers
+      homies: homies
     };
 
     return data;

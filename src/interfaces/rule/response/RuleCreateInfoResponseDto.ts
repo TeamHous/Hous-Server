@@ -15,3 +15,7 @@ export interface Homies {
   userName: string;
   typeColor: string;
 }
+
+export interface HomiesWithDate extends Homies {
+  typeUpdatedDate: Date;
+}

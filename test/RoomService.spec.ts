@@ -23,48 +23,23 @@ describe('RoomService Tests', () => {
   });
   it('createRoom test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
+    const given = await createUserAndRoom('test@gmail.com');
 
     // when
-    const result: RoomResponseDto = await RoomService.createRoom(userId);
+    const result: RoomResponseDto = await RoomService.createRoom(given.userId);
     const createdRoomId: string = result._id.toString();
 
     // then
-    const user = await User.findById(userId);
+    const user = await User.findById(given.userId);
     assert.equal(user!.roomId.toString(), createdRoomId);
   });
   it('joinRoom test', async () => {
     // given
-    const signupDto1: SignupDto = {
-      email: 'test1@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId1: string = (
-      await UserService.createUser(signupDto1)
-    )._id.toString();
-    const signupDto2: SignupDto = {
-      email: 'test2@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId2: string = (
-      await UserService.createUser(signupDto2)
-    )._id.toString();
-    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
+    const givenUser1 = await createUserAndRoom('test1@gmail.com');
+    const givenUser2 = await createUserAndRoom('test2@gmail.com');
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(
+      givenUser1.userId
+    );
     const createdRoomId: string = createdRoom._id.toString();
     const createdRoomCode: string = createdRoom.roomCode;
     const roomJoinDto: RoomJoinDto = {
@@ -73,36 +48,44 @@ describe('RoomService Tests', () => {
 
     // when
     const result: PostBaseResponseDto = await RoomService.joinRoom(
-      userId2,
+      givenUser2.userId,
       createdRoomId,
       roomJoinDto
     );
 
     // then
-    const user = await User.findById(userId2);
+    const user = await User.findById(givenUser2.userId);
     assert.equal(user!.roomId.toString(), createdRoomId);
     assert.equal(user!.roomId.toString(), result._id.toString());
   });
   it('leaveRoom test', async () => {
     // given
-    const signupDto1: SignupDto = {
-      email: 'test1@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId1: string = (
-      await UserService.createUser(signupDto1)
-    )._id.toString();
-    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
+    const given = await createUserAndRoom('test1@gmail.com');
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(
+      given.userId
+    );
     const createdRoomId: string = createdRoom._id.toString();
 
     // when
-    await RoomService.leaveRoom(userId1, createdRoomId);
+    await RoomService.leaveRoom(given.userId, createdRoomId);
 
     // then
-    const user = await User.findById(userId1);
+    const user = await User.findById(given.userId);
     assert.equal(user!.roomId, null);
   });
 });
+
+const createUserAndRoom = async (email: string) => {
+  const signupDto: SignupDto = {
+    email: email,
+    password: 'password',
+    userName: '테스트유저',
+    gender: '남자',
+    fcmToken: '테스트토큰'
+  };
+  const userId: string = (
+    await UserService.createUser(signupDto)
+  )._id.toString();
+
+  return { userId };
+};

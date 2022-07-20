@@ -21,23 +21,14 @@ describe('UserRetrieveService Tests', () => {
   });
   it('getUserAtHome test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
+    const given = await createUser('test@gmail.com');
 
     // when
     const result: UserProfileResponseDto =
-      await UserRetrieveService.getUserAtHome(userId);
+      await UserRetrieveService.getUserAtHome(given.userId);
 
     // then
-    assert.equal(result.userName, signupDto.userName);
+    assert.equal(result.userName, given.signupDto.userName);
     assert.equal(result.job, '');
     assert.equal(result.introduction, '');
     assert.equal(result.hashTag.length, 0);
@@ -50,20 +41,11 @@ describe('UserRetrieveService Tests', () => {
 
   it('getUserAtModify test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
+    const given = await createUser('test@gmail.com');
 
     //when
     const result: UserModifyResponseDto =
-      await UserRetrieveService.getUserAtModify(userId);
+      await UserRetrieveService.getUserAtModify(given.userId);
 
     //then
     assert.equal(result.userName, '테스트유저');
@@ -76,43 +58,30 @@ describe('UserRetrieveService Tests', () => {
 
   it('getHomieProfile test', async () => {
     // given
-    const signupDto1: SignupDto = {
-      email: 'test1@gmail.com',
-      password: 'password',
-      userName: '테스트유저1',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const signupDto2: SignupDto = {
-      email: 'test2@gmail.com',
-      password: 'password',
-      userName: '테스트유저2',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-
-    const roomOwnerUserId: string = (
-      await UserService.createUser(signupDto1)
-    )._id.toString();
-
-    const joinedUserId: string = (
-      await UserService.createUser(signupDto2)
-    )._id.toString();
+    const givenRoomOwnerUser1 = await createUser('test1@gmail.com');
+    const givenRoomJoinedUser2 = await createUser(
+      'test2@gmail.com',
+      '테스트유저2'
+    );
 
     const createdRoom: RoomResponseDto = await RoomService.createRoom(
-      roomOwnerUserId
+      givenRoomOwnerUser1.userId
     );
     const createdRoomId: string = createdRoom._id.toString();
     const createdRoomCode: string = createdRoom.roomCode;
     const roomJoinDto: RoomJoinDto = {
       roomCode: createdRoomCode
     };
-    await RoomService.joinRoom(joinedUserId, createdRoomId, roomJoinDto);
+    await RoomService.joinRoom(
+      givenRoomJoinedUser2.userId,
+      createdRoomId,
+      roomJoinDto
+    );
 
     // when
     const result = await UserRetrieveService.getHomieProfile(
-      roomOwnerUserId,
-      joinedUserId
+      givenRoomOwnerUser1.userId,
+      givenRoomJoinedUser2.userId
     );
 
     // then
@@ -131,3 +100,18 @@ describe('UserRetrieveService Tests', () => {
     await Rule.collection.drop();
   });
 });
+
+const createUser = async (email: string, userName?: string) => {
+  const signupDto: SignupDto = {
+    email: email,
+    password: 'password',
+    userName: !userName ? '테스트유저' : userName,
+    gender: '남자',
+    fcmToken: '테스트토큰'
+  };
+  const userId: string = (
+    await UserService.createUser(signupDto)
+  )._id.toString();
+
+  return { userId, signupDto };
+};

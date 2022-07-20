@@ -4,6 +4,7 @@ import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
 import { TypeTestDto } from '../src/interfaces/type/request/TypeTestDto';
 import { TypeTestResponseDto } from '../src/interfaces/type/response/TypeTestResponseDto';
 import { UserUpdateDto } from '../src/interfaces/user/request/UserUpdateDto';
+import { UserNotificationUpdateDto } from '../src/interfaces/user/response/UserNotificationStateUpdateDto';
 import { UserUpdateResponseDto } from '../src/interfaces/user/response/UserUpdateResponseDto';
 import User from '../src/models/User';
 import UserService from '../src/services/user/UserService';
@@ -37,31 +38,22 @@ describe('UserService Tests', () => {
 
   it('updateUser test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
+    const given = await createUser();
     const userUpdateDto: UserUpdateDto = {
       userName: '김유저',
       job: '백수',
       introduction: '하잉 헬로 나는야 테스트 유저',
       hashTag: ['솝트최고', '서버최고']
     };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
 
     // when
     const result: UserUpdateResponseDto = await UserService.updateUser(
-      userId,
+      given.userId,
       userUpdateDto
     );
 
     // then
-    const user = await User.findById(userId);
+    const user = await User.findById(given.userId);
     assert.equal(user!.userName, result.userName);
     assert.equal(user!.job, result.job);
     assert.equal(user!.introduction, result.introduction);
@@ -73,28 +65,19 @@ describe('UserService Tests', () => {
 
   it('updateUserTypeScore test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
+    const given = await createUser();
     const userTypeTestDto: TypeTestDto = {
       typeScore: [4, 5, 6, 7, 8]
     };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
 
     //when
     const result: TypeTestResponseDto = await UserService.updateUserTypeScore(
-      userId,
+      given.userId,
       userTypeTestDto
     );
 
     // then
-    assert.equal(result._id.toString(), userId);
+    assert.equal(result._id.toString(), given.userId);
     assert.equal(result.typeId.toString(), '62d28672cc1d0ea0fc0c4b3d');
     assert.equal(result.typeScore.length, userTypeTestDto.typeScore.length);
     for (let i = 0; i < result.typeScore!.length; i++) {
@@ -104,21 +87,52 @@ describe('UserService Tests', () => {
 
   it('deleteUser test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
+    const given = await createUser();
 
     // when
-    const deletedUser = await UserService.deleteUser(userId);
+    const deletedUser = await UserService.deleteUser(given.userId);
 
     // then
     assert.equal(deletedUser, null);
   });
+
+  it('updateUserNotificationState test', async () => {
+    // given
+    const given = await createUser();
+    const userNotificationStateUpdateDto1: UserNotificationUpdateDto = {
+      notificationState: false
+    };
+    const userNotificationStateUpdateDto2: UserNotificationUpdateDto = {
+      notificationState: true
+    };
+
+    // when
+    const result1 = await UserService.updateUserNotificationState(
+      given.userId,
+      userNotificationStateUpdateDto1
+    );
+    const result2 = await UserService.updateUserNotificationState(
+      given.userId,
+      userNotificationStateUpdateDto2
+    );
+
+    // then
+    assert.equal(result1.notificationState, false);
+    assert.equal(result2.notificationState, true);
+  });
 });
+
+const createUser = async () => {
+  const signupDto: SignupDto = {
+    email: 'test@gmail.com',
+    password: 'password',
+    userName: '테스트유저',
+    gender: '남자',
+    fcmToken: '테스트토큰'
+  };
+  const userId: string = (
+    await UserService.createUser(signupDto)
+  )._id.toString();
+
+  return { userId, signupDto };
+};

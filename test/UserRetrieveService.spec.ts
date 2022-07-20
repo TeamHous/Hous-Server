@@ -5,6 +5,7 @@ import { RoomJoinDto } from '../src/interfaces/room/request/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import { UserModifyResponseDto } from '../src/interfaces/user/response/UserModifyResponseDto';
 import { UserProfileResponseDto } from '../src/interfaces/user/response/UserProfileResponseDto';
+import { UserSettingResponseDto } from '../src/interfaces/user/response/UserSettingResponseDto';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
 import Rule from '../src/models/Rule';
@@ -98,6 +99,18 @@ describe('UserRetrieveService Tests', () => {
     await RuleCategory.collection.drop();
     await Event.collection.drop();
     await Rule.collection.drop();
+  });
+
+  it('getUserSetting test', async () => {
+    // given
+    const given = await createUser('test1@gmail.com');
+
+    // when
+    const result: UserSettingResponseDto =
+      await UserRetrieveService.getUserSetting(given.userId);
+
+    // then
+    assert.equal(result.notificationState, true); // default notification
   });
 });
 

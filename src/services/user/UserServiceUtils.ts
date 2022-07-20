@@ -26,7 +26,7 @@ const findTypeById = async (typeId: string) => {
   return type;
 };
 
-const getTypeIdByTotalTypeScore = async (totalTypeScore: number) => {
+const getTypeByTotalTypeScore = async (totalTypeScore: number) => {
   // 타입 점수에 따른 type._id return
   if (totalTypeScore >= 15 && totalTypeScore <= 20) {
     return await Type.findOne({ typeColor: 'YELLOW' }, { _id: 1 });
@@ -46,5 +46,5 @@ const getTypeIdByTotalTypeScore = async (totalTypeScore: number) => {
 export default {
   findUserById,
   findTypeById,
-  getTypeIdByTotalTypeScore
+  getTypeByTotalTypeScore
 };

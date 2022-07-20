@@ -161,9 +161,7 @@ const updateUserTypeScore = async (
       }
     });
 
-    const type = await UserServiceUtils.getTypeIdByTotalTypeScore(
-      totalTypeScore
-    );
+    const type = await UserServiceUtils.getTypeByTotalTypeScore(totalTypeScore);
 
     if (!type) {
       throw errorGenerator({

@@ -164,7 +164,6 @@ const updateUserTypeScore = async (
     const typeId = await UserServiceUtils.getTypeIdByTotalTypeScore(
       totalTypeScore
     );
-    console.log(typeId);
 
     await user.updateOne({
       typeId: typeId,

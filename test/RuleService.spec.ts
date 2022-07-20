@@ -3,7 +3,9 @@ import { afterEach } from 'mocha';
 import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import { RuleCreateDto } from '../src/interfaces/rule/request/RuleCreateDto';
+import { RuleTodoCheckUpdateDto } from '../src/interfaces/rule/request/RuleTodoCheckUpdateDto';
 import { RuleUpdateDto } from '../src/interfaces/rule/request/RuleUpdateDto';
+import { TmpRuleMembersUpdateDto } from '../src/interfaces/rule/request/TmpRuleMembersUpdateDto';
 import { RuleResponseDto } from '../src/interfaces/rule/response/RuleResponseDto';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
@@ -108,6 +110,58 @@ describe('RuleService Tests', () => {
     // then
     const deletedRule = await Rule.findById(createdRule._id);
     assert.equal(deletedRule, null);
+  });
+
+  it('updateMyRuleTodoCheck test', async () => {
+    // given
+    const given = await createUserAndRoom();
+    const ruleCreateDto: RuleCreateDto = {
+      notificationState: false,
+      ruleName: '테스트 규칙',
+      categoryId: given.createdCategory[0]._id.toString(),
+      isKeyRules: true,
+      ruleMembers: []
+    };
+    const createdRule: RuleResponseDto = await RuleService.createRule(
+      given.userId,
+      given.createdRoomId,
+      ruleCreateDto
+    );
+    const createdRuleId = createdRule._id.toString();
+    const tmpRuleMembersUpdateDto: TmpRuleMembersUpdateDto = {
+      tmpRuleMembers: [given.userId]
+    };
+    await RuleService.updateTmpRuleMembers(
+      given.userId,
+      given.createdRoomId,
+      createdRuleId,
+      tmpRuleMembersUpdateDto
+    );
+
+    const ruleTodoCheckUpdateDto1: RuleTodoCheckUpdateDto = {
+      isCheck: true
+    };
+    const ruleTodoCheckUpdateDto2: RuleTodoCheckUpdateDto = {
+      isCheck: false
+    };
+
+    // when
+    const result1 = await RuleService.updateMyRuleTodoCheck(
+      given.userId,
+      given.createdRoomId,
+      createdRuleId,
+      ruleTodoCheckUpdateDto1
+    );
+    const result2 = await RuleService.updateMyRuleTodoCheck(
+      given.userId,
+      given.createdRoomId,
+      createdRuleId,
+      ruleTodoCheckUpdateDto2
+    );
+
+    // then
+    assert.equal(result1.isCheck, true);
+    assert.equal(result2.isCheck, false);
   });
 });
 

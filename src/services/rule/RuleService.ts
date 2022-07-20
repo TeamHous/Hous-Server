@@ -81,6 +81,10 @@ const createRule = async (
         // 선택된 요일이 전부 0~6 값이 아닌 경우 -> 에러
         checkValidUtils.checkDayNumber(day);
       });
+      // userId가 ObjectId 형식인지 확인
+      if (userId != null) {
+        checkObjectIdValidation(userId);
+      }
       // 담당자가 체크됐는데 요일 선택 1개 이상 안 된 경우 -> 에러
       if (userId != null && ruleMember.day.length == 0) {
         throw errorGenerator({

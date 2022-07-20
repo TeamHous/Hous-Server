@@ -127,19 +127,31 @@ const getRoomInfoAtHome = async (
     // Homie 조회
     const tmpHomies = await User.find({
       roomId: roomId
-    }).populate('typeId', 'typeName typeColor');
+    })
+      .populate('typeId', 'typeName typeColor')
+      .sort({ typeUpdatedDate: 1 });
 
     const myProfile: HomieProfileResponseDto[] = [];
     const homieProfile: HomieProfileResponseDto[] = [];
+    const homieProfileNoDate: HomieProfileResponseDto[] = [];
     await Promise.all(
       tmpHomies.map(async (homie: any) => {
         if (homie._id.toString() !== userId) {
-          homieProfile.push({
-            _id: homie._id,
-            userName: homie.userName,
-            typeName: homie.typeId.typeName,
-            typeColor: homie.typeId.typeColor
-          });
+          if (homie.typeUpdatedDate === null) {
+            homieProfileNoDate.push({
+              _id: homie._id,
+              userName: homie.userName,
+              typeName: homie.typeId.typeName,
+              typeColor: homie.typeId.typeColor
+            });
+          } else {
+            homieProfile.push({
+              _id: homie._id,
+              userName: homie.userName,
+              typeName: homie.typeId.typeName,
+              typeColor: homie.typeId.typeColor
+            });
+          }
         } else {
           myProfile.push({
             _id: homie._id,
@@ -151,7 +163,9 @@ const getRoomInfoAtHome = async (
       })
     );
 
-    const allHomieProfile = myProfile.concat(homieProfile);
+    const allHomieProfile = myProfile
+      .concat(homieProfile)
+      .concat(homieProfileNoDate);
 
     // to-do 체크 여부 포함 조회
     const today = dayjs().day();

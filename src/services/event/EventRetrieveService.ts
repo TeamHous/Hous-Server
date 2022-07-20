@@ -50,7 +50,7 @@ const getEvent = async (
         )
           ? true
           : false;
-        if (user.tmpUpdatedDate != null) {
+        if (user.typeUpdatedDate != null) {
           participantsWithDate.push({
             _id: user._id,
             userName: user.userName,

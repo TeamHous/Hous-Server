@@ -1,8 +1,11 @@
 import assert from 'assert';
+import dayjs from 'dayjs';
 import { afterEach } from 'mocha';
 import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import { RuleCreateDto } from '../src/interfaces/rule/request/RuleCreateDto';
+import { TmpRuleMembersUpdateDto } from '../src/interfaces/rule/request/TmpRuleMembersUpdateDto';
+import { HomiesWithIsTmpMemberResponseDto } from '../src/interfaces/rule/response/HomiesWithIsTmpMemberResponseDto';
 import { RuleCreateInfoResponseDto } from '../src/interfaces/rule/response/RuleCreateInfoResponseDto';
 import { RuleMyTodoResponseDto } from '../src/interfaces/rule/response/RuleMyTodoResponseDto';
 import { RuleReadInfoResponseDto } from '../src/interfaces/rule/response/RuleReadInfoResponseDto';
@@ -226,5 +229,85 @@ describe('RuleRetrieveService Tests', () => {
       assert.equal(ruleCategory.length, 1);
       assert.equal(ruleCategory[0].roomId, createdRoomId);
     });
+  });
+  it('getHomiesWithIsTmpMember test', async () => {
+    // given
+    const signupDto1: SignupDto = {
+      email: 'test1@gmail.com',
+      password: 'password',
+      userName: '테스트유저1',
+      gender: '남자',
+      fcmToken: '테스트토큰1'
+    };
+    const signupDto2: SignupDto = {
+      email: 'test2@gmail.com',
+      password: 'password',
+      userName: '테스트유저2',
+      gender: '남자',
+      fcmToken: '테스트토큰2'
+    };
+    const signupDto3: SignupDto = {
+      email: 'test3@gmail.com',
+      password: 'password',
+      userName: '테스트유저3',
+      gender: '남자',
+      fcmToken: '테스트토큰3'
+    };
+    const userId1: string = (
+      await UserService.createUser(signupDto1)
+    )._id.toString();
+    const userId2: string = (
+      await UserService.createUser(signupDto2)
+    )._id.toString();
+    const userId3: string = (
+      await UserService.createUser(signupDto3)
+    )._id.toString();
+
+    const createdRoom1: RoomResponseDto = await RoomService.createRoom(userId1);
+    const createdRoom2: RoomResponseDto = await RoomService.createRoom(userId2);
+    const createdRoom3: RoomResponseDto = await RoomService.createRoom(userId3);
+    const createdRoomId: string = createdRoom1._id.toString();
+
+    const tmpRuleMembersUpdateDto: TmpRuleMembersUpdateDto = {
+      tmpRuleMembers: [userId1]
+    };
+    const rule: RuleResponseDto[] = await Rule.find({ roomId: createdRoom1 });
+
+    await RuleService.updateTmpRuleMembers(
+      userId1,
+      createdRoomId,
+      rule[0]._id.toString(),
+      tmpRuleMembersUpdateDto
+    );
+
+    // when
+    const homiesWithIsTmpMember: HomiesWithIsTmpMemberResponseDto =
+      await RuleRetrieveService.getHomiesWithIsTmpMember(
+        userId1,
+        createdRoomId,
+        rule[0]._id.toString()
+      );
+
+    // then
+    const ruleHasTmpMember = await Rule.findById(rule[0]._id);
+    assert.notEqual(ruleHasTmpMember, null);
+    if (ruleHasTmpMember !== null) {
+      assert.equal(
+        dayjs(ruleHasTmpMember.tmpUpdatedDate).format('YYYY-MM-DD'),
+        dayjs().format('YYYY-MM-DD')
+      );
+    }
+    assert.equal(homiesWithIsTmpMember._id, rule[0]._id.toString());
+    assert.equal(homiesWithIsTmpMember.homies.length, 1);
+    assert.equal(homiesWithIsTmpMember.homies[0]._id, userId1);
+    const user1 = await User.findById(userId1).populate('typeId', 'typeColor');
+    assert.notEqual(user1, null);
+    if (user1 !== null) {
+      assert.equal(
+        homiesWithIsTmpMember.homies[0].typeColor,
+        (user1.typeId as any).typeColor
+      );
+      assert.equal(homiesWithIsTmpMember.homies[0].userName, user1.userName);
+    }
   });
 });

@@ -5,6 +5,9 @@ import { RoomJoinDto } from '../src/interfaces/room/request/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import { UserModifyResponseDto } from '../src/interfaces/user/response/UserModifyResponseDto';
 import { UserProfileResponseDto } from '../src/interfaces/user/response/UserProfileResponseDto';
+import Event from '../src/models/Event';
+import Room from '../src/models/Room';
+import RuleCategory from '../src/models/RuleCategory';
 import User from '../src/models/User';
 import RoomService from '../src/services/room/RoomService';
 import UserRetrieveService from '../src/services/user/UserRetrieveService';
@@ -120,5 +123,9 @@ describe('UserRetrieveService Tests', () => {
     assert.equal(result.typeName, '임시 디폴트');
     assert.equal(result.typeColor, 'GRAY');
     assert.equal(result.typeScore!.length, 0);
+
+    await Room.collection.drop();
+    await RuleCategory.collection.drop();
+    await Event.collection.drop();
   });
 });

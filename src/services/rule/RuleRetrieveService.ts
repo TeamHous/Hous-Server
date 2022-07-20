@@ -92,7 +92,7 @@ const getRuleByRuleId = async (
       tmpHomies.map(async (homie: any) => {
         const result = {
           _id: homie._id,
-          name: homie.userName,
+          userName: homie.userName,
           typeColor: homie.typeId.typeColor
         };
 
@@ -109,7 +109,7 @@ const getRuleByRuleId = async (
         const result = {
           homie: {
             _id: ruleMember.userId._id,
-            name: (ruleMember.userId as any).userName,
+            userName: (ruleMember.userId as any).userName,
             typeColor: (ruleMember.userId as any).typeId.typeColor
           },
           day: ruleMember.day
@@ -183,7 +183,7 @@ const getRuleCreateInfo = async (
       tmpHomies.map(async (homie: any) => {
         const result = {
           _id: homie._id,
-          name: homie.userName,
+          userName: homie.userName,
           typeColor: homie.typeId.typeColor
         };
 

@@ -12,6 +12,6 @@ export interface RuleCategories {
 
 export interface Homies {
   _id: mongoose.Types.ObjectId;
-  name: string;
+  userName: string;
   typeColor: string;
 }

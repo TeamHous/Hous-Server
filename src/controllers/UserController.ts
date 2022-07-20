@@ -258,7 +258,7 @@ const deleteUser = async (
 };
 
 /**
- * @route GET /user/me/type/:typeId
+ * @route GET /user/me/type
  * @desc Get my type detail
  * @access Private
  */
@@ -284,7 +284,7 @@ const getMyTypeDetail = async (
 };
 
 /**
- * @route GET /user/:userId/type/:typeId
+ * @route GET /user/:userId/type
  * @desc Get homie type detail
  * @access Private
  */

@@ -198,14 +198,14 @@ const getRoomInfoAtHome = async (
     await Promise.all(
       tmpRuleList.map(async (rule: any) => {
         await Promise.all(
-          rule.tmpRuleMembers.map(async (member: any) => {
+          rule.tmpRuleMembers.map(async (memberId: any) => {
             // tmpUpdateDate가 오늘인데 userId가 있으면 나는 오늘 임시담당자
             const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate).format(
               'YYYY-MM-DD'
             );
             if (
-              member.userId !== null &&
-              member.userId.toString() === userId &&
+              memberId !== null &&
+              memberId.toString() === userId &&
               tmpUpdatedDate === dayjs().format('YYYY-MM-DD')
             ) {
               todoRuleMembers.push(

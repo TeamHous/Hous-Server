@@ -14,6 +14,7 @@ import Room from '../../models/Room';
 import Rule from '../../models/Rule';
 import User from '../../models/User';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
+import limitNum from '../../modules/limitNum';
 import message from '../../modules/responseMessage';
 import statusCode from '../../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
@@ -94,10 +95,12 @@ const getRoomInfoAtHome = async (
       isKeyRules: true
     }).sort({ createdAt: 'asc' });
 
-    const keyRulesList: string[] = await Promise.all(
-      tmpKeyRulesList.map(async (keyRule: any) => {
-        return keyRule.ruleName;
-      })
+    let keyRulesList: string[] = await Promise.all(
+      tmpKeyRulesList
+        .slice(0, limitNum.KEY_RULES_AT_HOME_MAX_LENGTH)
+        .map(async (keyRule: any) => {
+          return keyRule.ruleName;
+        })
     );
 
     // Events 조회
@@ -227,11 +230,11 @@ const getRoomInfoAtHome = async (
     );
 
     // 규칙 리스트에서 시간 데이터 삭제
-    const todoList: TodoResponseDto[] = todoListWithDate.map(
-      ({ createdAt, ...rest }) => {
+    let todoList: TodoResponseDto[] = todoListWithDate
+      .slice(0, limitNum.RULES_AT_HOME_MAX_LENGTH)
+      .map(({ createdAt, ...rest }) => {
         return rest;
-      }
-    );
+      });
 
     const data: HomeResponseDto = {
       eventList: eventList,

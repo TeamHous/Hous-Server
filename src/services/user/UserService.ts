@@ -161,18 +161,25 @@ const updateUserTypeScore = async (
       }
     });
 
-    const typeId = await UserServiceUtils.getTypeIdByTotalTypeScore(
+    const type = await UserServiceUtils.getTypeIdByTotalTypeScore(
       totalTypeScore
     );
 
+    if (!type) {
+      throw errorGenerator({
+        msg: message.NOT_FOUND_TYPE,
+        statusCode: statusCode.NOT_FOUND
+      });
+    }
+
     await user.updateOne({
-      typeId: typeId,
+      typeId: type._id,
       typeScore: userTypeTestDto.typeScore
     });
 
     const data: TypeTestResponseDto = {
       _id: user._id,
-      typeId: user.typeId,
+      typeId: type._id,
       typeScore: userTypeTestDto.typeScore
     };
 

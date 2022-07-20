@@ -210,12 +210,6 @@ const getRuleCreateInfo = async (
         return rest;
       });
 
-    // const homies: Homies[] = homiesWithDate.map(
-    //   ({ typeUpdatedDate, ...rest }) => {
-    //     return rest;
-    //   }
-    // );
-
     const data: RuleCreateInfoResponseDto = {
       ruleCategories: ruleCategories,
       homies: homies

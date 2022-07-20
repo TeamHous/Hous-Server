@@ -7,6 +7,7 @@ import { UserModifyResponseDto } from '../src/interfaces/user/response/UserModif
 import { UserProfileResponseDto } from '../src/interfaces/user/response/UserProfileResponseDto';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
+import Rule from '../src/models/Rule';
 import RuleCategory from '../src/models/RuleCategory';
 import User from '../src/models/User';
 import RoomService from '../src/services/room/RoomService';
@@ -127,5 +128,6 @@ describe('UserRetrieveService Tests', () => {
     await Room.collection.drop();
     await RuleCategory.collection.drop();
     await Event.collection.drop();
+    await Rule.collection.drop();
   });
 });

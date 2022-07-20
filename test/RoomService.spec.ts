@@ -6,6 +6,7 @@ import { RoomJoinDto } from '../src/interfaces/room/request/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
+import Rule from '../src/models/Rule';
 import RuleCategory from '../src/models/RuleCategory';
 import User from '../src/models/User';
 import RoomService from '../src/services/room/RoomService';
@@ -18,6 +19,7 @@ describe('RoomService Tests', () => {
     await Room.collection.drop();
     await RuleCategory.collection.drop();
     await Event.collection.drop();
+    await Rule.collection.drop();
   });
   it('createRoom test', async () => {
     // given

@@ -422,7 +422,7 @@ const getHomiesWithIsTmpMember = async (
 
           for (const member of rule.ruleMembers) {
             if (
-              member.userId.equals(homie._id) &&
+              homie._id.equals(member.userId) &&
               member.day.includes(dayjs().day())
             ) {
               isChecked = true;

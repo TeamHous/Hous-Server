@@ -6,6 +6,7 @@ import {
 } from '../../interfaces/rule/response/HomiesWithIsTmpMemberResponseDto';
 import {
   Homies,
+  HomiesWithDate,
   RuleCategories,
   RuleCreateInfoResponseDto
 } from '../../interfaces/rule/response/RuleCreateInfoResponseDto';
@@ -177,18 +178,39 @@ const getRuleCreateInfo = async (
 
     const tmpHomies = await User.find({
       roomId: roomId
-    }).populate('typeId', 'typeColor');
+    })
+      .populate('typeId', 'typeColor')
+      .sort({ typeUpdatedDate: 1 });
 
-    const homies: Homies[] = await Promise.all(
+    const HomiesWithDate: HomiesWithDate[] = [];
+    const HomiesWithNullDate: HomiesWithDate[] = [];
+    await Promise.all(
       tmpHomies.map(async (homie: any) => {
-        const result = {
-          _id: homie._id,
-          userName: homie.userName,
-          typeColor: homie.typeId.typeColor
-        };
-
-        return result;
+        if (homie.typeUpdatedDate != null) {
+          HomiesWithDate.push({
+            _id: homie._id,
+            userName: homie.userName,
+            typeColor: homie.typeId.typeColor,
+            typeUpdatedDate: homie.typeUpdatedDate
+          });
+        } else {
+          HomiesWithNullDate.push({
+            _id: homie._id,
+            userName: homie.userName,
+            typeColor: homie.typeId.typeColor,
+            typeUpdatedDate: homie.typeUpdatedDate
+          });
+        }
       })
+    );
+
+    const homiesWithDate: HomiesWithDate[] =
+      HomiesWithDate.concat(HomiesWithNullDate);
+
+    const homies: Homies[] = homiesWithDate.map(
+      ({ typeUpdatedDate, ...rest }) => {
+        return rest;
+      }
     );
 
     const data: RuleCreateInfoResponseDto = {

@@ -114,7 +114,7 @@ const getHomieProfile = async (
         statusCode: statusCode.FORBIDDEN
       });
     }
-    const homieInfo = await User.findById(userId).populate(
+    const homieInfo = await User.findById(homieId).populate(
       'typeId',
       'typeName typeColor'
     );

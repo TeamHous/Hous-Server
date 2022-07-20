@@ -26,14 +26,7 @@ const findTypeById = async (typeId: string) => {
   return type;
 };
 
-const getTypeIdByTotalTypeScore = async (totalTypeScore: number) => {
-  if (totalTypeScore < 15 && totalTypeScore > 46) {
-    throw errorGenerator({
-      msg: message.NOT_FOUND_TYPE,
-      statusCode: statusCode.NOT_FOUND
-    });
-  }
-
+const getTypeByTotalTypeScore = async (totalTypeScore: number) => {
   // 타입 점수에 따른 type._id return
   if (totalTypeScore >= 15 && totalTypeScore <= 20) {
     return await Type.findOne({ typeColor: 'YELLOW' }, { _id: 1 });
@@ -45,11 +38,13 @@ const getTypeIdByTotalTypeScore = async (totalTypeScore: number) => {
     return await Type.findOne({ typeColor: 'PURPLE' }, { _id: 1 });
   } else if (totalTypeScore >= 40 && totalTypeScore <= 45) {
     return await Type.findOne({ typeColor: 'GREEN' }, { _id: 1 });
+  } else {
+    return null;
   }
 };
 
 export default {
   findUserById,
   findTypeById,
-  getTypeIdByTotalTypeScore
+  getTypeByTotalTypeScore
 };

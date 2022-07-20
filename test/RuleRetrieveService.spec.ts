@@ -3,6 +3,7 @@ import { afterEach } from 'mocha';
 import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import { RuleCreateDto } from '../src/interfaces/rule/request/RuleCreateDto';
+import { RuleCreateInfoResponseDto } from '../src/interfaces/rule/response/RuleCreateInfoResponseDto';
 import { RuleMyTodoResponseDto } from '../src/interfaces/rule/response/RuleMyTodoResponseDto';
 import { RuleReadInfoResponseDto } from '../src/interfaces/rule/response/RuleReadInfoResponseDto';
 import { RuleResponseDto } from '../src/interfaces/rule/response/RuleResponseDto';
@@ -134,20 +135,17 @@ describe('RuleRetrieveService Tests', () => {
     )._id.toString();
     const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
     const createdRoomId: string = createdRoom._id.toString();
-    const createdRuleCategory1 = await RuleCategory.find({
-      roomId: createdRoomId
-    });
     const ruleCategoryCreateDto: RuleCategoryCreateDto = {
       categoryName: '분리수거 테스트 카테고리',
       categoryIcon: 'TRASH'
     };
-    const createRuledCategory2: RuleCategoryResponseDto =
+    const createRuledCategory: RuleCategoryResponseDto =
       await RuleService.createRuleCategory(
         userId1,
         createdRoomId,
         ruleCategoryCreateDto
       );
-    const createdRuleCategoryId2: string = createRuledCategory2._id.toString();
+    const createdRuleCategoryId2: string = createRuledCategory._id.toString();
     const createRuleDto: RuleCreateDto = {
       notificationState: false,
       ruleName: '테스트규칙',
@@ -183,6 +181,50 @@ describe('RuleRetrieveService Tests', () => {
     });
     keyRulesByCategoryId.forEach((keyRule: any) => {
       assert.equal(keyRule.categoryId, createdRuleCategoryId2);
+    });
+  });
+  it('getRuleCreateInfo test', async () => {
+    // given
+    const signupDto1: SignupDto = {
+      email: 'test1@gmail.com',
+      password: 'password',
+      userName: '테스트유저',
+      gender: '남자',
+      fcmToken: '테스트토큰'
+    };
+    const userId1: string = (
+      await UserService.createUser(signupDto1)
+    )._id.toString();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
+    const createdRoomId: string = createdRoom._id.toString();
+    const ruleCategoryCreateDto: RuleCategoryCreateDto = {
+      categoryName: '청소 테스트 카테고리',
+      categoryIcon: 'CLEAN'
+    };
+
+    // when
+    await RuleService.createRuleCategory(
+      userId1,
+      createdRoomId,
+      ruleCategoryCreateDto
+    );
+
+    const ruleCreateInfo: RuleCreateInfoResponseDto =
+      await RuleRetrieveService.getRuleCreateInfo(userId1, createdRoomId);
+
+    // then
+    const homieWithRoomId = await User.find({
+      roomId: createdRoomId
+    });
+    homieWithRoomId.forEach((homie: any) => {
+      assert.equal(homie.roomId, createdRoomId);
+    });
+    ruleCreateInfo.ruleCategories.forEach(async (category: any) => {
+      const ruleCategory = await RuleCategory.find({
+        _id: category._id
+      });
+      assert.equal(ruleCategory.length, 1);
+      assert.equal(ruleCategory[0].roomId, createdRoomId);
     });
   });
 });

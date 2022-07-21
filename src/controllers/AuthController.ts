@@ -69,7 +69,7 @@ const login = async (
     const data: PostBaseResponseDto = await AuthService.login(LoginDto);
 
     const accessToken: string = getToken(data._id);
-
+    
     return res
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.LOGIN_SUCCESS, accessToken));

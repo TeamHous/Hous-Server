@@ -16,18 +16,18 @@ jobs:
       - name: Checkout source code.
         uses: actions/checkout@v2
 
-      # - name: create test env file
-      #   working-directory: ./
-      #   run: |
-      #     touch .env
-      #     echo NODE_ENV=test >> .env
-      #     echo PORT=${{ secrets.PORT }} >> .env
-      #     echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
-      #     echo MONGODB_DEV_URI=${{ secrets.MONGODB_DEV_URI }} >> .env
-      #     echo MONGODB_TEST_URI=${{ secrets.MONGODB_TEST_URI }} >> .env
-      #     echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-      #     echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
-      #     echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
+      - name: create test env file
+        working-directory: ./
+        run: |
+          touch .env
+          echo NODE_ENV=test >> .env
+          echo PORT=${{ secrets.PORT }} >> .env
+          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
+          echo MONGODB_DEV_URI=${{ secrets.MONGODB_DEV_URI }} >> .env
+          echo MONGODB_TEST_URI=${{ secrets.MONGODB_TEST_URI }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
+          echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
 
       # - name: test
       #   working-directory: ./
@@ -49,4 +49,5 @@ jobs:
           echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
           echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
 
+          yarn
           yarn run build

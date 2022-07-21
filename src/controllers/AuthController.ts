@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import errorGenerator from '../errors/errorGenerator';
 import { LoginDto } from '../interfaces/auth/request/LoginDto';
 import { SignupDto } from '../interfaces/auth/request/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/response/PostBaseResponseDto';
@@ -70,10 +69,7 @@ const login = async (
     const data: PostBaseResponseDto = await AuthService.login(LoginDto);
 
     const accessToken: string = getToken(data._id);
-    throw errorGenerator({
-      msg: message.INTERNAL_SERVER_ERROR,
-      statusCode: statusCode.INTERNAL_SERVER_ERROR
-    });
+    
     return res
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.LOGIN_SUCCESS, accessToken));

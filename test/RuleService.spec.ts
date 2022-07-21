@@ -5,6 +5,9 @@ import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto
 import { RuleCreateDto } from '../src/interfaces/rule/request/RuleCreateDto';
 import { RuleUpdateDto } from '../src/interfaces/rule/request/RuleUpdateDto';
 import { RuleResponseDto } from '../src/interfaces/rule/response/RuleResponseDto';
+import { RuleCategoryCreateDto } from '../src/interfaces/rulecategory/request/RuleCategoryCreateDto';
+import { RuleCategoryUpdateDto } from '../src/interfaces/rulecategory/request/RuleCategoryUpdateDto';
+import { RuleCategoryResponseDto } from '../src/interfaces/rulecategory/response/RuleCategoryResponseDto';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
 import Rule from '../src/models/Rule';
@@ -144,5 +147,151 @@ describe('RuleService Tests', () => {
     // then
     const deletedRule = await Rule.findById(createdRule._id);
     assert.equal(deletedRule, null);
+  });
+  it('createRuleCategory test', async () => {
+    // given
+    const signupDto1: SignupDto = {
+      email: 'test1@gmail.com',
+      password: 'password',
+      userName: '테스트유저',
+      gender: '남자',
+      fcmToken: '테스트토큰'
+    };
+    const userId1: string = (
+      await UserService.createUser(signupDto1)
+    )._id.toString();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
+    const createdRoomId: string = createdRoom._id.toString();
+    const ruleCategoryCreateDto: RuleCategoryCreateDto = {
+      categoryName: '청소 테스트 카테고리',
+      categoryIcon: 'CLEAN'
+    };
+
+    // when
+    const ruleCategory: RuleCategoryResponseDto =
+      await RuleService.createRuleCategory(
+        userId1,
+        createdRoomId,
+        ruleCategoryCreateDto
+      );
+
+    // then
+    assert.equal(ruleCategory.roomId.toString(), createdRoomId);
+    assert.equal(ruleCategory.ruleCategoryName, '청소 테스트 카테고리');
+    assert.equal(ruleCategory.ruleCategoryIcon, 'CLEAN');
+    assert.equal(ruleCategory.ruleCnt, 0);
+  });
+  it('updateRuleCategory test', async () => {
+    // given
+    const signupDto1: SignupDto = {
+      email: 'test1@gmail.com',
+      password: 'password',
+      userName: '테스트유저',
+      gender: '남자',
+      fcmToken: '테스트토큰'
+    };
+    const userId1: string = (
+      await UserService.createUser(signupDto1)
+    )._id.toString();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
+    const createdRoomId: string = createdRoom._id.toString();
+    const ruleCategoryCreateDto: RuleCategoryCreateDto = {
+      categoryName: '청소 테스트 카테고리',
+      categoryIcon: 'CLEAN'
+    };
+    const createRuleCategory: RuleCategoryResponseDto =
+      await RuleService.createRuleCategory(
+        userId1,
+        createdRoomId,
+        ruleCategoryCreateDto
+      );
+    const createdRuleCategoryId: string = createRuleCategory._id.toString();
+    const ruleCategoryUpdateDto: RuleCategoryUpdateDto = {
+      categoryName: '분리수거 테스트 카테고리',
+      categoryIcon: 'TRASH'
+    };
+
+    // when
+    const updateRuleCategory: RuleCategoryResponseDto =
+      await RuleService.updateRuleCategory(
+        userId1,
+        createdRoomId,
+        createdRuleCategoryId,
+        ruleCategoryUpdateDto
+      );
+
+    // then
+    assert.equal(updateRuleCategory.roomId.toString(), createdRoomId);
+    assert.equal(
+      updateRuleCategory.ruleCategoryName,
+      '분리수거 테스트 카테고리'
+    );
+    assert.equal(updateRuleCategory.ruleCategoryIcon, 'TRASH');
+    assert.equal(updateRuleCategory.ruleCnt, 0);
+  });
+  it('deleteRuleCategory test', async () => {
+    // given
+    const signupDto1: SignupDto = {
+      email: 'test1@gmail.com',
+      password: 'password',
+      userName: '테스트유저',
+      gender: '남자',
+      fcmToken: '테스트토큰'
+    };
+    const userId1: string = (
+      await UserService.createUser(signupDto1)
+    )._id.toString();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId1);
+    const createdRoomId: string = createdRoom._id.toString();
+    const ruleCategoryCreateDto: RuleCategoryCreateDto = {
+      categoryName: '청소 테스트 카테고리',
+      categoryIcon: 'CLEAN'
+    };
+    const createRuleCategory: RuleCategoryResponseDto =
+      await RuleService.createRuleCategory(
+        userId1,
+        createdRoomId,
+        ruleCategoryCreateDto
+      );
+    const createdRuleCategoryId: string = createRuleCategory._id.toString();
+    const ruleCreateDto1: RuleCreateDto = {
+      notificationState: false,
+      ruleName: '테스트 규칙1',
+      categoryId: createdRuleCategoryId,
+      isKeyRules: true,
+      ruleMembers: []
+    };
+    const ruleCreateDto2: RuleCreateDto = {
+      notificationState: false,
+      ruleName: '테스트 규칙2',
+      categoryId: createdRuleCategoryId,
+      isKeyRules: true,
+      ruleMembers: []
+    };
+    const createdRule1: RuleResponseDto = await RuleService.createRule(
+      userId1,
+      createdRoomId,
+      ruleCreateDto1
+    );
+    const createdRule2: RuleResponseDto = await RuleService.createRule(
+      userId1,
+      createdRoomId,
+      ruleCreateDto2
+    );
+
+    // when
+    await RuleService.deleteRuleCategory(
+      userId1,
+      createdRoomId,
+      createdRuleCategoryId
+    );
+
+    // then
+    const deletedRuleCategory = await RuleCategory.findById(
+      createdRuleCategoryId
+    );
+    const deletedRules = await Rule.find({ categoryId: createdRuleCategoryId });
+    assert.equal(deletedRuleCategory, null);
+    assert.equal(deletedRules.length, 0);
   });
 });

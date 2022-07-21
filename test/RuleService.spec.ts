@@ -232,16 +232,8 @@ describe('RuleService Tests', () => {
       isKeyRules: true,
       ruleMembers: []
     };
-    const createdRule1: RuleResponseDto = await RuleService.createRule(
-      userId1,
-      createdRoomId,
-      ruleCreateDto1
-    );
-    const createdRule2: RuleResponseDto = await RuleService.createRule(
-      userId1,
-      createdRoomId,
-      ruleCreateDto2
-    );
+    await RuleService.createRule(userId1, createdRoomId, ruleCreateDto1);
+    await RuleService.createRule(userId1, createdRoomId, ruleCreateDto2);
 
     // when
     await RuleService.deleteRuleCategory(

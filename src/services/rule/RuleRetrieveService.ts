@@ -327,7 +327,7 @@ const getRulesByCategoryId = async (
             _id: tmpRule._id,
             ruleName: tmpRule.ruleName,
             ruleCreatedDate: tmpRule.createdAt, // 정렬용으로만 사용해서 +9시간 생략
-            membersCnt: tmpRule.ruleMembers.length,
+            membersCnt: typeColorsAllWithDate.length,
             typeColors: typeColors
           };
 

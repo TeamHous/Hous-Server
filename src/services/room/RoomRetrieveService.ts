@@ -14,6 +14,7 @@ import Room from '../../models/Room';
 import Rule from '../../models/Rule';
 import User from '../../models/User';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
+import limitNum from '../../modules/limitNum';
 import message from '../../modules/responseMessage';
 import statusCode from '../../modules/statusCode';
 import RoomServiceUtils from './RoomServiceUtils';
@@ -94,10 +95,12 @@ const getRoomInfoAtHome = async (
       isKeyRules: true
     }).sort({ createdAt: 'asc' });
 
-    const keyRulesList: string[] = await Promise.all(
-      tmpKeyRulesList.map(async (keyRule: any) => {
-        return keyRule.ruleName;
-      })
+    let keyRulesList: string[] = await Promise.all(
+      tmpKeyRulesList
+        .slice(0, limitNum.KEY_RULES_AT_HOME_MAX_LENGTH)
+        .map(async (keyRule: any) => {
+          return keyRule.ruleName;
+        })
     );
 
     // Events 조회
@@ -127,19 +130,31 @@ const getRoomInfoAtHome = async (
     // Homie 조회
     const tmpHomies = await User.find({
       roomId: roomId
-    }).populate('typeId', 'typeName typeColor');
+    })
+      .populate('typeId', 'typeName typeColor')
+      .sort({ typeUpdatedDate: 1 });
 
     const myProfile: HomieProfileResponseDto[] = [];
     const homieProfile: HomieProfileResponseDto[] = [];
+    const homieProfileNoDate: HomieProfileResponseDto[] = [];
     await Promise.all(
       tmpHomies.map(async (homie: any) => {
         if (homie._id.toString() !== userId) {
-          homieProfile.push({
-            _id: homie._id,
-            userName: homie.userName,
-            typeName: homie.typeId.typeName,
-            typeColor: homie.typeId.typeColor
-          });
+          if (homie.typeUpdatedDate === null) {
+            homieProfileNoDate.push({
+              _id: homie._id,
+              userName: homie.userName,
+              typeName: homie.typeId.typeName,
+              typeColor: homie.typeId.typeColor
+            });
+          } else {
+            homieProfile.push({
+              _id: homie._id,
+              userName: homie.userName,
+              typeName: homie.typeId.typeName,
+              typeColor: homie.typeId.typeColor
+            });
+          }
         } else {
           myProfile.push({
             _id: homie._id,
@@ -151,7 +166,9 @@ const getRoomInfoAtHome = async (
       })
     );
 
-    const allHomieProfile = myProfile.concat(homieProfile);
+    const allHomieProfile = myProfile
+      .concat(homieProfile)
+      .concat(homieProfileNoDate);
 
     // to-do 체크 여부 포함 조회
     const today = dayjs().day();
@@ -184,14 +201,14 @@ const getRoomInfoAtHome = async (
     await Promise.all(
       tmpRuleList.map(async (rule: any) => {
         await Promise.all(
-          rule.tmpRuleMembers.map(async (member: any) => {
+          rule.tmpRuleMembers.map(async (memberId: any) => {
             // tmpUpdateDate가 오늘인데 userId가 있으면 나는 오늘 임시담당자
             const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate).format(
               'YYYY-MM-DD'
             );
             if (
-              member.userId !== null &&
-              member.userId.toString() === userId &&
+              memberId !== null &&
+              memberId.toString() === userId &&
               tmpUpdatedDate === dayjs().format('YYYY-MM-DD')
             ) {
               todoRuleMembers.push(
@@ -213,11 +230,11 @@ const getRoomInfoAtHome = async (
     );
 
     // 규칙 리스트에서 시간 데이터 삭제
-    const todoList: TodoResponseDto[] = todoListWithDate.map(
-      ({ createdAt, ...rest }) => {
+    let todoList: TodoResponseDto[] = todoListWithDate
+      .slice(0, limitNum.RULES_AT_HOME_MAX_LENGTH)
+      .map(({ createdAt, ...rest }) => {
         return rest;
-      }
-    );
+      });
 
     const data: HomeResponseDto = {
       eventList: eventList,

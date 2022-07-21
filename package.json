@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "test": "mocha test/*.ts --timeout 10000 -exit -r ts-node/register"
+    "test": "NODE_ENV=test mocha test/*.ts --timeout 10000 -exit -r ts-node/register"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +26,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.1.0",
+    "husky": "^8.0.1",
     "nodemon": "^2.0.15",
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4"

@@ -3,8 +3,10 @@ import { afterEach } from 'mocha';
 import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
 import { RoomJoinDto } from '../src/interfaces/room/request/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
+import { TypeTestDto } from '../src/interfaces/type/request/TypeTestDto';
 import { UserModifyResponseDto } from '../src/interfaces/user/response/UserModifyResponseDto';
 import { UserProfileResponseDto } from '../src/interfaces/user/response/UserProfileResponseDto';
+import { UserSettingResponseDto } from '../src/interfaces/user/response/UserSettingResponseDto';
 import Event from '../src/models/Event';
 import Room from '../src/models/Room';
 import Rule from '../src/models/Rule';
@@ -98,6 +100,53 @@ describe('UserRetrieveService Tests', () => {
     await RuleCategory.collection.drop();
     await Event.collection.drop();
     await Rule.collection.drop();
+  });
+
+  it('getUserSetting test', async () => {
+    // given
+    const given = await createUser('test1@gmail.com');
+
+    // when
+    const result: UserSettingResponseDto =
+      await UserRetrieveService.getUserSetting(given.userId);
+
+    // then
+    assert.equal(result.notificationState, true); // default notification
+  });
+
+  it('getMyTypeDetail test', async () => {
+    // given
+    const given = await createUser('test1@gmail.com');
+    const userTypeTestDto: TypeTestDto = {
+      typeScore: [8, 8, 5, 3, 9]
+    };
+    await UserService.updateUserTypeScore(given.userId, userTypeTestDto);
+
+    // when
+    const result = await UserRetrieveService.getTypeDetail(given.userId);
+
+    // then
+    assert.equal(result.userName, '테스트유저');
+    assert.equal(result.typeName, '룸메 맞춤형 네각이');
+    assert.equal(result.typeColor, 'BLUE');
+    assert.equal(
+      result.typeImg,
+      'https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_blue.png'
+    );
+    assert.equal(result.typeOneComment, '함께 고민해보자 :)');
+    assert.equal(result.typeDesc.length !== 0, true);
+    assert.equal(result.typeRulesTitle, '네각이와 함께 정하면 좋은 Rule!');
+    assert.equal(result.typeRules.length, 2);
+    assert.equal(result.good.typeName, '하이레벨 오각이');
+    assert.equal(
+      result.good.typeImg,
+      'https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_purple.png'
+    );
+    assert.equal(result.bad.typeName, '늘 행복한 동글이');
+    assert.equal(
+      result.bad.typeImg,
+      'https://team-hous.s3.ap-northeast-2.amazonaws.com/Type/color/type_yellow.png'
+    );
   });
 });
 

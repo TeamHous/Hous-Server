@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { logger } from '../config/logger';
+import errorGenerator from '../errors/errorGenerator';
 import { LoginDto } from '../interfaces/auth/request/LoginDto';
 import { SignupDto } from '../interfaces/auth/request/SignupDto';
 import { PostBaseResponseDto } from '../interfaces/common/response/PostBaseResponseDto';
@@ -9,8 +9,6 @@ import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import { AuthService, UserService } from '../services';
-
-const TAG = 'AuthController';
 
 /**
  *  @route POST /auth/signup
@@ -24,8 +22,6 @@ const signup = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -61,8 +57,6 @@ const login = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -76,7 +70,10 @@ const login = async (
     const data: PostBaseResponseDto = await AuthService.login(LoginDto);
 
     const accessToken: string = getToken(data._id);
-
+    throw errorGenerator({
+      msg: message.INTERNAL_SERVER_ERROR,
+      statusCode: statusCode.INTERNAL_SERVER_ERROR
+    });
     return res
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.LOGIN_SUCCESS, accessToken));

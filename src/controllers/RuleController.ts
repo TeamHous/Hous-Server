@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { logger } from '../config/logger';
 import { RuleCreateDto } from '../interfaces/rule/request/RuleCreateDto';
 import { RuleTodoCheckUpdateDto } from '../interfaces/rule/request/RuleTodoCheckUpdateDto';
 import { RuleUpdateDto } from '../interfaces/rule/request/RuleUpdateDto';
@@ -21,8 +20,6 @@ import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import { RuleRetrieveService, RuleService } from '../services';
 
-const TAG = 'RuleController';
-
 /**
  *  @route POST /room/:roomId/rule
  *  @desc Create Rule
@@ -35,8 +32,6 @@ const createRule = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -102,8 +97,6 @@ const updateRule = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -167,8 +160,6 @@ const createRuleCategory = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -213,8 +204,6 @@ const updateRuleCategory = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -379,7 +368,11 @@ const updateTmpRuleMembers = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(
+        util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST, errors.array())
+      );
   }
 
   const userId: string = req.body.user._id;
@@ -448,8 +441,6 @@ const updateMyRuleTodoCheck = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(

@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { logger } from '../config/logger';
 import { TypeTestDto } from '../interfaces/type/request/TypeTestDto';
 import { TypeDetailResponseDto } from '../interfaces/type/response/TypeDetailResponseDto';
 import { UserUpdateDto } from '../interfaces/user/request/UserUpdateDto';
@@ -18,8 +17,6 @@ import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import { UserService } from '../services';
 import UserRetrieveService from '../services/user/UserRetrieveService';
-
-const TAG = 'UserController';
 
 /**
  * @route GET /user/profile
@@ -81,8 +78,6 @@ const updateUser = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -144,8 +139,6 @@ const updateUserNotificationState = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -216,8 +209,6 @@ const updateUserTypeScore = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(

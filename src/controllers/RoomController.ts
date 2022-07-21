@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
 import mongoose from 'mongoose';
-import { logger } from '../config/logger';
 import { PostBaseResponseDto } from '../interfaces/common/response/PostBaseResponseDto';
 import { RoomJoinDto } from '../interfaces/room/request/RoomJoinDto';
 import { HomeResponseDto } from '../interfaces/room/response/HomeResponseDto';
@@ -11,8 +10,6 @@ import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import { RoomRetrieveService, RoomService } from '../services';
-
-const TAG = 'RoomController';
 
 /**
  *  @route GET /room
@@ -75,8 +72,6 @@ const getRoomAndUserByRoomCode = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(
@@ -114,8 +109,6 @@ const joinRoom = async (
 ): Promise<void | Response> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    logger.debug(`${TAG} 400 에러 일 때, req.body`);
-    logger.debug(req.body);
     return res
       .status(statusCode.BAD_REQUEST)
       .send(

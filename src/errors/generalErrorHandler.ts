@@ -31,7 +31,6 @@ const generalErrorHandler: ErrorRequestHandler = (
         ]
       };
       slackAlarm.sendMessage(message);
-      logger.error(`[statusCode: ${err.statusCode}] message: ${err.message}`);
     }
     return res.status(500).send(util.fail(500, messages.INTERNAL_SERVER_ERROR));
   } else {

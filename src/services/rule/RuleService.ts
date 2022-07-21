@@ -82,7 +82,7 @@ const createRule = async (
         checkValidUtils.checkDayNumber(day);
       });
       // ruleMember.userId가 undefined 인지 확인
-      if (!ruleMember.userId) {
+      if (ruleMember.userId === undefined) {
         throw errorGenerator({
           msg: message.BAD_REQUEST,
           statusCode: statusCode.BAD_REQUEST

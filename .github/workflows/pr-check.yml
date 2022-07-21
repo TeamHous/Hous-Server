@@ -29,11 +29,11 @@ jobs:
           echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
           echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
 
-      - name: test
-        working-directory: ./
-        run: |
-          yarn
-          yarn test
+      # - name: test
+      #   working-directory: ./
+      #   run: |
+      #     yarn
+      #     yarn test
 
       - name: build server files
         working-directory: ./
@@ -49,4 +49,5 @@ jobs:
           echo JWT_ALGO=${{ secrets.JWT_ALGO }} >> .env
           echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
 
+          yarn
           yarn run build

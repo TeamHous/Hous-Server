@@ -671,12 +671,14 @@ const getRuleInfoAtRuleHome = async (
         const originalTodayMembers: string[] = [];
         await Promise.all(
           rule.ruleMembers.map(async (ruleMember: any) => {
-            if (ruleMember.day.includes(dayjs().day())) {
-              originalTodayMembers.push(ruleMember.userId);
+            if (
+              ruleMember.day.includes(dayjs().day()) &&
+              ruleMember.userId != null
+            ) {
+              originalTodayMembers.push(ruleMember.userId.toString());
             }
           })
         );
-
         let isTmpMember = false;
         const todayMembersWithTypeColorWithDate: TodayMembersWithTypeColorWithDate[] =
           [];
@@ -697,7 +699,7 @@ const getRuleInfoAtRuleHome = async (
             rule.tmpRuleMembers.map(async (tmpMember: any) => {
               const checks = await Check.find({
                 ruleId: rule._id,
-                userId: tmpMember.userId
+                userId: tmpMember._id
               });
 
               let isChecked: boolean = false;
@@ -727,7 +729,7 @@ const getRuleInfoAtRuleHome = async (
               // 오늘의 임시 담당자와 고정 담당자 비교
               if (
                 !isTmpMember &&
-                !originalTodayMembers.includes(tmpMember.toString())
+                !originalTodayMembers.includes(tmpMember._id.toString())
               ) {
                 isTmpMember = true;
               }

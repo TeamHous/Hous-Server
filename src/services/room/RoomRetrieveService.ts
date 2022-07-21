@@ -124,7 +124,7 @@ const getRoomInfoAtHome = async (
     );
 
     eventList.sort((before, current) => {
-      return before.dDay < current.dDay ? 1 : -1;
+      return before.dDay > current.dDay ? 1 : -1;
     });
 
     // Homie 조회

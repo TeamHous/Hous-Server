@@ -81,12 +81,19 @@ const createRule = async (
         // 선택된 요일이 전부 0~6 값이 아닌 경우 -> 에러
         checkValidUtils.checkDayNumber(day);
       });
+      // ruleMember.userId가 undefined 인지 확인
+      if (!ruleMember.userId) {
+        throw errorGenerator({
+          msg: message.BAD_REQUEST,
+          statusCode: statusCode.BAD_REQUEST
+        });
+      }
       // userId가 ObjectId 형식인지 확인
-      if (userId != null) {
-        checkObjectIdValidation(userId);
+      if (ruleMember.userId != null) {
+        checkObjectIdValidation(ruleMember.userId);
       }
       // 담당자가 체크됐는데 요일 선택 1개 이상 안 된 경우 -> 에러
-      if (userId != null && ruleMember.day.length == 0) {
+      if (ruleMember.userId != null && ruleMember.day.length == 0) {
         throw errorGenerator({
           msg: message.BAD_REQUEST,
           statusCode: statusCode.BAD_REQUEST

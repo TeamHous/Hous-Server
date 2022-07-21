@@ -13,10 +13,8 @@ const getTypeTestInfo = async (
     // 유저 존재 확인
     await TypeServiceUtils.findUserById(userId);
 
-    const typeTests: TypeTestInfo[] = await TypeTest.find();
-
-    typeTests.sort((before, current) => {
-      return before.testNum - current.testNum ? 1 : -1;
+    const typeTests: TypeTestInfo[] = await TypeTest.find().sort({
+      testNum: 1
     });
 
     const data: TypeTestInfoResponseDto = {

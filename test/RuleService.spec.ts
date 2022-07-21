@@ -31,119 +31,83 @@ describe('RuleService Tests', () => {
   });
   it('createRule test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
-    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId);
-    const createdRoomId: string = createdRoom._id.toString();
-    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
+    const given = await createUserAndRoom();
     const ruleCreateDto: RuleCreateDto = {
       notificationState: false,
       ruleName: '테스트 규칙',
-      categoryId: createdCategory[0]._id.toString(),
+      categoryId: given.createdCategory[0]._id.toString(),
       isKeyRules: true,
       ruleMembers: []
     };
 
     // when
     const rule: RuleResponseDto = await RuleService.createRule(
-      userId,
-      createdRoomId,
+      given.userId,
+      given.createdRoomId,
       ruleCreateDto
     );
 
     // then
-    assert.equal(rule.roomId.toString(), createdRoomId);
+    assert.equal(rule.roomId.toString(), given.createdRoomId);
     assert.equal(rule.ruleName, '테스트 규칙');
     assert.equal(rule.isKeyRules, true);
   });
   it('updateRule test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
-    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId);
-    const createdRoomId: string = createdRoom._id.toString();
-    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
+    const given = await createUserAndRoom();
     const ruleCreateDto: RuleCreateDto = {
       notificationState: false,
       ruleName: '테스트 규칙',
-      categoryId: createdCategory[0]._id.toString(),
+      categoryId: given.createdCategory[0]._id.toString(),
       isKeyRules: true,
       ruleMembers: []
     };
     const createdRule: RuleResponseDto = await RuleService.createRule(
-      userId,
-      createdRoomId,
+      given.userId,
+      given.createdRoomId,
       ruleCreateDto
     );
     const ruleUpdateDto: RuleUpdateDto = {
       notificationState: false,
       ruleName: '테스트 규칙 수정',
-      categoryId: createdCategory[0]._id.toString(),
+      categoryId: given.createdCategory[0]._id.toString(),
       isKeyRules: true,
       ruleMembers: []
     };
 
     // when
     const updatedRule: RuleResponseDto = await RuleService.updateRule(
-      userId,
-      createdRoomId,
+      given.userId,
+      given.createdRoomId,
       createdRule._id.toString(),
       ruleUpdateDto
     );
 
     // then
-    assert.equal(updatedRule.roomId.toString(), createdRoomId);
+    assert.equal(updatedRule.roomId.toString(), given.createdRoomId);
     assert.equal(updatedRule.ruleName, '테스트 규칙 수정');
     assert.equal(updatedRule.isKeyRules, true);
   });
   it('deleteRule test', async () => {
     // given
-    const signupDto: SignupDto = {
-      email: 'test@gmail.com',
-      password: 'password',
-      userName: '테스트유저',
-      gender: '남자',
-      fcmToken: '테스트토큰'
-    };
-    const userId: string = (
-      await UserService.createUser(signupDto)
-    )._id.toString();
-    const createdRoom: RoomResponseDto = await RoomService.createRoom(userId);
-    const createdRoomId: string = createdRoom._id.toString();
-    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
+    const given = await createUserAndRoom();
     const ruleCreateDto: RuleCreateDto = {
       notificationState: false,
       ruleName: '테스트 규칙',
-      categoryId: createdCategory[0]._id.toString(),
+      categoryId: given.createdCategory[0]._id.toString(),
       isKeyRules: true,
       ruleMembers: []
     };
     const createdRule: RuleResponseDto = await RuleService.createRule(
-      userId,
-      createdRoomId,
+      given.userId,
+      given.createdRoomId,
       ruleCreateDto
     );
 
     // when
     await RuleService.deleteRule(
-      userId,
-      createdRoomId,
+      given.userId,
+      given.createdRoomId,
       createdRule._id.toString()
     );
 
@@ -360,4 +324,22 @@ const createUser = async (email?: string, userName?: string) => {
   )._id.toString();
 
   return { userId, signupDto };
+};
+
+const createUserAndRoom = async () => {
+  const signupDto: SignupDto = {
+    email: 'test@gmail.com',
+    password: 'password',
+    userName: '테스트유저',
+    gender: '남자',
+    fcmToken: '테스트토큰'
+  };
+  const userId: string = (
+    await UserService.createUser(signupDto)
+  )._id.toString();
+  const createdRoom: RoomResponseDto = await RoomService.createRoom(userId);
+  const createdRoomId: string = createdRoom._id.toString();
+  const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
+
+  return { userId, createdRoomId, createdCategory };
 };

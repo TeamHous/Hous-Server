@@ -1,8 +1,10 @@
 import assert from 'assert';
 import { afterEach } from 'mocha';
 import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
+import { RoomJoinDto } from '../src/interfaces/room/request/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import { RuleCreateDto } from '../src/interfaces/rule/request/RuleCreateDto';
+import { HomiesWithIsTmpMemberResponseDto } from '../src/interfaces/rule/response/HomiesWithIsTmpMemberResponseDto';
 import { RuleCreateInfoResponseDto } from '../src/interfaces/rule/response/RuleCreateInfoResponseDto';
 import { RuleMyTodoResponseDto } from '../src/interfaces/rule/response/RuleMyTodoResponseDto';
 import { RuleReadInfoResponseDto } from '../src/interfaces/rule/response/RuleReadInfoResponseDto';
@@ -32,17 +34,22 @@ describe('RuleRetrieveService Tests', () => {
 
   it('getRuleByRuleId test', async () => {
     // given
-    const given = await createUserAndRoom();
+    const given = await createUser();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(
+      given.userId
+    );
+    const createdRoomId: string = createdRoom._id.toString();
+    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
     const createRuleDto: RuleCreateDto = {
       notificationState: false,
       ruleName: '테스트규칙',
-      categoryId: given.createdCategory[0]._id.toString(),
+      categoryId: createdCategory[0]._id.toString(),
       isKeyRules: true,
       ruleMembers: []
     };
     const createdRule: RuleResponseDto = await RuleService.createRule(
       given.userId,
-      given.createdRoomId,
+      createdRoomId,
       createRuleDto
     );
     const createdRuleId: string = createdRule._id.toString();
@@ -51,7 +58,7 @@ describe('RuleRetrieveService Tests', () => {
     const response: RuleReadInfoResponseDto =
       await RuleRetrieveService.getRuleByRuleId(
         given.userId,
-        given.createdRoomId,
+        createdRoomId,
         createdRuleId
       );
 
@@ -61,18 +68,23 @@ describe('RuleRetrieveService Tests', () => {
     assert.equal(response.rule.ruleName, '테스트규칙');
     assert.equal(
       response.rule.ruleCategory._id.toString(),
-      given.createdCategory[0]._id.toString()
+      createdCategory[0]._id.toString()
     );
     assert.equal(response.rule.ruleMembers.length, 0);
   });
 
   it('getMyRuleInfo test', async () => {
     // given
-    const given = await createUserAndRoom();
+    const given = await createUser();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(
+      given.userId
+    );
+    const createdRoomId: string = createdRoom._id.toString();
+    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
     const createRuleDto: RuleCreateDto = {
       notificationState: false,
       ruleName: '테스트규칙',
-      categoryId: given.createdCategory[0]._id.toString(),
+      categoryId: createdCategory[0]._id.toString(),
       isKeyRules: false,
       ruleMembers: [
         {
@@ -83,25 +95,19 @@ describe('RuleRetrieveService Tests', () => {
     };
     const createdRule: RuleResponseDto = await RuleService.createRule(
       given.userId,
-      given.createdRoomId,
+      createdRoomId,
       createRuleDto
     );
     const createdRuleId: string = createdRule._id.toString();
 
     // when
     const response: RuleMyTodoResponseDto[] =
-      await RuleRetrieveService.getMyRuleInfo(
-        given.userId,
-        given.createdRoomId
-      );
+      await RuleRetrieveService.getMyRuleInfo(given.userId, createdRoomId);
 
     // then
     assert.equal(response.length, 1);
     assert.equal(response[0]._id.toString(), createdRuleId);
-    assert.equal(
-      response[0].categoryIcon,
-      given.createdCategory[0].categoryIcon
-    );
+    assert.equal(response[0].categoryIcon, createdCategory[0].categoryIcon);
     assert.equal(response[0].ruleName, '테스트규칙');
     assert.equal(response[0].isChecked, false);
   });
@@ -213,12 +219,17 @@ describe('RuleRetrieveService Tests', () => {
   });
   it('getRuleInfoAtRuleHome test', async () => {
     // given
-    const given = await createUserAndRoom();
+    const given = await createUser();
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(
+      given.userId
+    );
+    const createdRoomId: string = createdRoom._id.toString();
+    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
 
     // when
     const result = await RuleRetrieveService.getRuleInfoAtRuleHome(
       given.userId,
-      given.createdRoomId
+      createdRoomId
     );
 
     // then
@@ -231,22 +242,84 @@ describe('RuleRetrieveService Tests', () => {
     assert.equal(result.todayTodoRules[0].isTmpMember, false);
     assert.equal(result.todayTodoRules[0].isAllChecked, false);
   });
+
+  it('getHomiesWithIsTmpMember test', async () => {
+    // given
+    const givenUser1 = await createUser('test1@gmail.com', '테스트유저1');
+    const givenUser2 = await createUser('test2@gmail.com', '테스트유저2');
+    const givenUser3 = await createUser('test3@gmail.com', '테스트유저3');
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(
+      givenUser1.userId
+    );
+    const createdRoomId: string = createdRoom._id.toString();
+    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
+    const roomJoinDto: RoomJoinDto = {
+      roomCode: createdRoom.roomCode
+    };
+    await RoomService.joinRoom(givenUser2.userId, createdRoomId, roomJoinDto);
+    await RoomService.joinRoom(givenUser3.userId, createdRoomId, roomJoinDto);
+    const createRuleDto: RuleCreateDto = {
+      notificationState: false,
+      ruleName: '테스트규칙',
+      categoryId: createdCategory[0]._id.toString(),
+      isKeyRules: false,
+      ruleMembers: [
+        {
+          userId: givenUser1.userId,
+          day: [0, 1, 2, 3, 4, 5, 6]
+        },
+        {
+          userId: givenUser2.userId,
+          day: [0, 1, 2, 3, 4, 5, 6]
+        }
+      ]
+    };
+    const createdRule: RuleResponseDto = await RuleService.createRule(
+      givenUser1.userId,
+      createdRoomId,
+      createRuleDto
+    );
+    const createdRuleId: string = createdRule._id.toString();
+
+    // when
+    const result: HomiesWithIsTmpMemberResponseDto =
+      await RuleRetrieveService.getHomiesWithIsTmpMember(
+        givenUser1.userId,
+        createdRoomId,
+        createdRuleId
+      );
+
+    // then
+    const userNameArray = [
+      givenUser1.signupDto.userName,
+      givenUser2.signupDto.userName,
+      givenUser3.signupDto.userName
+    ];
+    assert.equal(result._id.toString(), createdRuleId);
+    result.homies.forEach((homie: any) => {
+      if (homie.isChecked) {
+        assert.equal(homie.isChecked, true);
+      } else {
+        assert.equal(homie.isChecked, false);
+      }
+      assert.equal(homie.typeColor, 'GRAY');
+      assert.equal(userNameArray.indexOf(homie.userName) !== -1, true);
+    });
+    assert.equal(result.homies.length, 3);
+  });
 });
 
-const createUserAndRoom = async () => {
+const createUser = async (email?: string, userName?: string) => {
   const signupDto: SignupDto = {
-    email: 'test@gmail.com',
+    email: !email ? 'test@gmail.com' : email,
     password: 'password',
-    userName: '테스트유저',
+    userName: !userName ? '테스트유저' : userName,
     gender: '남자',
     fcmToken: '테스트토큰'
   };
   const userId: string = (
     await UserService.createUser(signupDto)
   )._id.toString();
-  const createdRoom: RoomResponseDto = await RoomService.createRoom(userId);
-  const createdRoomId: string = createdRoom._id.toString();
-  const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
 
-  return { userId, createdRoomId, createdCategory };
+  return { userId, signupDto };
 };

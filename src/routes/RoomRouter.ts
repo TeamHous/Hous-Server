@@ -504,7 +504,7 @@ router.get(
 router.put(
   '/:roomId/rule/:ruleId/today',
   auth,
-  [body('tmpRuleMembers').not().isEmpty()],
+  [body('tmpRuleMembers').isArray()],
   RuleController.updateTmpRuleMembers
   // #swagger.summary = '오늘의 임시 담당자 설정하기'
   // #swagger.security = [{"JWT": []}]

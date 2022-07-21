@@ -1,10 +1,13 @@
 import assert from 'assert';
 import { afterEach } from 'mocha';
 import { SignupDto } from '../src/interfaces/auth/request/SignupDto';
+import { RoomJoinDto } from '../src/interfaces/room/request/RoomJoinDto';
 import { RoomResponseDto } from '../src/interfaces/room/response/RoomResponseDto';
 import { RuleCreateDto } from '../src/interfaces/rule/request/RuleCreateDto';
 import { RuleUpdateDto } from '../src/interfaces/rule/request/RuleUpdateDto';
+import { TmpRuleMembersUpdateDto } from '../src/interfaces/rule/request/TmpRuleMembersUpdateDto';
 import { RuleResponseDto } from '../src/interfaces/rule/response/RuleResponseDto';
+import { TmpRuleMembersUpdateResponseDto } from '../src/interfaces/rule/response/TmpRuleMembersUpdateResponseDto';
 import { RuleCategoryCreateDto } from '../src/interfaces/rulecategory/request/RuleCategoryCreateDto';
 import { RuleCategoryUpdateDto } from '../src/interfaces/rulecategory/request/RuleCategoryUpdateDto';
 import { RuleCategoryResponseDto } from '../src/interfaces/rulecategory/response/RuleCategoryResponseDto';
@@ -250,7 +253,78 @@ describe('RuleService Tests', () => {
     assert.equal(deletedRuleCategory, null);
     assert.equal(deletedRules.length, 0);
   });
+  it('updateTmpRuleMembers test', async () => {
+    // given
+    const givenUser1 = await createUser('test1@gmail.com', '테스트유저1');
+    const givenUser2 = await createUser('test2@gmail.com', '테스트유저2');
+    const givenUser3 = await createUser('test3@gmail.com', '테스트유저3');
+    const createdRoom: RoomResponseDto = await RoomService.createRoom(
+      givenUser1.userId
+    );
+    const createdRoomId: string = createdRoom._id.toString();
+    const createdCategory = await RuleCategory.find({ roomId: createdRoomId });
+    const roomJoinDto: RoomJoinDto = {
+      roomCode: createdRoom.roomCode
+    };
+    await RoomService.joinRoom(givenUser2.userId, createdRoomId, roomJoinDto);
+    await RoomService.joinRoom(givenUser3.userId, createdRoomId, roomJoinDto);
+    const createRuleDto: RuleCreateDto = {
+      notificationState: false,
+      ruleName: '테스트규칙',
+      categoryId: createdCategory[0]._id.toString(),
+      isKeyRules: false,
+      ruleMembers: [
+        {
+          userId: givenUser1.userId,
+          day: [0, 1, 2, 3, 4, 5, 6]
+        },
+        {
+          userId: givenUser2.userId,
+          day: [0, 1, 2, 3, 4, 5, 6]
+        }
+      ]
+    };
+    const createdRule: RuleResponseDto = await RuleService.createRule(
+      givenUser1.userId,
+      createdRoomId,
+      createRuleDto
+    );
+    const createdRuleId: string = createdRule._id.toString();
+
+    // when
+    const memberIds = [givenUser1.userId, givenUser2.userId, givenUser3.userId];
+    const tmpRuleMembersUpdateDto: TmpRuleMembersUpdateDto = {
+      tmpRuleMembers: memberIds
+    };
+
+    const response: TmpRuleMembersUpdateResponseDto =
+      await RuleService.updateTmpRuleMembers(
+        givenUser1.userId,
+        createdRoomId,
+        createdRuleId,
+        tmpRuleMembersUpdateDto
+      );
+
+    // then
+    assert.equal(response._id, createdRuleId);
+    assert.equal(response.tmpRuleMembers, memberIds);
+  });
 });
+
+const createUser = async (email?: string, userName?: string) => {
+  const signupDto: SignupDto = {
+    email: !email ? 'test@gmail.com' : email,
+    password: 'password',
+    userName: !userName ? '테스트유저' : userName,
+    gender: '남자',
+    fcmToken: '테스트토큰'
+  };
+  const userId: string = (
+    await UserService.createUser(signupDto)
+  )._id.toString();
+
+  return { userId, signupDto };
+};
 
 const createUserAndRoom = async () => {
   const signupDto: SignupDto = {

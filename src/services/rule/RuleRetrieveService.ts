@@ -664,7 +664,6 @@ const getRuleInfoAtRuleHome = async (
     });
 
     const todayTodoRulesWithDate: TodayTodoRulesWithDate[] = [];
-
     await Promise.all(
       rules.map(async (rule: any) => {
         // 오늘의 고정 담당자 구하기
@@ -679,6 +678,7 @@ const getRuleInfoAtRuleHome = async (
             }
           })
         );
+
         let isTmpMember = false;
         const todayMembersWithTypeColorWithDate: TodayMembersWithTypeColorWithDate[] =
           [];
@@ -742,7 +742,10 @@ const getRuleInfoAtRuleHome = async (
 
           // 규칙의 유저별로 체크여부 확인 ++,
           // ++한 값 === rule.ruleMembers의 길이랑 같다면 isAllChecked = true
-          if (checkCnt === rule.tmpRuleMembers.length) {
+          if (
+            rule.tmpRuleMembers.length !== 0 &&
+            checkCnt === rule.tmpRuleMembers.length
+          ) {
             isAllChecked = true;
             checkCnt = 0; // 다시 초기화
           }
@@ -822,14 +825,20 @@ const getRuleInfoAtRuleHome = async (
             return rest;
           });
 
-        todayTodoRulesWithDate.push({
-          _id: rule._id,
-          ruleName: rule.ruleName,
-          todayMembersWithTypeColor: todayMembersWithTypeColor,
-          isTmpMember: isTmpMember,
-          isAllChecked: isAllChecked,
-          createdAt: rule.createdAt // 정렬을 위해 사용할거라 +9 안함
-        });
+        await Promise.all(
+          rule.ruleMembers.map(async (ruleMember: any) => {
+            if (ruleMember.day.includes(dayjs().day())) {
+              todayTodoRulesWithDate.push({
+                _id: rule._id,
+                ruleName: rule.ruleName,
+                todayMembersWithTypeColor: todayMembersWithTypeColor,
+                isTmpMember: isTmpMember,
+                isAllChecked: isAllChecked,
+                createdAt: rule.createdAt // 정렬을 위해 사용할거라 +9 안함
+              });
+            }
+          })
+        );
       })
     );
 
@@ -843,12 +852,12 @@ const getRuleInfoAtRuleHome = async (
       }
     );
 
-    const keyRules: TodayTodoRules[] = [];
+    const noUserTodoRules: TodayTodoRules[] = [];
     const todoRules: TodayTodoRules[] = [];
     await Promise.all(
       todayTodoRules.map(async (todoRule: any) => {
         if (todoRule.todayMembersWithTypeColor.length == 0) {
-          keyRules.push(todoRule);
+          noUserTodoRules.push(todoRule);
         } else {
           todoRules.push(todoRule);
         }
@@ -857,7 +866,7 @@ const getRuleInfoAtRuleHome = async (
 
     const data: RuleHomeResponseDto = {
       homeRuleCategories: ruleCategoryList,
-      todayTodoRules: keyRules.concat(todoRules)
+      todayTodoRules: noUserTodoRules.concat(todoRules)
     };
 
     return data;

@@ -41,7 +41,7 @@ SOPT 30th APPJAM
 
 <img src="https://img.shields.io/badge/TypeScript-2d79c7?style=flat-square&logo=TypeScript&logoColor=white"/> <img src="https://img.shields.io/badge/Node.js-339933?style=flat-sqaure&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/Express-000000?style=flat-sqaure&logo=Express&logoColor=white"> <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-sqaure&logo=MongoDB&logoColor=white"> <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=AmazonAWS&logoColor=white"/> <!-- <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=white"/> --> <img src="https://img.shields.io/badge/Github-181717?style=flat-sqaure&logo=Github&logoColor=white"> <img src="https://img.shields.io/badge/Github Actions-2088FF?style=flat-sqaure&logo=Github Actions&logoColor=white"> <img src="https://img.shields.io/badge/PM2-2B037A?style=flat-sqaure&logo=PM2&logoColor=white">
 
-# 🌲 Git Convention
+# 🌲 Git Branch Strategy
 
 ![gitConvention](https://user-images.githubusercontent.com/74812188/180296489-31276169-6a39-424f-910e-1de79a937a1b.png)
 

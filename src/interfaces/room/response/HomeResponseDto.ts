@@ -10,7 +10,7 @@ export interface HomeResponseDto {
 
 export interface EventsResponseDto extends PostBaseResponseDto {
   eventIcon: string;
-  dDay: number;
+  dDay: string;
 }
 
 export interface TodoResponseDto {

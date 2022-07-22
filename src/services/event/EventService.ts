@@ -6,7 +6,6 @@ import { EventUpdateResponseDto } from '../../interfaces/event/response/EventUpd
 import Event from '../../models/Event';
 import checkObjectIdValidation from '../../modules/checkObjectIdValidation';
 import checkValidUtils from '../../modules/checkValidUtils';
-import limitNum from '../../modules/limitNum';
 import EventServiceUtils from './EventServiceUtils';
 
 const createEvent = async (
@@ -27,8 +26,8 @@ const createEvent = async (
     // 참가하고 있는 방이 아니면 접근 불가능
     await EventServiceUtils.checkForbiddenRoom(user.roomId, room._id);
 
-    // event 개수 확인
-    checkValidUtils.checkCountLimit(room.eventCnt, limitNum.EVENT_CNT);
+    // event 개수 확인 // TODO 현재, 클라 이벤트 최대 10개 초과 다이얼로그가 없는 관계로 여러개 생성 가능하도록 변경 (앱잼)
+    // checkValidUtils.checkCountLimit(room.eventCnt, limitNum.EVENT_CNT);
 
     // 참여자 개수가 방 인원의 수가 넘는지 확인
     checkValidUtils.checkArraySize(

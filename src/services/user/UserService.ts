@@ -172,7 +172,8 @@ const updateUserTypeScore = async (
 
     await user.updateOne({
       typeId: type._id,
-      typeScore: userTypeTestDto.typeScore
+      typeScore: userTypeTestDto.typeScore,
+      typeUpdatedDate: dayjs().add(9, 'hour').format() //성향테스트 기준 비교를 위해 시, 분, 초까지 저장
     });
 
     const data: TypeTestResponseDto = {

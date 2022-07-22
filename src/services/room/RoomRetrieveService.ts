@@ -177,46 +177,50 @@ const getRoomInfoAtHome = async (
       isKeyRules: false
     });
 
-    // 1. 고정담당자가 '나'인데 '오늘'인 경우, 규칙 목록을 체크 여부와 함께 전달
     const todoRuleMembers: TodoWithDate[] = [];
     await Promise.all(
       tmpRuleList.map(async (rule: any) => {
-        await Promise.all(
-          rule.ruleMembers.map(async (member: any) => {
-            if (
-              member.userId !== null &&
-              member.userId.toString() === userId &&
-              member.day.includes(today)
-            ) {
-              todoRuleMembers.push(
-                await RoomServiceUtils.checkTodoListForCheckStatus(rule, userId)
+        // 1. 임시 담당자가 '나'인데 '오늘'인 경우, 규칙 목록을 체크 여부와 함께 전달
+        if (dayjs().isSame(rule.tmpUpdatedDate, 'day')) {
+          await Promise.all(
+            rule.tmpRuleMembers.map(async (memberId: any) => {
+              // tmpUpdateDate가 오늘인데 userId가 있으면 나는 오늘 임시담당자
+              const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate).format(
+                'YYYY-MM-DD'
               );
-            }
-          })
-        );
-      })
-    );
-
-    // 2. 임시 담당자가 '나'인데 '오늘'인 경우, 규칙 목록을 체크 여부와 함께 전달
-    await Promise.all(
-      tmpRuleList.map(async (rule: any) => {
-        await Promise.all(
-          rule.tmpRuleMembers.map(async (memberId: any) => {
-            // tmpUpdateDate가 오늘인데 userId가 있으면 나는 오늘 임시담당자
-            const tmpUpdatedDate = dayjs(rule.tmpUpdatedDate).format(
-              'YYYY-MM-DD'
-            );
-            if (
-              memberId !== null &&
-              memberId.toString() === userId &&
-              tmpUpdatedDate === dayjs().format('YYYY-MM-DD')
-            ) {
-              todoRuleMembers.push(
-                await RoomServiceUtils.checkTodoListForCheckStatus(rule, userId)
-              );
-            }
-          })
-        );
+              if (
+                memberId !== null &&
+                memberId.toString() === userId &&
+                tmpUpdatedDate === dayjs().format('YYYY-MM-DD')
+              ) {
+                todoRuleMembers.push(
+                  await RoomServiceUtils.checkTodoListForCheckStatus(
+                    rule,
+                    userId
+                  )
+                );
+              }
+            })
+          );
+        } else {
+          // 2. 고정담당자가 '나'인데 '오늘'인 경우, 규칙 목록을 체크 여부와 함께 전달
+          await Promise.all(
+            rule.ruleMembers.map(async (member: any) => {
+              if (
+                member.userId !== null &&
+                member.userId.toString() === userId &&
+                member.day.includes(today)
+              ) {
+                todoRuleMembers.push(
+                  await RoomServiceUtils.checkTodoListForCheckStatus(
+                    rule,
+                    userId
+                  )
+                );
+              }
+            })
+          );
+        }
       })
     );
 

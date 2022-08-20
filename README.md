@@ -10,7 +10,7 @@
 
 SOPT 30th APPJAM
 
-- 프로젝트 기간: 2021.06.18 ~
+- 프로젝트 기간: 2022.06.18 ~
 - [👉 API Docs](https://sugared-lemming-812.notion.site/API-Public-925cfbbf9fb549a8b76724c52479763a)
 - [👉 Collection](https://sugared-lemming-812.notion.site/Collection-3845eeb105a14c42a79438aa3fa053e6)
 - [👉 Code Convention](https://sugared-lemming-812.notion.site/Code-Convention-49e3f27b0863419b9b66a9899599440f)
@@ -40,6 +40,8 @@ SOPT 30th APPJAM
 # 🛠 Tech Stack
 
 <img src="https://img.shields.io/badge/TypeScript-2d79c7?style=flat-square&logo=TypeScript&logoColor=white"/> <img src="https://img.shields.io/badge/Node.js-339933?style=flat-sqaure&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/Express-000000?style=flat-sqaure&logo=Express&logoColor=white"> <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-sqaure&logo=MongoDB&logoColor=white"> <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=AmazonAWS&logoColor=white"/> <!-- <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=white"/> --> <img src="https://img.shields.io/badge/Github-181717?style=flat-sqaure&logo=Github&logoColor=white"> <img src="https://img.shields.io/badge/Github Actions-2088FF?style=flat-sqaure&logo=Github Actions&logoColor=white"> <img src="https://img.shields.io/badge/PM2-2B037A?style=flat-sqaure&logo=PM2&logoColor=white">
+
+<br />
 
 # 🌲 Git Branch Strategy
 
